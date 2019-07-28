@@ -9,10 +9,12 @@ services:
       - "3306:3306"
 
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
     command: /bin/sh -c "rm -f /myapp/tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
-      - .:/app_name
+      - .:/app
     ports:
       - "3000:3000"
     links:
