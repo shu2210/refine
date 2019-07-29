@@ -14,22 +14,22 @@ jobs:
     steps:
       - checkout
       - run:
-        name: build docker
-        command: |
-          docker-compose up -d --build
+          name: build docker
+          command: |
+            docker-compose up -d --build
 
       - run: docker exec -it repo_web_1 bundle exec rake db:create
       - run: docker exec -it repo_web_1 bundle exec rake db:schema:load
 
       - run:
-        name: run tests
-        command: |
-          TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
-            circleci tests split --split-by=timings)"
+          name: run tests
+          command: |
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
+              circleci tests split --split-by=timings)"
 
-          docker exec -it repo_web_1 bundle exec rspec \
-            --format progress \
-            --format RspecJunitFormatter \
-            --out /tmp/test-results/rspec.xml \
-            --format progress \
-            $TEST_FILES
+            docker exec -it repo_web_1 bundle exec rspec \
+              --format progress \
+              --format RspecJunitFormatter \
+              --out /tmp/test-results/rspec.xml \
+              --format progress \
+              $TEST_FILES
