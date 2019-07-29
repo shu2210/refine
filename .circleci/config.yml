@@ -5,31 +5,60 @@
 version: 2
 jobs:
   build:
-    machine: true
+    docker:
+      - image: circleci/ruby:2.5.1-node-browsers
+      - image: circleci/mysql:5.7
+
     environment:
-      DB_HOST_NAME: localhost:3306
+      RAILS_ENV: test
+      DB_HOST_NAME: 127.0.0.1
       DB_USER_NAME: root
       DB_PASSWORD: password
+
     working_directory: ~/repo
+
     steps:
       - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "Gemfile.lock" }}
+          - v1-dependencies-
+
       - run:
-          name: build docker
+          name: install dependencies
           command: |
-            docker-compose up -d --build
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
 
-      - run: docker exec -it repo_web_1 bundle exec rake db:create
-      - run: docker exec -it repo_web_1 bundle exec rake db:schema:load
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
+
+      # Database setup
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+
+      # run tests!
       - run:
           name: run tests
           command: |
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
-              circleci tests split --split-by=timings)"
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
 
-            docker exec -it repo_web_1 bundle exec rspec \
-              --format progress \
-              --format RspecJunitFormatter \
-              --out /tmp/test-results/rspec.xml \
-              --format progress \
-              $TEST_FILES
+            bundle exec rspec --format progress \
+                            --format RspecJunitFormatter \
+                            --out /tmp/test-results/rspec.xml \
+                            --format progress \
+                            $TEST_FILES
+
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
