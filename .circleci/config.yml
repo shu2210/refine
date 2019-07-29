@@ -63,9 +63,28 @@ jobs:
           name: rubocop
           command: rubocop
 
+  brakeman:
+    docker:
+      - image: circleci/ruby:2.4.1-node-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - run:
+          name: brakeman
+          command: brakeman
+
 workflows:
   version: 2
-  test_and_code_analysis:
+  test:
     jobs:
       - test
+  code_analysis:
+    jobs:
       - code_analysis
+  security:
+    jobs:
+      - brakeman
