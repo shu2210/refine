@@ -49,8 +49,23 @@ jobs:
           path: /tmp/test-results
           destination: test-results
 
+  code_analysis:
+    docker:
+      - image: circleci/ruby:2.4.1-node-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - run:
+          name: rubocop
+          command: rubocop
+
 workflows:
   version: 2
   test_and_code_analysis:
     jobs:
       - test
+      - code_analysis
