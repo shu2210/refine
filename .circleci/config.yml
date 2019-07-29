@@ -12,8 +12,8 @@ jobs:
     environment:
       RAILS_ENV: test
       DB_HOST_NAME: 127.0.0.1
-      DB_USER_NAME: root
-      DB_PASSWORD: password
+      DB_USER_NAME: 'root'
+      DB_PASSWORD: ''
 
     working_directory: ~/repo
 
