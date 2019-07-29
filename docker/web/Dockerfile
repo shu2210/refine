@@ -14,3 +14,7 @@ ADD ./Gemfile.lock $APP_ROOT/Gemfile.lock
 
 RUN bundle install
 ADD . $APP_ROOT
+
+ENV DB_HOST_NAME db
+ENV DB_USER_NAME root
+ENV DB_PASSWORD password
