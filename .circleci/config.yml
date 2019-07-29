@@ -5,6 +5,7 @@
 version: 2
 jobs:
   build:
+    machine: true
     docker:
       # specify the version you desire here
       - image: circleci/ruby:2.4.1-node-browsers
@@ -18,6 +19,8 @@ jobs:
 
     steps:
       - checkout
+
+      - run: docker-compose up -d --build
 
       # Download and cache dependencies
       - restore_cache:
