@@ -2,12 +2,17 @@
 #
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
-version: 2
-jobs:
-  test:
+version: 2.1
+executors:
+  default:
+    working_directory: ~/workspace
     docker:
       - image: circleci/ruby:2.4.1-node-browsers
       - image: circleci/mysql:5.7
+jobs:
+  test:
+    executor:
+      name: default
     environment:
       RAILS_ENV: test
       DB_HOST_NAME: 127.0.0.1
@@ -50,8 +55,8 @@ jobs:
           destination: test-results
 
   code_analysis:
-    docker:
-      - image: circleci/ruby:2.4.1-node-browsers
+    executor:
+      name: default
     working_directory: ~/repo
     steps:
       - checkout
@@ -64,8 +69,8 @@ jobs:
           command: rubocop
 
   brakeman:
-    docker:
-      - image: circleci/ruby:2.4.1-node-browsers
+    executor:
+      name: default
     working_directory: ~/repo
     steps:
       - checkout
