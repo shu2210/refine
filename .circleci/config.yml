@@ -4,8 +4,10 @@
 #
 version: 2
 jobs:
-  machine: true
   build:
+    docker:
+      - image: circleci/ruby:2.4.1-node-browsers
+
     working_directory: ~/repo
 
     steps:
