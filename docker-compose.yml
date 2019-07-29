@@ -19,3 +19,8 @@ services:
       - "3000:3000"
     links:
       - db
+
+  elasticsearch:
+    image: elasticsearch:7.2.0
+    ports:
+      - "9200:9200"
