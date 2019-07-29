@@ -4,23 +4,24 @@
 #
 version: 2
 jobs:
- build:
-   machine: true
-   environment:
-     DB_HOST_NAME: localhost:3306
-     DB_USER_NAME: root
-     DB_PASSWORD: password
-   steps:
-    - checkout
-    - run:
+  build:
+    machine: true
+    environment:
+      DB_HOST_NAME: localhost:3306
+      DB_USER_NAME: root
+      DB_PASSWORD: password
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
         name: build docker
         command: |
           docker-compose up -d --build
 
-    - run: docker exec -it repo_web_1 bundle exec rake db:create
-    - run: docker exec -it repo_web_1 bundle exec rake db:schema:load
+      - run: docker exec -it repo_web_1 bundle exec rake db:create
+      - run: docker exec -it repo_web_1 bundle exec rake db:schema:load
 
-    - run:
+      - run:
         name: run tests
         command: |
           TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
