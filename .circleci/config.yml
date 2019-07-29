@@ -5,8 +5,13 @@
 version: 2
 jobs:
   build:
+    environment:
+      DB_HOST_NAME: localhost:3306
+      DB_USER_NAME: root
+      DB_PASSWORD: password
+
     docker:
-      - image: circleci/ruby:2.4.1-node-browsers
+      - image: alpine
 
     working_directory: ~/repo
 
