@@ -1,14 +1,16 @@
 version: '3'
 services:
   db:
+    container_name: refine_db
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: root
     ports:
-      - "3306:3306"
+      - 3306:3306
 
   web:
+    container_name: refine_web
     build:
       context: .
       dockerfile: docker/web/Dockerfile
@@ -16,11 +18,40 @@ services:
     volumes:
       - .:/app
     ports:
-      - "3000:3000"
+      - 3000:3000
     links:
       - db
 
   elasticsearch:
-    image: elasticsearch:7.2.0
+    container_name: refine_elasticsearch
+    build:
+      context: .
+      dockerfile: docker/elasticsearch/Dockerfile
     ports:
-      - "9200:9200"
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    networks:
+      - esnet
+
+  kibana:
+    container_name: refine_kibana
+    build:
+      context: .
+      dockerfile: docker/kibana/Dockerfile
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    networks:
+      - esnet
+
+volumes:
+  esdata:
+    driver: local
+
+networks:
+  esnet:
