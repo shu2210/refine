@@ -27,5 +27,18 @@ module Refine
                        request_specs: false
       g.fixture_replacement :factory_bot, dir: 'spec/factories'
     end
+    # fluentd config
+    config.log_level = :info
+    config.logger = ActFluentLoggerRails::Logger.new(
+      settings: {
+        host: '127.0.0.1',
+        port: 24_224,
+        tag: 'foo',
+        messages_type: 'string',
+        severity_key: 'level'
+      }
+    )
+    config.lograge.enabled = true
+    config.lograge.formatter = Lograge::Formatters::Json.new
   end
 end

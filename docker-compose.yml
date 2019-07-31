@@ -29,6 +29,9 @@ services:
       - 3000:3000
     links:
       - db
+      - fluentd
+    environment:
+      FLUENTD_URL: http://fluentd:42442/fluent?messages_type=string&severity_key=level
 
   elasticsearch:
     container_name: refine_elasticsearch
@@ -40,8 +43,6 @@ services:
       - 9300:9300
     volumes:
       - esdata:/usr/share/elasticsearch/data
-    networks:
-      - esnet
     logging: *default-logging
 
   kibana:
@@ -51,12 +52,10 @@ services:
       dockerfile: docker/kibana/Dockerfile
     ports:
       - 5601:5601
-    depends_on:
+    links:
       - elasticsearch
     environment:
       ELASTICSEARCH_URL: http://elasticsearch:9200
-    networks:
-      - esnet
     logging: *default-logging
 
   fluentd:
@@ -68,12 +67,7 @@ services:
       - 24224:24224
     links:
       - elasticsearch
-    networks:
-      - esnet
 
 volumes:
   esdata:
     driver: local
-
-networks:
-  esnet:
