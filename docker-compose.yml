@@ -1,4 +1,12 @@
-version: '3'
+version: '3.4'
+
+x-logging:
+  &default-logging
+  driver: fluentd
+  options:
+    fluentd-address: localhost:24224
+    tag: "log.{{.Name}}"
+
 services:
   db:
     container_name: refine_db
@@ -34,6 +42,7 @@ services:
       - esdata:/usr/share/elasticsearch/data
     networks:
       - esnet
+    logging: *default-logging
 
   kibana:
     container_name: refine_kibana
@@ -46,6 +55,19 @@ services:
       - elasticsearch
     environment:
       ELASTICSEARCH_URL: http://elasticsearch:9200
+    networks:
+      - esnet
+    logging: *default-logging
+
+  fluentd:
+    container_name: refine_fluentd
+    build:
+      context: .
+      dockerfile: docker/fluentd/Dockerfile
+    ports:
+      - 24224:24224
+    links:
+      - elasticsearch
     networks:
       - esnet
 
