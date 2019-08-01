@@ -30,6 +30,7 @@ services:
     links:
       - db
       - fluentd
+      - elasticsearch
     environment:
       FLUENTD_URL: http://fluentd:42442/fluent?messages_type=string&severity_key=level
 
@@ -42,7 +43,7 @@ services:
       - 9200:9200
       - 9300:9300
     volumes:
-      - esdata:/usr/share/elasticsearch/data
+      - es_data:/usr/share/elasticsearch/data
     logging: *default-logging
 
   kibana:
@@ -66,8 +67,34 @@ services:
     ports:
       - 24224:24224
     links:
-      - elasticsearch
+      - mongodb
+
+  mongodb:
+    container_name: refine_mongodb
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - 27017:27017
+    volumes:
+      - log_data:/data/db
+      - log_data:/data/configdb
+
+  mongo_express:
+    container_name: refine_mongodb_express
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_SERVER: refine_mongodb
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: password
+    links:
+      - mongodb
 
 volumes:
-  esdata:
+  es_data:
+    driver: local
+  log_data:
     driver: local
