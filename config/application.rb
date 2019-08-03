@@ -31,9 +31,9 @@ module Refine
     config.log_level = :info
     config.logger = ActFluentLoggerRails::Logger.new(
       settings: {
-        host: '127.0.0.1',
+        host: 'fluentd',
         port: 24_224,
-        tag: 'foo',
+        tag: 'rails',
         messages_type: 'string',
         severity_key: 'level'
       }

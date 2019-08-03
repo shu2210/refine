@@ -1,11 +1,4 @@
-version: '3.4'
-
-x-logging:
-  &default-logging
-  driver: fluentd
-  options:
-    fluentd-address: localhost:24224
-    tag: "log.{{.Name}}"
+version: '3'
 
 services:
   db:
@@ -29,8 +22,9 @@ services:
       - 3000:3000
     links:
       - db
-      - fluentd
       - elasticsearch
+    depends_on:
+      - fluentd
     environment:
       FLUENTD_URL: http://fluentd:42442/fluent?messages_type=string&severity_key=level
 
@@ -44,7 +38,6 @@ services:
       - 9300:9300
     volumes:
       - es_data:/usr/share/elasticsearch/data
-    logging: *default-logging
 
   kibana:
     container_name: refine_kibana
@@ -57,7 +50,6 @@ services:
       - elasticsearch
     environment:
       ELASTICSEARCH_URL: http://elasticsearch:9200
-    logging: *default-logging
 
   fluentd:
     container_name: refine_fluentd
@@ -66,15 +58,17 @@ services:
       dockerfile: docker/fluentd/Dockerfile
     ports:
       - 24224:24224
-    links:
+    environment:
+      FLUENTD_CONF: fluent.conf
+    depends_on:
       - mongodb
 
   mongodb:
     container_name: refine_mongodb
-    image: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/mongodb/Dockerfile
     ports:
       - 27017:27017
     volumes:
@@ -83,14 +77,13 @@ services:
 
   mongo_express:
     container_name: refine_mongodb_express
-    image: mongo-express
+    build:
+      context: .
+      dockerfile: docker/mongo_express/Dockerfile
+    restart: always
     ports:
       - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_SERVER: refine_mongodb
-      ME_CONFIG_BASICAUTH_USERNAME: root
-      ME_CONFIG_BASICAUTH_PASSWORD: password
-    links:
+    depends_on:
       - mongodb
 
 volumes:
