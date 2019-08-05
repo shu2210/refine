@@ -65,3 +65,6 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 # fluentd gem
 gem 'act-fluent-logger-rails'
 gem 'lograge'
+# HTML template
+gem 'slim-rails'
+gem 'html2slim'
