@@ -1,14 +1,14 @@
 version: '3'
+
 services:
   db:
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: root
+    container_name: refine_db
+    build: docker/db
     ports:
-      - "3306:3306"
+      - 3306:3306
 
   web:
+    container_name: refine_web
     build:
       context: .
       dockerfile: docker/web/Dockerfile
@@ -16,6 +16,61 @@ services:
     volumes:
       - .:/app
     ports:
-      - "3000:3000"
+      - 3000:3000
     links:
       - db
+      - elasticsearch
+    depends_on:
+      - fluentd
+
+  elasticsearch:
+    container_name: refine_elasticsearch
+    build: docker/elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+
+  kibana:
+    container_name: refine_kibana
+    build: docker/kibana
+    ports:
+      - 5601:5601
+    links:
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+
+  fluentd:
+    container_name: refine_fluentd
+    build: docker/fluentd
+    ports:
+      - 24224:24224
+    depends_on:
+      - mongodb
+
+  mongodb:
+    container_name: refine_mongodb
+    restart: always
+    build: docker/mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - log_data:/data/db
+      - log_data:/data/configdb
+
+  mongo_express:
+    container_name: refine_mongodb_express
+    restart: always
+    build: docker/mongo_express
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongodb
+
+volumes:
+  es_data:
+    driver: local
+  log_data:
+    driver: local
