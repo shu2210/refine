@@ -1,6 +1,8 @@
 FROM fluent/fluentd:v1.3.2-1.0
 
-COPY docker/fluentd/fluent.conf /fluentd/etc/fluent.conf
+ENV FLUENTD_CONF fluent.conf
+
+COPY fluent.conf /fluentd/etc/fluent.conf
 
 RUN apk update && \
     apk upgrade && \
