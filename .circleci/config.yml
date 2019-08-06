@@ -7,7 +7,7 @@ executors:
   default:
     working_directory: ~/workspace
     docker:
-      - image: circleci/ruby:2.4.1-node-browsers
+      - image: circleci/ruby:2.6.3-node-browsers
       - image: circleci/mysql:5.7
 commands:
   restore_gem:
