@@ -122,6 +122,8 @@ GEM
     nio4r (2.4.0)
     nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
+    non-stupid-digest-assets (1.0.9)
+      sprockets (>= 2.0)
     orm_adapter (0.5.0)
     parallel (1.17.0)
     parser (2.6.3.0)
@@ -153,6 +155,9 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.0.4)
       loofah (~> 2.2, >= 2.2.2)
+    rails-uikit-sass (2.27.2)
+      non-stupid-digest-assets (~> 1.0)
+      sass-rails (~> 5.0)
     railties (5.2.3)
       actionpack (= 5.2.3)
       activesupport (= 5.2.3)
@@ -272,6 +277,7 @@ DEPENDENCIES
   puma (~> 3.11)
   rails (~> 5.2.3)
   rails-controller-testing
+  rails-uikit-sass
   rspec-rails
   rspec_junit_formatter
   rubocop

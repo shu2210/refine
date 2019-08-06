@@ -70,3 +70,5 @@ gem 'html2slim'
 gem 'slim-rails'
 # login
 gem 'devise'
+# css template
+gem 'rails-uikit-sass'
