@@ -72,3 +72,4 @@ gem 'slim-rails'
 gem 'devise'
 # css template
 gem 'rails-uikit-sass'
+gem 'webpacker', github: 'rails/webpacker'

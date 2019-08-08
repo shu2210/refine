@@ -7,8 +7,9 @@
 # versions of RuboCop, may require this file to be generated again.
 AllCops:
   Exclude:
-  - "vendor/**/*"
-  - "db/schema.rb"
+  - 'vendor/**/*'
+  - 'db/schema.rb'
+  - 'node_modules/**/*'
 
 # Offense count: 1
 # Cop supports --auto-correct.
