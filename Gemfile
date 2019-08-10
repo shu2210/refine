@@ -72,6 +72,6 @@ gem 'slim-rails'
 gem 'devise'
 gem 'devise-i18n'
 gem 'devise-i18n-views'
-# css template
-gem 'rails-uikit-sass'
+# front end gem
+gem 'jquery-rails'
 gem 'webpacker', github: 'rails/webpacker'
