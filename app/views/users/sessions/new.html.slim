@@ -1,14 +1,22 @@
-= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  legend.uk-legend ログイン
-  fieldset.uk-fieldset
-    .uk-inline
-      span.uk-form-icon[uk-icon="icon: mail"]
-      = f.email_field :email, class: 'uk-input', autofocus: true, autocomplete: 'email'
-    = f.password_field :password, autocomplete: 'current-password'
-    - if devise_mapping.rememberable?
-      .field
-        = f.check_box :remember_me
-        = f.label :remember_me
-    .actions
-      = f.submit 'ログイン'
-  = render 'users/shared/links'
+.uk-section.uk-section-muted.uk-flex.uk-flex-middle.uk-animation-fade[uk-height-viewport]
+  .uk-margin.uk-width-large.uk-margin-auto.uk-card.uk-card-default.uk-card-body.uk-box-shadow-large
+    = form_for resource, as: resource_name, url: session_path(resource_name), html: {class: 'uk-form-stacked'} do |f|
+      h3.uk-card-title.uk-text-center ログイン
+      fieldset.uk-fieldset
+        .uk-margin
+          .uk-inline.uk-width-1-1
+            span.uk-form-icon[uk-icon="icon: mail"]
+            = f.email_field :email, class: 'uk-input', autofocus: true, autocomplete: 'email'
+
+        .uk-margin
+          .uk-inline.uk-width-1-1
+            span.uk-form-icon[uk-icon="icon: lock"]
+            = f.password_field :password, class: 'uk-input', autocomplete: 'current-password'
+        - if devise_mapping.rememberable?
+          .uk-margin
+            = f.check_box :remember_me, class: 'uk-checkbox'
+            = f.label :remember_me, class: 'uk-inline uk-margin-small-left'
+
+        .actions.uk-margin
+          = f.submit 'ログイン', class: 'uk-button uk-button-default uk-width-1-1'
+      = render 'users/shared/links'
