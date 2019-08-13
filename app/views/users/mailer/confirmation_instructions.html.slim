@@ -1,0 +1,8 @@
+p
+  | ようこそ
+  = @email
+  | !
+p
+  | 以下のURLをクリックすると、アカウントが認証されます。
+p
+  = link_to '認証する', confirmation_url(@resource, confirmation_token: @token)

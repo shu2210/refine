@@ -4,10 +4,14 @@ services:
   db:
     container_name: refine_db
     build: docker/db
+    volumes:
+      - database:/var/lib/mysql
     ports:
       - 3306:3306
 
   web:
+    stdin_open: true
+    tty: true
     container_name: refine_web
     build:
       context: .
@@ -70,6 +74,8 @@ services:
       - mongodb
 
 volumes:
+  database:
+    driver: local
   es_data:
     driver: local
   log_data:

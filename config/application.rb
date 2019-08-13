@@ -42,5 +42,7 @@ module Refine
     )
     config.lograge.enabled = true
     config.lograge.formatter = Lograge::Formatters::Json.new
+    # i18n config
+    config.i18n.default_locale = :ja
   end
 end

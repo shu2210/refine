@@ -1,0 +1,21 @@
+nav.uk-light#nav-bar[uk-navbar]
+  .uk-navbar-left
+    a.uk-navbar-toggle[uk-navbar-toggle-icon]
+    ul.uk-navbar-nav
+      li.uk-active
+        = link_to 'Refine', ''
+
+  .uk-navbar-right
+    .search-form.uk-hidden-touch
+      a.uk-navbar-toggle[uk-search-icon]
+      .uk-drop[uk-drop="mode: click; pos: left-center; offset: 0"]
+        form.uk-search.uk-search-navbar.uk-width-1-1
+          = search_field_tag :search, '', autofocus: true, class: 'uk-search-input', placeholder: 'Search...'
+
+    .uk-navbar-nav
+      .uk-navbar-item
+        - if user_signed_in?
+          a.uk-active マイページ
+        - else
+          = link_to '会員登録', new_user_registration_path, class: 'uk-button uk-button-primary uk-button-small'
+          = link_to 'ログイン', new_user_session_path, class: 'uk-button uk-button-default uk-button-small uk-margin-left'

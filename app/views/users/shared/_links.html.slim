@@ -1,0 +1,21 @@
+.uk-text-small.uk-text-center
+  - if controller_name != 'sessions'
+    = link_to 'ログイン', new_session_path(resource_name), class: 'uk-link-text'
+    br
+  - if devise_mapping.registerable? && controller_name != 'registrations'
+    .uk-margin
+      = link_to '会員登録はこちら', new_registration_path(resource_name), class: 'uk-button uk-button-default uk-button-primary uk-width-1-1'
+    br
+  - if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations'
+    = link_to 'パスワードをお忘れですか?', new_password_path(resource_name), class: 'uk-link-text'
+    br
+  - if devise_mapping.confirmable? && controller_name != 'confirmations'
+    = link_to '認証メールが届いていませんか?', new_confirmation_path(resource_name), class: 'uk-link-text'
+    br
+  - if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'
+    = link_to 'ロック解除メールが届いていませんか?', new_unlock_path(resource_name), class: 'uk-link-text'
+    br
+  - if devise_mapping.omniauthable?
+    - resource_class.omniauth_providers.each do |provider|
+      = link_to "こちらでログイン #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), class: 'uk-link-text'
+      br

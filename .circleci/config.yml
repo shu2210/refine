@@ -7,7 +7,7 @@ executors:
   default:
     working_directory: ~/workspace
     docker:
-      - image: circleci/ruby:2.4.1-node-browsers
+      - image: circleci/ruby:2.6.3-node-browsers
       - image: circleci/mysql:5.7
 commands:
   restore_gem:
@@ -75,7 +75,7 @@ jobs:
             bundle install --jobs=4 --retry=3 --path vendor/bundle
       - run:
           name: rubocop
-          command: rubocop
+          command: bundle exec rubocop
 
   brakeman:
     executor:
@@ -90,7 +90,7 @@ jobs:
             bundle install --jobs=4 --retry=3 --path vendor/bundle
       - run:
           name: brakeman
-          command: brakeman
+          command: bundle exec brakeman
 
 workflows:
   version: 2

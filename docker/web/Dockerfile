@@ -1,10 +1,12 @@
-FROM ruby:2.4.1
+FROM ruby:2.6.3
 
 RUN apt-get update -qq && \
     apt-get install -y build-essential \
                        libpq-dev \
-                       nodejs
+                       nodejs \
+                       npm
 
+RUN npm install --global yarn
 RUN mkdir /app
 ENV APP_ROOT /app
 WORKDIR $APP_ROOT

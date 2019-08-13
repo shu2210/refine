@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.4.1'
+ruby '2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
@@ -65,3 +65,13 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 # fluentd gem
 gem 'act-fluent-logger-rails'
 gem 'lograge'
+# HTML template
+gem 'html2slim'
+gem 'slim-rails'
+# login
+gem 'devise'
+gem 'devise-i18n'
+gem 'devise-i18n-views'
+# front end gem
+gem 'jquery-rails'
+gem 'webpacker', github: 'rails/webpacker'
