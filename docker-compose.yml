@@ -10,6 +10,8 @@ services:
       - 3306:3306
 
   web:
+    stdin_open: true
+    tty: true
     container_name: refine_web
     build:
       context: .

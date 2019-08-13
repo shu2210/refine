@@ -1,6 +1,8 @@
 .uk-section.uk-section-muted.uk-flex.uk-flex-middle.uk-animation-fade[uk-height-viewport]
   .uk-margin.uk-width-large.uk-margin-auto.uk-card.uk-card-default.uk-card-body.uk-box-shadow-large
     = form_for resource, as: resource_name, url: session_path(resource_name), html: {class: 'uk-form-stacked'} do |f|
+      = render partial: 'shared/flash_messages'
+
       h3.uk-card-title.uk-text-center ログイン
       fieldset.uk-fieldset
         .uk-margin
