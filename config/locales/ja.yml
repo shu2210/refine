@@ -2,3 +2,18 @@ ja:
   login: ログイン
   email: メールアドレス
   password: パスワード
+  password_confirmation: パスワード（確認用）
+  password_notification: パスワードは%{minimum_password_length}文字以上にしてください
+  register: 会員登録
+  errors:
+    invalid: 入力項目に誤りがあります
+  activerecord:
+    errors:
+      messages:
+        blank: を入力してください
+        too_short: が短すぎます
+      models:
+        user:
+          attributes:
+            password_confirmation:
+              confirmation: が異なります
