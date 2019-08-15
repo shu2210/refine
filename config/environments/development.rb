@@ -64,4 +64,8 @@ Rails.application.configure do
   config.web_console.whitelisted_ips = '0.0.0.0/0'
   # better errors config
   BetterErrors::Middleware.allow_ip! '0.0.0.0/0'
+  # devise mail config
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.delivery_method = :letter_opener_web
+  config.action_mailer.perform_deliveries = true
 end

@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {
     registrations: 'users/registrations',
-    sessions: 'users/sessions'
+    sessions: 'users/sessions',
+    confirmations: 'users/confirmations'
   }
+  mount LetterOpenerWeb::Engine, at: '/letters' if Rails.env.development?
 end

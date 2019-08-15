@@ -15,5 +15,7 @@ ja:
       models:
         user:
           attributes:
+            email:
+              taken: が登録されています
             password_confirmation:
               confirmation: が異なります
