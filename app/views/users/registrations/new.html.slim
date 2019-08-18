@@ -12,11 +12,8 @@
 
         = f.password_field_with_icon :password_confirmation, class: 'uk-input', autocomplete: 'new-password', placeholder: t('password_confirmation')
 
-        .uk-margin
-          .uk-text-meta
-            = t('password_notification', minimum_password_length: @minimum_password_length)
+        span.uk-margin.uk-text-meta = t('password_notification', minimum_password_length: @minimum_password_length)
 
-        .actions.uk-margin
-          = f.submit t('register'), class: 'uk-button uk-button-primary uk-width-1-1'
+        = f.submit t('register'), class: 'uk-button uk-button-primary uk-width-1-1'
 
       = render 'users/shared/links'

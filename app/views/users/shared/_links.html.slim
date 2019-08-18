@@ -1,7 +1,4 @@
 .uk-text-small.uk-text-center
-  - if controller_name != 'sessions'
-    = link_to 'ログイン', new_session_path(resource_name), class: 'uk-link-text'
-    br
   - if devise_mapping.registerable? && controller_name != 'registrations'
     .uk-margin
       = link_to '会員登録はこちら', new_registration_path(resource_name), class: 'uk-button uk-button-default uk-button-primary uk-width-1-1'

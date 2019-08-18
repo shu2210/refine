@@ -1,11 +1,11 @@
-h2
-  | Forgot your password?
-= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-  = render 'devise/shared/error_messages', resource: resource
-  .field
-    = f.label :email
-    br
-    = f.email_field :email, autofocus: true, autocomplete: 'email'
-  .actions
-    = f.submit 'パスワードリセットメール送信'
-= render 'users/shared/links'
+.uk-section.uk-section-muted.uk-flex.uk-flex-middle.uk-animation-fade[uk-height-viewport]
+  .uk-margin.uk-width-large.uk-margin-auto.uk-card.uk-card-default.uk-card-body.uk-box-shadow-large
+    = render partial: 'shared/flash_messages'
+
+    h3.uk-card-title.uk-text-center パスワード再設定
+    = form_for resource, as: resource_name, url: password_path(resource_name), html: { method: :post }, builder: RefineFormBuilder do |f|
+      = f.email_field_with_icon :email, class: 'uk-input', autofocus: true, autocomplete: 'email', placeholder: t('email')
+
+      = f.submit 'パスワードリセットメール送信', class: 'uk-button uk-button-default uk-width-1-1'
+
+    = render 'users/shared/links'

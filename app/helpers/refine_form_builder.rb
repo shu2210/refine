@@ -24,6 +24,10 @@ class RefineFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  def submit(label, options = {})
+    @template.content_tag(:div, class: 'actions uk-margin') { super(label, options) }
+  end
+
   private
 
   def error_message(attribute)

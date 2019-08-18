@@ -1,22 +1,16 @@
-h2
-  | Change your password
-= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-  = render 'devise/shared/error_messages', resource: resource
-  = f.hidden_field :reset_password_token
-  .field
-    = f.label :password, '新しいパスワード'
-    br
-    - if @minimum_password_length
-      em
-        | (
-        = @minimum_password_length
-        |  characters minimum)
-      br
-    = f.password_field :password, autofocus: true, autocomplete: 'new-password'
-  .field
-    = f.label :password_confirmation, 'パスワード確認'
-    br
-    = f.password_field :password_confirmation, autocomplete: 'off'
-  .actions
-    = f.submit 'パスワードを変更する'
-= render 'users/shared/links'
+.uk-section.uk-section-muted.uk-flex.uk-flex-middle.uk-animation-fade[uk-height-viewport]
+  .uk-margin.uk-width-large.uk-margin-auto.uk-card.uk-card-default.uk-card-body.uk-box-shadow-large
+    = render partial: 'shared/flash_messages'
+
+    h3.uk-card-title.uk-text-center パスワード変更
+    = form_for resource, as: resource_name, url: password_path(resource_name), html: { method: :put }, builder: RefineFormBuilder do |f|
+      = f.hidden_field :reset_password_token
+      = f.password_field_with_icon :password, class: 'uk-input', autocomplete: 'current-password', placeholder: t('password')
+      = f.password_field_with_icon :password_confirmation, class: 'uk-input', autocomplete: 'off', placeholder: t('password_confirmation')
+
+      - if @minimum_password_length
+        span.uk-margin.uk-text-meta = t('password_notification', minimum_password_length: @minimum_password_length)
+
+      = f.submit 'パスワードを変更する', class: 'uk-button uk-button-default uk-width-1-1'
+
+    = render 'users/shared/links'

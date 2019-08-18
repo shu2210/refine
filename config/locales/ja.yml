@@ -10,6 +10,7 @@ ja:
   activerecord:
     errors:
       messages:
+        invalid: が不正です
         blank: を入力してください
         too_short: が短すぎます
       models:
