@@ -100,4 +100,8 @@ Metrics/MethodLength:
 
 Metrics/BlockLength:
   Exclude:
+    - 'spec/**/*'
     - 'config/**/*'
+
+Encoding:
+  Enabled: false
