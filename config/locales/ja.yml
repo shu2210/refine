@@ -13,6 +13,7 @@ ja:
         invalid: が不正です
         blank: を入力してください
         too_short: が短すぎます
+        too_long: が長すぎます
       models:
         user:
           attributes:
