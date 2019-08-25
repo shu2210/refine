@@ -76,7 +76,6 @@ gem 'slim-rails'
 # login
 gem 'devise'
 gem 'devise-i18n'
-gem 'devise-i18n-views'
 # front end gem
 gem 'jquery-rails'
 gem 'webpacker', github: 'rails/webpacker'
