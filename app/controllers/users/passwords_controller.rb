@@ -17,11 +17,9 @@ class Users::PasswordsController < Devise::PasswordsController
   # end
 
   # PUT /resource/password
-  def update
-    super do
-      flash.now[:alert] = t('errors.invalid') if resource.errors.any?
-    end
-  end
+  # def update
+  #   super
+  # end
 
   # protected
 
