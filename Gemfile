@@ -76,6 +76,9 @@ gem 'slim-rails'
 # login
 gem 'devise'
 gem 'devise-i18n'
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-google-oauth2'
 # front end gem
 gem 'jquery-rails'
 gem 'webpacker', github: 'rails/webpacker'

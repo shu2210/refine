@@ -1,0 +1,18 @@
+production:
+  github:
+    key: xxxxxxxxxxx
+    secret: XXXXXXXXXXXXXXXXXXXXXXXXX
+  google:
+    key: xxxxxxxxxxx
+    secret: XXXXXXXXXXXXXXXXXXXXXXXXX
+
+development: &development
+  github:
+    key: fa8701a8d401c2f496d4
+    secret: 0399c57beb546bafb61adce4710ff3924260bf4f
+  google:
+    key: xxxxxxxxxxx
+    secret: XXXXXXXXXXXXXXXXXXXXXXXXX
+
+test:
+  <<: *development
