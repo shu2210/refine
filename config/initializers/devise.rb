@@ -305,6 +305,6 @@ Devise.setup do |config|
   config.omniauth :google_oauth2,
                   OAUTH[:google]['key'],
                   OAUTH[:google]['secret'],
-                  scope: 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/plus.me https://www.google.com/m8/feeds',
+                  scope: 'email,profile,openid',
                   name: :google
 end
