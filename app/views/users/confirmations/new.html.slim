@@ -1,11 +1,10 @@
-h2
-  | Resend confirmation instructions
-= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
-  = render 'devise/shared/error_messages', resource: resource
-  .field
-    = f.label :email
-    br
-    = f.email_field :email, autofocus: true, autocomplete: 'email', value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)
-  .actions
-    = f.submit '認証メール再送信'
-= render 'users/shared/links'
+.uk-section.uk-section-muted.uk-flex.uk-flex-middle.uk-animation-fade[uk-height-viewport]
+  .uk-margin.uk-width-large.uk-margin-auto.uk-card.uk-card-default.uk-card-body.uk-box-shadow-large
+    = display_flash_messages(resource)
+
+    h3.uk-card-title.uk-text-center 認証メール再送信
+    = form_for resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }, builder: RefineFormBuilder do |f|
+      = f.email_field_with_icon :email, class: 'uk-input', autofocus: true, placeholder: 'メールアドレス', autocomplete: 'email', value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)
+
+      = f.submit '認証メール再送信', class: 'uk-button uk-button-default uk-width-1-1'
+    = render 'users/shared/links'

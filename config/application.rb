@@ -44,5 +44,8 @@ module Refine
     config.lograge.formatter = Lograge::Formatters::Json.new
     # i18n config
     config.i18n.default_locale = :ja
+    config.action_view.field_error_proc = proc do |html_tag|
+      html_tag.to_s.html_safe
+    end
   end
 end

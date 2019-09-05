@@ -1,11 +1,10 @@
 nav.uk-light#nav-bar[uk-navbar]
-  .uk-navbar-left
-    a.uk-navbar-toggle[uk-navbar-toggle-icon]
+  .uk-navbar-left.uk-margin-left
     ul.uk-navbar-nav
       li.uk-active
         = link_to 'Refine', ''
 
-  .uk-navbar-right
+  .uk-navbar-right.uk-margin-right
     .search-form.uk-hidden-touch
       a.uk-navbar-toggle[uk-search-icon]
       .uk-drop[uk-drop="mode: click; pos: left-center; offset: 0"]
@@ -15,7 +14,13 @@ nav.uk-light#nav-bar[uk-navbar]
     .uk-navbar-nav
       .uk-navbar-item
         - if user_signed_in?
-          a.uk-active マイページ
+          a.uk-navbar-toggle[uk-navbar-toggle-icon uk-toggle="target: #offcanvas"]
+
+          #offcanvas[uk-offcanvas="flip: true; overlay: true"]
+            .uk-offcanvas-bar
+              button.uk-offcanvas-close[uk-close]
+              = link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'uk-link'
+
         - else
           = link_to '会員登録', new_user_registration_path, class: 'uk-button uk-button-primary uk-button-small'
           = link_to 'ログイン', new_user_session_path, class: 'uk-button uk-button-default uk-button-small uk-margin-left'

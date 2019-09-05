@@ -1,24 +1,25 @@
-h2
-  | 会員登録
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = render 'devise/shared/error_messages', resource: resource
-  .field
-    = f.label :email
-    br
-    = f.email_field :email, autofocus: true, autocomplete: 'email'
-  .field
-    = f.label :password
-    - if @minimum_password_length
-      em
-        | (
-        = @minimum_password_length
-        |  文字以上)
-    br
-    = f.password_field :password, autocomplete: 'new-password'
-  .field
-    = f.label :password_confirmation
-    br
-    = f.password_field :password_confirmation, autocomplete: 'new-password'
-  .actions
-    = f.submit '会員登録'
-= render 'users/shared/links'
+.uk-section.uk-section-muted.uk-flex.uk-flex-middle.uk-animation-fade[uk-height-viewport]
+  .uk-margin.uk-width-large.uk-margin-auto.uk-card.uk-card-default.uk-card-body.uk-box-shadow-large
+    = display_flash_messages(resource)
+
+    h3.uk-card-title.uk-text-center = t('register')
+    = form_for resource, as: resource_name, url: registration_path(resource_name), builder: RefineFormBuilder do |f|
+
+      fieldset.uk-fieldset
+        = f.email_field_with_icon :email, class: 'uk-input', autofocus: true, autocomplete: 'email', placeholder: t('email')
+
+        = f.password_field_with_icon :password, class: 'uk-input', autocomplete: 'new-password', placeholder: t('password')
+
+        = f.password_field_with_icon :password_confirmation, class: 'uk-input', autocomplete: 'new-password', placeholder: t('password_confirmation')
+
+        span.uk-margin.uk-text-meta = t('password_notification', minimum_password_length: @minimum_password_length)
+
+        = f.submit t('register'), class: 'uk-button uk-button-primary uk-width-1-1'
+
+      #sns-registration
+        social-login-button[url=user_google_omniauth_authorize_path provider='google']
+        social-login-button[url=user_github_omniauth_authorize_path provider='github']
+
+      = render 'users/shared/links'
+
+= javascript_pack_tag 'sns'

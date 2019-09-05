@@ -1,4 +1,17 @@
 - flash.each do |key, value|
-  .uk-alert-danger[uk-alert]
-    a.uk-alert-close[uk-close]
-    .uk-text-small = value
+  - case key.to_sym
+  - when :alert
+
+    .uk-alert-danger[uk-alert]
+      a.uk-alert-close[uk-close]
+      .uk-text-small = value
+  - when :notice
+
+    .uk-alert-primary[uk-alert]
+      a.uk-alert-close[uk-close]
+      .uk-text-small = value
+  - else
+
+    .uk-alert-success[uk-alert]
+      a.uk-alert-close[uk-close]
+      .uk-text-small = key

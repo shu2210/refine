@@ -16,6 +16,13 @@
 
  @import "uikit.min";
 
-#nav-bar {
-  background-color: #4169e1 !important;
-}
+ ::selection {
+   background: #87cefa;
+ }
+ ::-moz-selection {
+     background: #87cefa;
+ }
+
+ #nav-bar {
+   background-color: #4169e1 !important;
+ }
