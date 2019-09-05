@@ -3,12 +3,6 @@
     .uk-margin
       = link_to '会員登録はこちら', new_registration_path(resource_name), class: 'uk-button uk-button-default uk-button-primary uk-width-1-1'
 
-  - if devise_mapping.omniauthable? && controller_name == 'registrations'
-    - resource_class.omniauth_providers.each do |provider|
-      .uk-inline.uk-width-1-1.uk-margin-bottom
-        span.uk-form-icon[uk-icon=provider]
-        = link_to "#{OmniAuth::Utils.camelize(provider)}でログイン", omniauth_authorize_path(resource_name, provider), class: 'uk-button uk-button-default uk-margin-small-right uk-width-1-1'
-
   - if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations'
     = link_to 'パスワードをお忘れですか?', new_password_path(resource_name), class: 'uk-link-text'
     br
