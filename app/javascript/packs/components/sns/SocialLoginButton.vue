@@ -1,5 +1,6 @@
 <template>
-  <div class="uk-inline uk-width-1-1 uk-margin-bottom">
+  <div class="uk-inline uk-width-1-1 uk-margin-bottom"
+      :class="['uk-width-' + width, background_color]">
     <span class="uk-form-icon" :uk-icon="provider"></span>
     <a :href="url" class="uk-button uk-button-default uk-margin-small-right uk-width-1-1">
       {{ provider }}でログイン
@@ -17,7 +18,21 @@ export default {
     provider: {
       type: String,
       required: true
+    },
+    width: {
+      type: String,
+      default: '1-1'
+    },
+    background_color: {
+      type: String,
+      default: 'default'
     }
   }
 }
 </script>
+
+<style scoped>
+.white {
+  background-color: #fff;
+}
+</style>
