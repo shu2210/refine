@@ -1,6 +1,6 @@
 <template>
   <ul class="code-list">
-    <li class="uk-margin" v-for="n in 5">
+    <li class="uk-margin" v-for="n in 10">
       <div class="uk-flex">
         <div class="status uk-width-1-6 uk-text-center">
           <badge label="受付中"></badge>

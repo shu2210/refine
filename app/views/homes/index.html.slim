@@ -1,6 +1,6 @@
 #home
-  .banner.uk-container.uk-padding.uk-width-1-1
-    .catch-phrase.uk-width-1-2.uk-inline.uk-padding.uk-margin-top.uk-margin-bottom
+  .banner.uk-flex.uk-flex-center.uk-container.uk-flex-middle.uk-width-1-1
+    .catch-phrase.uk-width-2-5.uk-padding.uk-margin-large-top.uk-margin-large-bottom
       span.uk-text-small コードレビューサイト
       h1.uk-heading-small.uk-margin-remove Refine
       p
@@ -8,14 +8,23 @@
         br
         | あなたのコードを"洗練"しましょう。
 
-    .conversion.uk-width-1-2.uk-text-center.uk-inline
+    .conversion.uk-width-2-5.uk-text-center
       = link_to '会員登録はこちらから', new_user_registration_path, class: 'uk-button uk-button-primary uk-margin uk-width-1-2'
       .github
         social-login-button[url=user_google_omniauth_authorize_path provider='google' width="1-2" background_color="white"]
       .google
         social-login-button[url=user_github_omniauth_authorize_path provider='github' width="1-2" background_color="white"]
 
-  section.uk-container.uk-margin.code-section.uk-width-3-5
-    code-list
+  .uk-flex.uk-flex-center.uk-container.uk-margin
+    section.code-section.uk-width-3-5
+      ul.uk-tab
+        li.uk-active
+          a 新着
+        li
+          a 人気
+      code-list
+
+    section.uk-margin-large-left.popular-tags.uk-width-2-5
+      popular-tags
 
 = javascript_pack_tag 'home'

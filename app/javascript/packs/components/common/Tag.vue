@@ -1,5 +1,9 @@
 <template>
-  <span class="tag uk-margin-small-left">{{ label }}</span>
+  <div class="uk-inline" :class="'uk-width-' + width">
+    <span class="tag uk-margin-small-left uk-text-small">
+      {{ label }}
+    </span>
+  </div>
 </template>
 
 <script>
@@ -8,6 +12,10 @@ export default {
     label: {
       type: String,
       required: true
+    },
+    width: {
+      type: String,
+      default: 'auto'
     }
   }
 }
@@ -15,7 +23,8 @@ export default {
 
 <style scoped>
 .tag {
-  padding: 7px;
+  display: block;
+  padding: 5px;
   border-radius: 5px;
   background-color: #B2CDDE;
 }
