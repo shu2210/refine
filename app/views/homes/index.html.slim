@@ -1,18 +1,21 @@
-.banner.uk-container.uk-padding.uk-width-1-1
-  .catch-phrase.uk-width-1-2.uk-margin.uk-margin-top.uk-inline
-    span.uk-text-small コードレビューサイト
-    h1.uk-heading-small.uk-margin-remove Refine
-    p
-      | 誰でもプロからのレビューを気軽に受けることができます。
-      br
-      | あなたのコードを"洗練"しましょう。
+#home
+  .banner.uk-container.uk-padding.uk-width-1-1
+    .catch-phrase.uk-width-1-2.uk-inline.uk-padding.uk-margin-top.uk-margin-bottom
+      span.uk-text-small コードレビューサイト
+      h1.uk-heading-small.uk-margin-remove Refine
+      p
+        | 誰でもプロからのレビューを気軽に受けることができます。
+        br
+        | あなたのコードを"洗練"しましょう。
 
-  .conversion.uk-width-1-2.uk-text-center.uk-inline
-    = link_to '会員登録はこちらから', new_user_registration_path, class: 'uk-button uk-button-primary uk-margin uk-width-1-2'
-    #sns-registration
+    .conversion.uk-width-1-2.uk-text-center.uk-inline
+      = link_to '会員登録はこちらから', new_user_registration_path, class: 'uk-button uk-button-primary uk-margin uk-width-1-2'
       .github
         social-login-button[url=user_google_omniauth_authorize_path provider='google' width="1-2" background_color="white"]
       .google
         social-login-button[url=user_github_omniauth_authorize_path provider='github' width="1-2" background_color="white"]
 
-= javascript_pack_tag 'sns'
+  section.uk-container.uk-margin.code-section.uk-width-3-5
+    code-list
+
+= javascript_pack_tag 'home'
