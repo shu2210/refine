@@ -7,7 +7,7 @@
           <review-info></review-info>
         </div>
         <div class="information uk-width-4-6 uk-margin-left">
-          <a class="uk-text-large">Rubyのfizz_buzz問題</a>
+          <a class="uk-text-large" href="/codes/1">Rubyのfizz_buzz問題</a>
           <div class="tags uk-margin-top">
             <tag label="Ruby"></tag>
             <tag label="Rails"></tag>
