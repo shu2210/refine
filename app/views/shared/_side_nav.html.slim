@@ -1,0 +1,8 @@
+#offcanvas[uk-offcanvas="flip: true; overlay: true"]
+  .uk-offcanvas-bar
+    button.uk-offcanvas-close[uk-close]
+    ul.uk-list
+      li
+        = link_to 'コードを投稿する', '', class: 'uk-link'
+      li
+        = link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'uk-link'

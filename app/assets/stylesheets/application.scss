@@ -13,7 +13,6 @@
  *= require_tree .
  *= require_self
  */
-
  @import "uikit.min";
 
  ::selection {
@@ -33,4 +32,12 @@
 
  #nav-bar {
    background-color: #4169e1 !important;
+ }
+
+ .uk-offcanvas-bar {
+   background: #fff;
+
+   * {
+     color: #000 !important;
+   }
  }
