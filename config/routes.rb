@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   mount LetterOpenerWeb::Engine, at: '/letters' if Rails.env.development?
 
-  root to: 'homes#index'
+  root to: 'codes#index'
 
   devise_for :users, controllers: {
     registrations: 'users/registrations',
@@ -13,4 +13,6 @@ Rails.application.routes.draw do
     passwords: 'users/passwords',
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
+
+  resources :codes
 end

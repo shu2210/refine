@@ -13,16 +13,31 @@
  *= require_tree .
  *= require_self
  */
-
  @import "uikit.min";
 
  ::selection {
    background: #87cefa;
  }
  ::-moz-selection {
-     background: #87cefa;
+   background: #87cefa;
+ }
+
+ ul {
+   padding: 0;
+
+   li {
+     list-style-type: none;
+   }
  }
 
  #nav-bar {
    background-color: #4169e1 !important;
+ }
+
+ .uk-offcanvas-bar {
+   background: #fff;
+
+   * {
+     color: #000 !important;
+   }
  }

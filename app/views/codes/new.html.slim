@@ -1,0 +1,20 @@
+#code.uk-container.uk-margin
+  = form_with local: true do |f|
+    .title.uk-margin
+      = f.label :title, 'タイトル', class: 'uk-form-label'
+      = f.text_field :title, class: 'uk-input', placeholder: '例）Rubyのfizz_buzz問題'
+
+    .description.uk-margin
+      = f.label :description, '説明', class: 'uk-form-label'
+      = f.text_area :description, class: 'uk-textarea', rows: 5, placeholder: '例）Rubyで作ったfizz_buzz問題です。'
+
+    .code
+      .language-select.uk-width-1-1.uk-text-right
+        = f.select :lang, %w[ruby python javascript PHP Java C C++], {}, class: 'uk-select uk-width-1-4'
+      code-area-edit
+
+    .submit-btn.uk-text-center.uk-margin
+      = f.submit '下書き保存', class: 'uk-button uk-button-default'
+      = f.submit '投稿', class: 'uk-button uk-button-primary uk-margin-left'
+
+= javascript_pack_tag 'code'
