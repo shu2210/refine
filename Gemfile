@@ -82,3 +82,5 @@ gem 'omniauth-google-oauth2'
 # front end gem
 gem 'jquery-rails'
 gem 'webpacker', github: 'rails/webpacker'
+# code editor
+gem 'ace-rails-ap'

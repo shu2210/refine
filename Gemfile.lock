@@ -10,6 +10,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    ace-rails-ap (4.2)
     act-fluent-logger-rails (0.5.0)
       activesupport (>= 4, < 5.3)
       fluent-logger
@@ -318,6 +319,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ace-rails-ap
   act-fluent-logger-rails
   better_errors
   binding_of_caller
