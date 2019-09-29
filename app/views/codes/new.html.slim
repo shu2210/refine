@@ -8,7 +8,7 @@
       = f.label :description, '説明', class: 'uk-form-label'
       = f.text_area :description, class: 'uk-textarea', rows: 5, placeholder: '例）Rubyで作ったfizz_buzz問題です。'
 
-    code-area-edit
+    code-area-edit[:langs=@languages.to_json]
 
     .submit-btn.uk-text-center.uk-margin
       = f.submit '下書き保存', class: 'uk-button uk-button-default'

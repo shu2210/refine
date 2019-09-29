@@ -1,8 +1,11 @@
 <template>
   <div class="code">
     <div class="language-select uk-width-1-1 uk-text-right uk-margin">
-      <select name="lang" class="uk-select uk-width-1-4" @change="changeMode">
-        <option v-for="mode, name in languages" :value="mode">{{ name }}</option>
+      <select name="lang" class="uk-select uk-width-1-4" @change="changeMode($event)">
+        <option v-for="lang in langs"
+                :value="lang['id']">
+          {{ lang['name'] }}
+        </option>
       </select>
     </div>
     <div id="editor">
@@ -12,39 +15,11 @@
 
 <script>
 export default {
+  props: {
+    langs: Array
+  },
   data: function () {
     return {
-      languages: {
-        'Ruby': 'ruby',
-        'Javascript': 'javascript',
-        'TypeScript': 'typescript',
-        'Python': 'python',
-        'PHP': 'php',
-        'Perl': 'perl',
-        'HTML': 'html',
-        'XML': 'xml',
-        'erb': 'html_ruby',
-        'slim': 'slim',
-        'CSS': 'css',
-        'SCSS': 'scss',
-        'SASS': 'sass',
-        'stylus': 'stylus',
-        'Java': 'java',
-        'C': 'c',
-        'C++': 'c_pp',
-        'Go': 'golang',
-        'Kotlin': 'kotlin',
-        'Swift': 'swift',
-        'Lisp': 'lisp',
-        'Scala': 'scala',
-        'COBOL': 'cobol',
-        'SQL': 'sql',
-        'MySQL': 'mysql',
-        'PostgreSQL': 'pgsql',
-        'SQLServer': 'sqlserver',
-        'JSON': 'json',
-        'Shell': 'sh',
-      },
       editor: null
     }
   },
@@ -59,7 +34,14 @@ export default {
   },
   methods: {
     changeMode: function (event) {
-      this.editor.session.setMode('ace/mode/' + event.target.value);
+      var id = event.target.value;
+      var mode = ''
+      this.langs.forEach(function(lang){
+        if(lang['id'] == event.target.value) {
+          mode = lang['mode']
+        }
+      });
+      this.editor.session.setMode('ace/mode/' + mode);
     }
   }
 }
