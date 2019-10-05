@@ -2,5 +2,8 @@
 
 FactoryBot.define do
   factory :code do
+    title { 'test' }
+    description { 'description' }
+    code { 'test' }
   end
 end

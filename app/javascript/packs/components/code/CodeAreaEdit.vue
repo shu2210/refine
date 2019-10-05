@@ -1,7 +1,7 @@
 <template>
   <div class="code">
     <div class="language-select uk-width-1-1 uk-text-right uk-margin">
-      <select name="lang" class="uk-select uk-width-1-4" @change="changeMode($event)">
+      <select name="code[language_id]" class="uk-select uk-width-1-4" @change="changeMode($event)">
         <option v-for="lang in langs"
                 :value="lang['id']">
           {{ lang['name'] }}
@@ -50,5 +50,8 @@ export default {
 <style lang="scss" scoped>
 #editor {
   height: 400px;
+}
+textarea[name="editor"] {
+  display: none;
 }
 </style>

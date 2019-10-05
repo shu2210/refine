@@ -1,31 +1,36 @@
 # frozen_string_literal: true
 
-Language.create name: 'Ruby', mode: 'ruby'
-Language.create name: 'Javascript', mode: 'javascript'
-Language.create name: 'TypeScript', mode: 'typescript'
-Language.create name: 'Python', mode: 'python'
-Language.create name: 'PHP', mode: 'php'
-Language.create name: 'Perl', mode: 'perl'
-Language.create name: 'HTML', mode: 'html'
-Language.create name: 'XML', mode: 'xml'
-Language.create name: 'erb', mode: 'html_ruby'
-Language.create name: 'slim', mode: 'slim'
-Language.create name: 'CSS', mode: 'css'
-Language.create name: 'SCSS', mode: 'scss'
-Language.create name: 'SASS', mode: 'sass'
-Language.create name: 'stylus', mode: 'stylus'
-Language.create name: 'Java', mode: 'java'
-Language.create name: 'C', mode: 'c'
-Language.create name: 'C++', mode: 'c_pp'
-Language.create name: 'Go', mode: 'golang'
-Language.create name: 'Kotlin', mode: 'kotlin'
-Language.create name: 'Swift', mode: 'swift'
-Language.create name: 'Lisp', mode: 'lisp'
-Language.create name: 'Scala', mode: 'scala'
-Language.create name: 'COBOL', mode: 'cobol'
-Language.create name: 'SQL', mode: 'sql'
-Language.create name: 'MySQL', mode: 'mysql'
-Language.create name: 'PostgreSQL', mode: 'pgsql'
-Language.create name: 'SQLServer', mode: 'sqlserver'
-Language.create name: 'JSON', mode: 'json'
-Language.create name: 'Shell', mode: 'sh'
+langs = {
+  'Ruby': 'ruby',
+  'Javascript': 'javascript',
+  'TypeScript': 'typescript',
+  'Python': 'python',
+  'PHP': 'php',
+  'Perl': 'perl',
+  'HTML': 'html',
+  'XML': 'xml',
+  'erb': 'html_ruby',
+  'slim': 'slim',
+  'CSS': 'css',
+  'SCSS': 'scss',
+  'SASS': 'sass',
+  'stylus': 'stylus',
+  'Java': 'java',
+  'C': 'c',
+  'C++': 'c_pp',
+  'Go': 'golang',
+  'Kotlin': 'kotlin',
+  'Swift': 'swift',
+  'Lisp': 'lisp',
+  'Scala': 'scala',
+  'COBOL': 'cobol',
+  'SQL': 'sql',
+  'MySQL': 'mysql',
+  'PostgreSQL': 'pgsql',
+  'SQLServer': 'sqlserver',
+  'JSON': 'json',
+  'Shell': 'sh'
+}
+
+languages = langs.map { |name, mode| Language.new(name: name, mode: mode) }
+Language.import languages
