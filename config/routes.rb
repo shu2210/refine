@@ -15,4 +15,5 @@ Rails.application.routes.draw do
   }
 
   resources :codes
+  resources :draft_code, controller: 'codes/drafts'
 end

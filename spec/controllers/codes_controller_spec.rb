@@ -19,10 +19,7 @@ RSpec.describe CodesController, type: :controller do
     end
 
     context 'ログインしている場合' do
-      before do
-        user = create(:user)
-        sign_in user
-      end
+      before { sign_in_user }
 
       subject { get :new }
 
@@ -34,10 +31,7 @@ RSpec.describe CodesController, type: :controller do
   describe 'POST #create' do
     let(:param) { { code: { title: 'test', description: 'test', language_id: 1, code: 'test' } } }
 
-    before do
-      user = create(:user)
-      sign_in user
-    end
+    before { sign_in_user }
 
     it 'codeが作成される' do
       expect { post :create, params: param }.to change(Code, :count).by(1)

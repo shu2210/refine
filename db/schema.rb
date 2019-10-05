@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2019_10_05_021849) do
     t.text "code", comment: "コード"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "draft_at"
   end
 
   create_table "languages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
