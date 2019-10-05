@@ -8,6 +8,13 @@ ja:
   errors:
     invalid: 入力項目に誤りがあります
   activerecord:
+    models:
+      code: コード
+    attributes:
+      code:
+        title: タイトル
+        description: 説明
+        code: コード
     errors:
       messages:
         invalid: が不正です
