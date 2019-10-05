@@ -5,10 +5,9 @@ class Codes::DraftsController < ApplicationController
 
   def create
     @code = Code.new(code_params)
-    @code.draft_at = Time.now
-    @code.save(validate: false)
-    flash[:success] = '下書き保存が完了しました'
-    redirect_to root_path
+    @code.user = current_user
+    @code.draft
+    redirect_to root_path, success: '下書き保存が完了しました'
   end
 
   private
