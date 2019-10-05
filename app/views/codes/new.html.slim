@@ -1,20 +1,49 @@
 #code.uk-container.uk-margin
-  = form_with local: true do |f|
+  = render partial: 'shared/flash_messages'
+  = form_with model: @code, id: 'code-form', local: true, builder: RefineFormBuilder do |f|
     .title.uk-margin
-      = f.label :title, 'タイトル', class: 'uk-form-label'
-      = f.text_field :title, class: 'uk-input', placeholder: '例）Rubyのfizz_buzz問題'
+      = f.text_field :title, class: 'uk-input', placeholder: 'タイトルを入力'
 
     .description.uk-margin
-      = f.label :description, '説明', class: 'uk-form-label'
-      = f.text_area :description, class: 'uk-textarea', rows: 5, placeholder: '例）Rubyで作ったfizz_buzz問題です。'
+      = f.text_area :description, class: 'uk-textarea', rows: 5, placeholder: '説明を入力'
 
-    .code
-      .language-select.uk-width-1-1.uk-text-right
-        = f.select :lang, %w[ruby python javascript PHP Java C C++], {}, class: 'uk-select uk-width-1-4'
-      code-area-edit
+    code-area-edit[:langs=languages.to_json]
+    = f.hidden_field :code, class: 'code'
 
     .submit-btn.uk-text-center.uk-margin
-      = f.submit '下書き保存', class: 'uk-button uk-button-default'
-      = f.submit '投稿', class: 'uk-button uk-button-primary uk-margin-left'
+      a.uk-button.uk-button-primary[href="#confirm" uk-toggle] 投稿
+      button.uk-button.uk-button-default.uk-margin-left[formaction=draft_code_index_path uk-toggle] 下書き保存
+
+#modal
+  modal[id="confirm"]
+    p.uk-text-center
+      | この内容を投稿します。
+      br
+      | よろしいですか？
+    .uk-text-center
+      button.uk-button.uk-button-primary.uk-button-small[type="submit" form="code-form"] 投稿
+      button.uk-button.uk-button-default.uk-margin-left.uk-button-small.uk-modal-close[type="submit"] キャンセル
 
 = javascript_pack_tag 'code'
+= javascript_pack_tag 'modal'
+
+javascript:
+  var editor = ace.edit('editor');
+
+  function syncTextValue() {
+    var textarea = $('.code');
+    editor.getSession().on('change', function () {
+      textarea.val(editor.getSession().getValue());
+    });
+  }
+
+  function setDefaultValue() {
+    var code = $('#code_code').val();
+    if(code != '') {
+      editor.setValue(code);
+      editor.clearSelection();
+    }
+  }
+
+  setDefaultValue();
+  syncTextValue();

@@ -13,6 +13,7 @@
 //= require rails-ujs
 //= require activestorage
 //= require jquery
-//= require uikit.min
-//= require uikit-icons.min
+//= require uikit/uikit.min
+//= require uikit/uikit-icons.min
+//= require ace-rails-ap
 //= require_tree .
