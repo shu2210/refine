@@ -1,5 +1,11 @@
 <template>
-  <span class="status-badge uk-badge uk-padding-small uk-margin-small-bottom">{{ label }}</span>
+  <span class="status-badge uk-badge"
+        :class="{
+          'uk-padding-small uk-margin-small-bottom': category == 'large',
+          'uk-text-small': category == 'required'
+        }">
+    {{ label }}
+  </span>
 </template>
 
 <script>
@@ -8,6 +14,10 @@ export default {
     label: {
       type: String,
       required: true
+    },
+    category: {
+      type: String,
+      default: 'large'
     }
   }
 }

@@ -23,60 +23,60 @@ services:
       - 3000:3000
     links:
       - db
-      - elasticsearch
-    depends_on:
-      - fluentd
+    #   - elasticsearch
+    # depends_on:
+    #   - fluentd
 
-  elasticsearch:
-    container_name: refine_elasticsearch
-    build: docker/elasticsearch
-    ports:
-      - 9200:9200
-      - 9300:9300
-    volumes:
-      - es_data:/usr/share/elasticsearch/data
-
-  kibana:
-    container_name: refine_kibana
-    build: docker/kibana
-    ports:
-      - 5601:5601
-    links:
-      - elasticsearch
-    environment:
-      ELASTICSEARCH_URL: http://elasticsearch:9200
-
-  fluentd:
-    container_name: refine_fluentd
-    build: docker/fluentd
-    ports:
-      - 24224:24224
-    depends_on:
-      - mongodb
-
-  mongodb:
-    container_name: refine_mongodb
-    restart: always
-    build: docker/mongodb
-    ports:
-      - 27017:27017
-    volumes:
-      - log_data:/data/db
-      - log_data:/data/configdb
-
-  mongo_express:
-    container_name: refine_mongodb_express
-    restart: always
-    build: docker/mongo_express
-    ports:
-      - 8081:8081
-    depends_on:
-      - mongodb
+  # elasticsearch:
+  #   container_name: refine_elasticsearch
+  #   build: docker/elasticsearch
+  #   ports:
+  #     - 9200:9200
+  #     - 9300:9300
+  #   volumes:
+  #     - es_data:/usr/share/elasticsearch/data
+  #
+  # kibana:
+  #   container_name: refine_kibana
+  #   build: docker/kibana
+  #   ports:
+  #     - 5601:5601
+  #   links:
+  #     - elasticsearch
+  #   environment:
+  #     ELASTICSEARCH_URL: http://elasticsearch:9200
+  #
+  # fluentd:
+  #   container_name: refine_fluentd
+  #   build: docker/fluentd
+  #   ports:
+  #     - 24224:24224
+  #   depends_on:
+  #     - mongodb
+  #
+  # mongodb:
+  #   container_name: refine_mongodb
+  #   restart: always
+  #   build: docker/mongodb
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - log_data:/data/db
+  #     - log_data:/data/configdb
+  #
+  # mongo_express:
+  #   container_name: refine_mongodb_express
+  #   restart: always
+  #   build: docker/mongo_express
+  #   ports:
+  #     - 8081:8081
+  #   depends_on:
+  #     - mongodb
 
 volumes:
   database:
     driver: local
-  es_data:
-    driver: local
-  log_data:
-    driver: local
+#   es_data:
+#     driver: local
+#   log_data:
+#     driver: local
