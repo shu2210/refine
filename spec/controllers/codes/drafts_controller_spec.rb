@@ -20,9 +20,9 @@ RSpec.describe Codes::DraftsController, type: :controller do
         expect(Code.last.draft_at).not_to be_nil
       end
 
-      it 'codes/newをrenderする' do
+      it 'root_pathにリダイレクトする' do
         post :create, params: params
-        expect(response).to render_template('codes/new')
+        expect(response).to redirect_to(root_path)
       end
     end
   end

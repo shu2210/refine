@@ -8,7 +8,7 @@ class Codes::DraftsController < ApplicationController
     @code.draft_at = Time.now
     @code.save(validate: false)
     flash[:success] = '下書き保存が完了しました'
-    render 'codes/new'
+    redirect_to root_path
   end
 
   private

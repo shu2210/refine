@@ -2,5 +2,7 @@
 
 FactoryBot.define do
   factory :language do
+    mode { 'ruby' }
+    name { 'Ruby' }
   end
 end
