@@ -16,4 +16,5 @@
 //= require uikit/uikit.min
 //= require uikit/uikit-icons.min
 //= require ace-rails-ap
+//= require jquery-ui
 //= require_tree .
