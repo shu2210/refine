@@ -3,6 +3,7 @@
 class Code < ApplicationRecord
   belongs_to :user
   has_one :language
+  has_many :tags, through: :code_tags
 
   validates :title, presence: true, length: { maximum: 200 }
   validates :description, presence: true, length: { maximum: 300 }
