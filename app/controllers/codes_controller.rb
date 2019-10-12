@@ -11,7 +11,7 @@ class CodesController < ApplicationController
 
   def create
     @code = Code.new(code_params)
-    if @code.post(current_user)
+    if @code.post(current_user, params[:tags])
       redirect_to root_path, success: 'コードの投稿が完了しました'
     else
       flash[:alert] = '入力内容に誤りがあります'

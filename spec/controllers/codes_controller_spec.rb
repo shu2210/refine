@@ -29,7 +29,7 @@ RSpec.describe CodesController, type: :controller do
   end
 
   describe 'POST #create' do
-    let(:param) { { code: { title: 'test', description: 'test', language_id: 1, code: 'test' } } }
+    let(:param) { { code: { title: 'test', description: 'test', language_id: 1, code: 'test' }, tags: %w[Rails Ruby] } }
 
     before { sign_in_user }
 

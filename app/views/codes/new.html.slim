@@ -1,7 +1,7 @@
 #code.uk-container.uk-margin
   = render partial: 'shared/flash_messages'
 
-  = form_with model: @code, id: 'code-form', local: true, builder: RefineFormBuilder do |f|
+  = form_with model: @code, id: 'code-form', local: true, builder: RefineFormBuilder, html: { '@submit': 'addTags' } do |f|
     .title.uk-margin
       = f.label :title, class: 'uk-text-small uk-margin-small-right'
       badge[label="必須" category="required"]
@@ -15,6 +15,7 @@
     code-area-edit[:langs=languages.to_json]
     = f.hidden_field :code, class: 'code'
 
+    = f.hidden_field :tags, name: 'tags[]', 'v-for': 'tag in tags', ':value': 'tag'
     tag-input
 
     .submit-btn.uk-text-center.uk-margin
