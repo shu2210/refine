@@ -10,6 +10,15 @@ RSpec.describe User, type: :model do
     expect(user).to be_valid
   end
 
+  describe 'name' do
+    context '新規登録の場合' do
+      it 'メールアドレスの@より前になる' do
+        create(:user, email: 'test@example.com')
+        expect(User.last.name).to eq('test')
+      end
+    end
+  end
+
   describe 'flash_columns' do
     it 'flash_columnを持っていること' do
       expect(user).to respond_to(:flash_columns)

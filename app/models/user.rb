@@ -12,6 +12,10 @@ class User < ApplicationRecord
 
   flash_validation :reset_password_token
 
+  before_save do
+    self.name = email.match(/.*(?=@)/).to_s if new_record?
+  end
+
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email

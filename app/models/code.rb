@@ -2,8 +2,7 @@
 
 class Code < ApplicationRecord
   belongs_to :user
-
-  has_one :language
+  belongs_to :language
 
   has_many :code_tags
   has_many :tags, through: :code_tags
@@ -13,6 +12,15 @@ class Code < ApplicationRecord
   validates :code, presence: true
 
   enum status: %i[draft published closed]
+
+  scope :latest, lambda {
+    eager_load(:tags)
+      .preload(:language)
+      .preload(:user)
+      .where(status: %i[published closed])
+      .order(created_at: :desc)
+      .limit(10)
+  }
 
   def post(user, tag_names)
     transaction do

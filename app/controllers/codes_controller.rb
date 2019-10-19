@@ -3,7 +3,9 @@
 class CodesController < ApplicationController
   before_action :authenticate_user!, only: %i[new create]
 
-  def index; end
+  def index
+    @codes = Code.latest
+  end
 
   def new
     @code = Code.new
