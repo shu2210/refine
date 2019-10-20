@@ -105,3 +105,7 @@ Metrics/BlockLength:
 
 Encoding:
   Enabled: false
+
+Style/AsciiComments:
+  Exclude:
+    - '**/*'

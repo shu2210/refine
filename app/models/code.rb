@@ -21,6 +21,15 @@ class Code < ApplicationRecord
       .order(created_at: :desc)
       .limit(10)
   }
+  # TODO: レビュー機能実装後作成
+  scope :popular, lambda {
+    eager_load(:tags)
+      .preload(:language)
+      .preload(:user)
+      .where(status: %i[published closed])
+      .order(created_at: :desc)
+      .limit(10)
+  }
 
   def post(user, tag_names)
     transaction do
