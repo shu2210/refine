@@ -10,12 +10,52 @@
 
   .uk-flex.uk-flex-center.uk-container.uk-margin
     section.code-section.uk-width-3-5
-      ul.uk-tab
+      ul.uk-tab[uk-switcher]
         li.uk-active
           a 新着
         li
           a 人気
-      code-list
+      uk.uk-switcher.uk-margin
+        li.latest
+          ul.code-list
+            - @latest.each do |code|
+              li.uk-margin
+                .uk-flex
+                  .status.uk-width-1-6.uk-text-center
+                    badge[label=badge_label(code.status)]
+                    review-info
+                  .information.uk-width-4-6.uk-margin-left
+                    = link_to code.title, code_path(id: code.id), class: 'uk-text-large'
+                    .tags.uk-margin-top
+                      - code.tags.each do |tag|
+                        tag[label=tag.name]
+
+                  .user.uk-width-1-6
+                    .uk-width-1-4.uk-align-right
+                      = image_tag language_image_path(code.language.mode)
+                    .user-name.uk-text-right
+                      span = code.user.name
+              hr
+        li.popular
+          ul.code-list
+            - @latest.each do |code|
+              li.uk-margin
+                .uk-flex
+                  .status.uk-width-1-6.uk-text-center
+                    badge[label=badge_label(code.status)]
+                    review-info
+                  .information.uk-width-4-6.uk-margin-left
+                    = link_to code.title, code_path(id: code.id), class: 'uk-text-large'
+                    .tags.uk-margin-top
+                      - code.tags.each do |tag|
+                        tag[label=tag.name]
+
+                  .user.uk-width-1-6
+                    .uk-width-1-2.uk-align-right
+                      = image_tag language_image_path(code.language.mode)
+                    .user-name.uk-text-right
+                      span = code.user.name
+              hr
 
     section.uk-margin-large-left.popular-tags.uk-width-2-5
       popular-tags

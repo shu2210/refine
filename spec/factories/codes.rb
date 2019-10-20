@@ -5,5 +5,7 @@ FactoryBot.define do
     title { 'test' }
     description { 'description' }
     code { 'test' }
+    user { build(:user) }
+    language { build(:language) }
   end
 end

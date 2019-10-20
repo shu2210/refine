@@ -10,17 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_05_021849) do
+ActiveRecord::Schema.define(version: 2019_10_19_143807) do
+
+  create_table "code_tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "code_id", null: false
+    t.integer "tag_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "codes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "language_id", comment: "言語ID"
     t.integer "user_id", comment: "ユーザーID"
+    t.integer "status"
     t.string "title"
     t.string "description"
     t.text "code", comment: "コード"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "draft_at"
   end
 
   create_table "languages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -30,7 +37,14 @@ ActiveRecord::Schema.define(version: 2019_10_05_021849) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"

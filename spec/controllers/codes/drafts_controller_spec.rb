@@ -17,7 +17,6 @@ RSpec.describe Codes::DraftsController, type: :controller do
 
       it 'codeが作成されること' do
         expect { post :create, params: params }.to change(Code, :count).by(1)
-        expect(Code.last.draft_at).not_to be_nil
       end
 
       it 'root_pathにリダイレクトする' do

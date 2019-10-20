@@ -63,6 +63,7 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
+  gem 'simplecov', require: false
 end
 
 gem 'activerecord-import'
@@ -82,6 +83,7 @@ gem 'omniauth-github'
 gem 'omniauth-google-oauth2'
 # front end gem
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'webpacker', github: 'rails/webpacker'
 # code editor
 gem 'ace-rails-ap'

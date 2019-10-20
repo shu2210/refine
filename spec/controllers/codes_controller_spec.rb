@@ -29,12 +29,22 @@ RSpec.describe CodesController, type: :controller do
   end
 
   describe 'POST #create' do
-    let(:param) { { code: { title: 'test', description: 'test', language_id: 1, code: 'test' } } }
-
     before { sign_in_user }
 
-    it 'codeが作成される' do
-      expect { post :create, params: param }.to change(Code, :count).by(1)
+    context '正常な場合' do
+      let(:param) { { code: { title: 'test', description: 'test', language_id: 1, code: 'test' }, tags: %w[Rails Ruby] } }
+      it 'codeが作成される' do
+        expect { post :create, params: param }.to change(Code, :count).by(1)
+      end
+    end
+
+    context 'エラーの場合' do
+      let(:param) { { code: { description: 'test', language_id: 1, code: 'test' }, tags: %w[Rails Ruby] } }
+
+      it 'newがrenderされる' do
+        post :create, params: param
+        expect(response).to render_template(:new)
+      end
     end
   end
 

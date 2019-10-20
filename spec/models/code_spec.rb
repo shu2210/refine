@@ -54,4 +54,17 @@ RSpec.describe Code, type: :model do
       it { expect(code.errors[:code]).not_to be_empty }
     end
   end
+
+  describe 'draft' do
+    it '下書き保存ができること' do
+      code = Code.new(code: 'test')
+      expect { code.draft }.to change(Code, :count).by(1)
+    end
+
+    it 'statusがdraftになること' do
+      code = Code.new(code: 'test')
+      code.draft
+      expect(code.status).to eq('draft')
+    end
+  end
 end

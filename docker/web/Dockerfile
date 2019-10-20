@@ -20,3 +20,6 @@ ADD . $APP_ROOT
 ENV DB_HOST_NAME db
 ENV DB_USER_NAME root
 ENV DB_PASSWORD password
+
+RUN echo "alias dbreset='bundle exec rake db:migrate:reset && bundle exec rake db:seed && bundle exec rake db:migrate:reset RAILS_ENV=test && bundle exec rake db:seed RAILS_ENV=test'" >> ~/.bashrc
+RUN /bin/bash -c "source ~/.bashrc"

@@ -93,4 +93,17 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+  # fluentd config
+  config.log_level = :info
+  config.logger = ActFluentLoggerRails::Logger.new(
+    settings: {
+      host: 'fluentd',
+      port: 24_224,
+      tag: 'rails',
+      messages_type: 'string',
+      severity_key: 'level'
+    }
+  )
+  config.lograge.enabled = true
+  config.lograge.formatter = Lograge::Formatters::Json.new
 end
