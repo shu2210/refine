@@ -2,7 +2,7 @@
 
 class Code < ApplicationRecord
   belongs_to :user
-  belongs_to :language
+  # belongs_to :language
 
   has_many :code_tags
   has_many :tags, through: :code_tags

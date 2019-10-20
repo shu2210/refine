@@ -33,7 +33,7 @@ RSpec.describe CodesController, type: :controller do
 
     before { sign_in_user }
 
-    xit 'codeが作成される' do
+    it 'codeが作成される' do
       expect { post :create, params: param }.to change(Code, :count).by(1)
     end
   end
