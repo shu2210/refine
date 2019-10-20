@@ -2,7 +2,7 @@
 
 class Code < ApplicationRecord
   belongs_to :user
-  # belongs_to :language
+  belongs_to :language
 
   has_many :code_tags
   has_many :tags, through: :code_tags
@@ -24,6 +24,7 @@ class Code < ApplicationRecord
 
   def post(user, tag_names)
     transaction do
+      self.language = Language.find(language_id)
       self.status = :published
       self.user = user
       save && create_tags(tag_names)
