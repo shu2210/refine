@@ -14,18 +14,18 @@ class Code < ApplicationRecord
   enum status: %i[draft published closed]
 
   scope :latest, lambda {
-    eager_load(:tags)
-      .preload(:language)
-      .preload(:user)
+    includes(:tags)
+      .includes(:language)
+      .includes(:user)
       .where(status: %i[published closed])
       .order(created_at: :desc)
       .limit(10)
   }
   # TODO: レビュー機能実装後作成
   scope :popular, lambda {
-    eager_load(:tags)
-      .preload(:language)
-      .preload(:user)
+    includes(:tags)
+      .includes(:language)
+      .includes(:user)
       .where(status: %i[published closed])
       .order(created_at: :desc)
       .limit(10)
