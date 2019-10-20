@@ -24,7 +24,6 @@ class Code < ApplicationRecord
 
   def post(user, tag_names)
     transaction do
-      self.language = Language.find(language_id)
       self.status = :published
       self.user = user
       save && create_tags(tag_names)
