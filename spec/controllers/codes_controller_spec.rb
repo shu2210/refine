@@ -49,7 +49,10 @@ RSpec.describe CodesController, type: :controller do
   end
 
   describe 'GET #show' do
-    subject { get :show, params: { id: Faker::Number.number(digits: 1) } }
+    before { create(:code, id: id) }
+    let(:id) { Faker::Number.number(digits: 1) }
+
+    subject { get :show, params: { id: id } }
 
     it { is_expected.to have_http_status(:ok) }
     it { is_expected.to render_template(:show) }
