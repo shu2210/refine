@@ -18,5 +18,6 @@ Rails.application.routes.draw do
   namespace :codes do
     resources :drafts
     resources :likes
+    resources :dislikes
   end
 end
