@@ -15,5 +15,8 @@ Rails.application.routes.draw do
   }
 
   resources :codes
-  resources :draft_code, controller: 'codes/drafts'
+  namespace :codes do
+    resources :drafts
+    resources :likes
+  end
 end

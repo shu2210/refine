@@ -3,7 +3,8 @@
     <div class="language-select uk-width-1-1 uk-text-right uk-margin">
       <select name="code[language_id]" class="uk-select uk-width-1-4" @change="changeMode($event)">
         <option v-for="lang in langs"
-                :value="lang['id']">
+                :value="lang['id']"
+                :key="lang['id']">
           {{ lang['name'] }}
         </option>
       </select>
