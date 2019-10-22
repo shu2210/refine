@@ -22,7 +22,9 @@ class CodesController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @code = Code.find(params[:id])
+  end
 
   private
 

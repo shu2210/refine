@@ -8,19 +8,35 @@
     </div>
     <div class="code">
       <table class="uk-table uk-table-small uk-table-hover uk-margin-remove">
-        <tr v-for="n in 5">
+        <tr v-for="(line, index) in codeLines" :key="index">
           <td class="line-num uk-table-shrink">
             <a href="" class="uk-icon-button" uk-icon="comment"></a>
-            <span>{{ n }}</span>
+            <span>{{ index + 1 }}</span>
           </td>
           <td>
-            <span>def fizz_buzz(num)</span>
+            <pre class="line">{{ line }}</pre>
           </td>
         </tr>
       </table>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    code: String
+  },
+  data: function () {
+    return {
+      codeLines: []
+    }
+  },
+  mounted: function () {
+    this.codeLines = this.code.split(/\n/);
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 $background-color: #EFEFEF;
@@ -54,6 +70,12 @@ $border-color: #bbb;
         left: -25px;
         visibility: hidden;
       }
+    }
+
+    .line {
+      display: inline;
+      background-color: transparent;
+      border: none;
     }
   }
 }

@@ -1,20 +1,16 @@
 #code.uk-margin.uk-width-1-1
   .uk-container
     .uk-flex.title
-      span.uk-text-large.uk-margin-remove Rubyのfizz_buzz問題
+      span.uk-text-large.uk-margin-remove
+         = @code.title
 
       good-bad-button
 
     .description.uk-margin
       p
-        | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        | tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        | veniam, quis nostrud exercitation
-        | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        | eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        | Ut enim ad minim veniam, quis nostrud exercitation
+        = @code.description
 
     .code-block.uk-width-1-1.uk-margin
-      code-area
+      code-area[code=@code.code]
 
 = javascript_pack_tag 'code'
