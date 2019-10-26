@@ -12,6 +12,9 @@ class User < ApplicationRecord
 
   flash_validation :reset_password_token
 
+  has_many :code_likes
+  has_many :code_dislikes
+
   before_save do
     self.name = email.match(/.*(?=@)/).to_s if new_record?
   end

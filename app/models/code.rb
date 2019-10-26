@@ -6,6 +6,8 @@ class Code < ApplicationRecord
 
   has_many :code_tags
   has_many :tags, through: :code_tags
+  has_many :code_likes
+  has_many :code_dislikes
 
   validates :title, presence: true, length: { maximum: 200 }
   validates :description, presence: true, length: { maximum: 300 }
