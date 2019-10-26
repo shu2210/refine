@@ -2,5 +2,7 @@
 
 FactoryBot.define do
   factory :code_like do
+    user { build(:user) }
+    code { build(:code) }
   end
 end
