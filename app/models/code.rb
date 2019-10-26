@@ -46,6 +46,24 @@ class Code < ApplicationRecord
     save(validate: false)
   end
 
+  def likes
+    code_likes.length
+  end
+
+  def liked?(user_id)
+    code_like = code_likes.select { |like| like.user_id == user_id }
+    code_like.present?
+  end
+
+  def dislikes
+    code_dislikes.length
+  end
+
+  def disliked?(user_id)
+    code_dislike = code_dislikes.select { |dislike| dislike.user_id == user_id }
+    code_dislike.present?
+  end
+
   private
 
   def create_tags(tag_names)

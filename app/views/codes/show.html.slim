@@ -4,7 +4,14 @@
       span.uk-text-large.uk-margin-remove
          = @code.title
 
-      good-bad-button
+      - if user_signed_in?
+        good-bad-button[
+          :code_id=@code.id
+          :likes=@code.likes
+          :dislikes=@code.dislikes
+          liked=@code.liked?(current_user.id)
+          disliked=@code.disliked?(current_user.id)
+        ]
 
     .description.uk-margin
       p
