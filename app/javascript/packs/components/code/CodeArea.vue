@@ -8,9 +8,9 @@
     </div>
     <div class="code">
       <table class="uk-table uk-table-small uk-table-hover uk-margin-remove">
-        <tr v-for="(line, index) in codeLines" :key="index">
+        <tr v-for="(line, index) in codeLines" :id="index" :key="index">
           <td class="line-num uk-table-shrink">
-            <a href="" class="uk-icon-button" uk-icon="comment"></a>
+            <a class="uk-icon-button" uk-icon="comment" @click="appendComment(index)"></a>
             <span>{{ index + 1 }}</span>
           </td>
           <td>
@@ -34,6 +34,21 @@ export default {
   },
   mounted: function () {
     this.codeLines = this.code.split(/\n/);
+  },
+  methods: {
+    appendComment: function (index) {
+      $('#' + index).after('\
+        <tr>\
+          <td colspan="2">\
+            <textarea class="uk-textarea" rows="5"></textarea>\
+            <div class="uk-text-right uk-margin">\
+              <button class="uk-button uk-button-default">キャンセル</button>\
+              <button class="uk-button uk-button-primary">投稿</button>\
+            </div>\
+          </td>\
+        </tr>\
+      ');
+    }
   }
 }
 </script>
