@@ -35,7 +35,6 @@ export default {
   },
   methods: {
     changeMode: function (event) {
-      var id = event.target.value;
       var mode = ''
       this.langs.forEach(function(lang){
         if(lang['id'] == event.target.value) {

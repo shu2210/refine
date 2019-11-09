@@ -9,6 +9,8 @@
     "vue-template-compiler": "^2.6.10"
   },
   "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-plugin-vue": "^6.0.0",
     "webpack-dev-server": "^3.7.2"
   }
 }
