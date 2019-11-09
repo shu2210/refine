@@ -10,7 +10,7 @@
       <table class="uk-table uk-table-small uk-table-hover uk-margin-remove">
         <tr v-for="(line, index) in codeLines" :id="index" :key="index">
           <td class="line-num uk-table-shrink">
-            <a class="uk-icon-button" uk-icon="comment" @click="appendComment(index)"></a>
+            <a class="uk-icon-button" uk-icon="comment" @click="appendReview(index)"></a>
             <span>{{ index + 1 }}</span>
           </td>
           <td>
@@ -23,6 +23,9 @@
 </template>
 
 <script>
+import ReviewArea from './ReviewArea.vue';
+import Vue from 'vue/dist/vue.esm.js';
+
 export default {
   props: {
     code: String
@@ -36,18 +39,11 @@ export default {
     this.codeLines = this.code.split(/\n/);
   },
   methods: {
-    appendComment: function (index) {
-      $('#' + index).after('\
-        <tr>\
-          <td colspan="2">\
-            <textarea class="uk-textarea" rows="5"></textarea>\
-            <div class="uk-text-right uk-margin">\
-              <button class="uk-button uk-button-default">キャンセル</button>\
-              <button class="uk-button uk-button-primary">投稿</button>\
-            </div>\
-          </td>\
-        </tr>\
-      ');
+    appendReview: function (index) {
+      var ComponentClass = Vue.extend(ReviewArea)
+      var instance = new ComponentClass()
+      instance.$mount()
+      $('#' + index).after(instance.$el);
     }
   }
 }
