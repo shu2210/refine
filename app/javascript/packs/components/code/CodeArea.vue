@@ -1,7 +1,7 @@
 <template>
   <div class="uk-margin">
     <div class="code-title uk-padding-small">
-      <span>fizz_buzz.rb</span>
+      <span>{{ title }}</span>
       <a href="#" class="uk-icon-link uk-align-right uk-margin-remove" uk-icon="trash"></a>
       <a href="#" class="uk-icon-link uk-align-right uk-margin-remove" uk-icon="file-edit"></a>
       <a href="#" class="uk-icon-link uk-align-right uk-margin-remove" uk-icon="copy"></a>
@@ -28,6 +28,7 @@ import Vue from 'vue/dist/vue.esm.js';
 
 export default {
   props: {
+    title: String,
     code: String
   },
   data: function () {
@@ -40,6 +41,11 @@ export default {
   },
   methods: {
     appendReview: function (index) {
+      var review = $('#' + index).next('.review-area');
+      if(review.length >= 1) {
+        return
+      }
+
       var ComponentClass = Vue.extend(ReviewArea)
       var instance = new ComponentClass()
       instance.$mount()

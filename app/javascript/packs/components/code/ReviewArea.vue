@@ -1,7 +1,7 @@
 <template>
-  <tr>
+  <tr class="review-area">
     <td colspan="2">
-      <textarea class="uk-textarea" rows="5"></textarea>
+      <textarea class="uk-textarea review" rows="5"></textarea>
       <div class="uk-text-right uk-margin">
         <button class="uk-button uk-button-default" @click="cancelReview">キャンセル</button>
         <button class="uk-button uk-button-primary" @click="postReview">投稿</button>
