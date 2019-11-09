@@ -17,7 +17,8 @@ export default {
       console.log('test');
     },
     cancelReview: function () {
-      console.log('cancel');
+      this.$destroy();
+      this.$el.parentNode.removeChild(this.$el);
     }
   }
 }
