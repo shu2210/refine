@@ -1,7 +1,7 @@
 <template>
   <tr class="review-area">
     <td colspan="2">
-      <textarea class="uk-textarea review" rows="5"></textarea>
+      <textarea class="uk-textarea review" v-model="review" rows="5"></textarea>
       <div class="uk-text-right uk-margin">
         <button class="uk-button uk-button-default" @click="cancelReview">キャンセル</button>
         <button class="uk-button uk-button-primary" @click="postReview">投稿</button>
@@ -14,9 +14,19 @@
 import axios from 'axios';
 
 export default {
+  props: {
+    code_id: Number,
+    line: Number
+  },
+  data: function () {
+    return {
+      review: ''
+    }
+  },
   methods: {
     postReview: function () {
-      axios.post('/codes/likes', { code_id: this.code_id }).then((response) => {
+      console.log(this.review);
+      axios.post('/reviews', { review: { line: this.line, code_id: this.code_id, review: this.review } }).then((response) => {
         console.log(response.status);
       }, (error) => {
         console.log(error);

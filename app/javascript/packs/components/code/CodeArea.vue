@@ -29,7 +29,8 @@ import Vue from 'vue/dist/vue.esm.js';
 export default {
   props: {
     title: String,
-    code: String
+    code: String,
+    code_id: Number
   },
   data: function () {
     return {
@@ -47,7 +48,12 @@ export default {
       }
 
       var ComponentClass = Vue.extend(ReviewArea)
-      var instance = new ComponentClass()
+      var instance = new ComponentClass({
+        propsData: {
+          line: index + 1,
+          code_id: this.code_id
+        }
+      })
       instance.$mount()
       $('#' + index).after(instance.$el);
     }
