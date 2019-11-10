@@ -20,4 +20,5 @@ Rails.application.routes.draw do
     resources :likes
     resources :dislikes
   end
+  resources :reviews
 end

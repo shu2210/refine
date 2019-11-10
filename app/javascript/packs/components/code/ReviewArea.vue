@@ -11,10 +11,16 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   methods: {
     postReview: function () {
-      console.log('test');
+      axios.post('/codes/likes', { code_id: this.code_id }).then((response) => {
+        console.log(response.status);
+      }, (error) => {
+        console.log(error);
+      });
     },
     cancelReview: function () {
       this.$destroy();

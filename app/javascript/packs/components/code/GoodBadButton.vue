@@ -55,6 +55,7 @@ export default {
       axios.post('/codes/likes', { code_id: this.code_id }).then((response) => {
         this.likes_num += 1;
         this.is_liked = true;
+        console.log(response.status);
       }, (error) => {
         console.log(error);
       });
@@ -63,6 +64,7 @@ export default {
       axios.delete('/codes/likes/' + this.code_id).then((response) => {
         this.likes_num -= 1;
         this.is_liked = false;
+        console.log(response.status);
       }, (error) => {
         console.log(error);
       });
@@ -71,6 +73,7 @@ export default {
       axios.post('/codes/dislikes', { code_id: this.code_id }).then((response) => {
         this.dislikes_num += 1;
         this.is_disliked = true;
+        console.log(response.status);
       }, (error) => {
         console.log(error);
       });
@@ -79,6 +82,7 @@ export default {
       axios.delete('/codes/dislikes/' + this.code_id).then((response) => {
         this.dislikes_num -= 1;
         this.is_disliked = false;
+        console.log(response.status);
       }, (error) => {
         console.log(error);
       });
