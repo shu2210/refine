@@ -54,7 +54,7 @@ export default {
           code_id: this.code_id
         }
       })
-      instance.$mount()
+      instance.$mount();
       $('#' + index).after(instance.$el);
     }
   }
