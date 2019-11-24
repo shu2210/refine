@@ -3,6 +3,22 @@
 require 'rails_helper'
 
 RSpec.describe ReviewsController, type: :controller do
+  describe 'GET #show' do
+    subject { get :show, params: { id: 1 } }
+    let!(:code) { create(:code) }
+    let!(:review) { create(:review, code_id: code.id) }
+
+    it { is_expected.to have_http_status(:success) }
+
+    it 'そのコードのレビューがjsonで返ってくること' do
+      get :show, params: { id: code.id }
+
+      json = JSON.parse(response.body)
+      expect(json.class).to eq(Hash)
+      expect(json['review'].first['code_id']).to eq(review.code_id)
+    end
+  end
+
   describe 'POST #create' do
     context 'ログインしていない場合' do
       subject { post :create }

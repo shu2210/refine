@@ -2,7 +2,12 @@
 
 class ReviewsController < ApplicationController
   protect_from_forgery except: %i[create destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: %i[show]
+
+  def show
+    review = Review.where(code_id: params[:id])
+    render json: { review: review }
+  end
 
   def create
     review = Review.new(review_params)
