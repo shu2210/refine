@@ -8,9 +8,9 @@
     </div>
     <div class="code">
       <table class="uk-table uk-table-small uk-table-hover uk-margin-remove">
-        <tr v-for="(line, index) in codeLines" :id="index" :key="index">
+        <tr v-for="(line, index) in codeLines" :id="index + 1" :key="index">
           <td class="line-num uk-table-shrink">
-            <a class="uk-icon-button" uk-icon="comment" @click="appendReview(index)"></a>
+            <a class="uk-icon-button" uk-icon="comment" @click="createReviewArea(index)"></a>
             <span>{{ index + 1 }}</span>
           </td>
           <td>
@@ -25,6 +25,7 @@
 <script>
 import ReviewArea from './ReviewArea.vue';
 import Vue from 'vue/dist/vue.esm.js';
+import axios from 'axios';
 
 export default {
   props: {
@@ -39,10 +40,26 @@ export default {
   },
   mounted: function () {
     this.codeLines = this.code.split(/\n/);
+    this.fetchReview();
   },
   methods: {
-    appendReview: function (index) {
-      var review = $('#' + index).next('.review-area');
+    createReviewArea: function (line) {
+      this.appendReview(line)
+    },
+    fetchReview: function () {
+      var vm = this;
+
+      axios.get('/reviews/' + this.code_id).then((response) => {
+        response.data.review.forEach(function(review) {
+          var userName = vm.getUserName(response.data.users, review['user_id'])
+          vm.appendReview(review['line'], userName, review['review'], 2)
+        });
+      }, (error) => {
+        console.log(error);
+      });
+    },
+    appendReview: function (line, user_name = '', default_review = '', type = 1) {
+      var review = $('#' + line).next('.review-area');
       if(review.length >= 1) {
         return
       }
@@ -50,12 +67,22 @@ export default {
       var ComponentClass = Vue.extend(ReviewArea)
       var instance = new ComponentClass({
         propsData: {
-          line: index + 1,
-          code_id: this.code_id
+          line: line,
+          user_name: user_name,
+          default_review: default_review,
+          code_id: this.code_id,
+          review_type: type
         }
       })
       instance.$mount();
-      $('#' + index).after(instance.$el);
+      $('#' + line).after(instance.$el);
+    },
+    getUserName: function (users, user_id) {
+      for(var i = 0; i < users.length; i++) {
+        if(user_id == users[i]['id']) {
+          return users[i]['name'];
+        }
+      }
     }
   }
 }

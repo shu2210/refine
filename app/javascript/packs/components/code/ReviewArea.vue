@@ -14,11 +14,11 @@
         </div>
         <div class="review-info uk-width-3-6">
           <div class="user-name uk-margin">
-            shuto.yasunaga
+            {{ user_name }}
           </div>
           <div class="description">
             <p>
-              ここはこうしたらどうでしょうか？
+              {{ default_review }}
             </p>
           </div>
         </div>
@@ -38,13 +38,25 @@ import axios from 'axios';
 export default {
   props: {
     code_id: Number,
-    line: Number
+    line: Number,
+    review_type: Number,
+    user_name: {
+      type: String,
+      default: ''
+    },
+    default_review: {
+      type: String,
+      default: ''
+    }
   },
   data: function () {
     return {
       review: '',
       type: 1
     }
+  },
+  mounted: function () {
+    this.type = this.review_type;
   },
   methods: {
     postReview: function () {
