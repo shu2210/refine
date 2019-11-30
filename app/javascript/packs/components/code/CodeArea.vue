@@ -8,13 +8,13 @@
     </div>
     <div class="code">
       <table class="uk-table uk-table-small uk-table-hover uk-margin-remove">
-        <tr v-for="(line, index) in codeLines" :id="index + 1" :key="index">
+        <tr v-for="(codeLine, line) in codeLines" :id="line + 1" :key="line">
           <td class="line-num uk-table-shrink">
-            <a class="uk-icon-button" uk-icon="comment" @click="createReviewArea(index)"></a>
-            <span>{{ index + 1 }}</span>
+            <a class="uk-icon-button" uk-icon="comment" @click="createReviewArea(line + 1)"></a>
+            <span>{{ line + 1 }}</span>
           </td>
           <td>
-            <pre class="line">{{ line }}</pre>
+            <pre class="line">{{ codeLine }}</pre>
           </td>
         </tr>
       </table>
@@ -24,6 +24,7 @@
 
 <script>
 import ReviewArea from './ReviewArea.vue';
+import PostedReview from './PostedReview';
 import Vue from 'vue/dist/vue.esm.js';
 import axios from 'axios';
 
@@ -44,21 +45,6 @@ export default {
   },
   methods: {
     createReviewArea: function (line) {
-      this.appendReview(line)
-    },
-    fetchReview: function () {
-      var vm = this;
-
-      axios.get('/reviews/' + this.code_id).then((response) => {
-        response.data.review.forEach(function(review) {
-          var userName = vm.getUserName(response.data.users, review['user_id'])
-          vm.appendReview(review['line'], userName, review['review'], 2)
-        });
-      }, (error) => {
-        console.log(error);
-      });
-    },
-    appendReview: function (line, user_name = '', default_review = '', type = 1) {
       var review = $('#' + line).next('.review-area');
       if(review.length >= 1) {
         return
@@ -67,13 +53,34 @@ export default {
       var ComponentClass = Vue.extend(ReviewArea)
       var instance = new ComponentClass({
         propsData: {
-          line: line,
-          user_name: user_name,
-          default_review: default_review,
           code_id: this.code_id,
-          review_type: type
+          line: line
         }
-      })
+      });
+      instance.$on('post-review', this.switchReview);
+      instance.$mount();
+      $('#' + line).after(instance.$el);
+    },
+    fetchReview: function () {
+      var vm = this;
+
+      axios.get('/reviews/' + this.code_id).then((response) => {
+        response.data.review.forEach(function(review) {
+          var userName = vm.getUserName(response.data.users, review['user_id'])
+          vm.appendPostedReview(review['line'], userName, review['review'])
+        });
+      }, (error) => {
+        console.log(error);
+      });
+    },
+    appendPostedReview: function (line, user_name, review) {
+      var ComponentClass = Vue.extend(PostedReview);
+      var instance = new ComponentClass({
+        propsData: {
+          user_name: user_name,
+          review: review
+        }
+      });
       instance.$mount();
       $('#' + line).after(instance.$el);
     },
@@ -83,6 +90,20 @@ export default {
           return users[i]['name'];
         }
       }
+    },
+    // 投稿された後の処理
+    switchReview: function (component) {
+      component.$destroy();
+      component.$el.parentNode.removeChild(component.$el);
+      var ComponentClass = Vue.extend(PostedReview)
+      var instance = new ComponentClass({
+        propsData: {
+          user_name: component.user_name,
+          review: component.review
+        }
+      });
+      instance.$mount();
+      $('#' + component.line).after(instance.$el);
     }
   }
 }
