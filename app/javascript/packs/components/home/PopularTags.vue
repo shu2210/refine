@@ -2,7 +2,7 @@
   <div>
     <span>人気のタグ</span>
     <ul class="tag-list">
-      <li v-for="lang in ['Ruby', 'Rails', 'Java', 'PHP', 'Python']">
+      <li v-for="lang in ['Ruby', 'Rails', 'Java', 'PHP', 'Python']" :key="lang">
         <div class="uk-flex uk-flex-center uk-flex-middle">
           <div class="uk-width-1-2 uk-text-center">
             <tag :label="lang" width="1-2"></tag>

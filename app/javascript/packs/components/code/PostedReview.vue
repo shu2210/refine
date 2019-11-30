@@ -7,7 +7,7 @@
         </div>
         <div class="review-info uk-width-3-6">
           <div class="user-name uk-margin">
-            {{ user_name }}
+            {{ userName }}
           </div>
           <div class="description">
             <p>
@@ -28,7 +28,7 @@
 <script>
 export default {
   props: {
-    user_name: {
+    userName: {
       type: String,
       default: ''
     },

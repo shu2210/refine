@@ -15,20 +15,20 @@ import axios from 'axios';
 
 export default {
   props: {
-    code_id: Number,
+    codeId: Number,
     line: Number
   },
   data: function () {
     return {
       review: '',
       type: 1,
-      user_name: ''
+      userName: ''
     }
   },
   methods: {
     postReview: function () {
-      axios.post('/reviews', { review: { line: this.line, code_id: this.code_id, review: this.review } }).then((response) => {
-        this.user_name = response.data.user.name
+      axios.post('/reviews', { review: { line: this.line, code_id: this.codeId, review: this.review } }).then((response) => {
+        this.userName = response.data.user.name
         this.$emit('post-review', this);
         console.log(response.status);
       }, (error) => {

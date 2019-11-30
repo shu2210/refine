@@ -32,7 +32,7 @@ export default {
   props: {
     title: String,
     code: String,
-    code_id: Number
+    codeId: Number
   },
   data: function () {
     return {
@@ -53,7 +53,7 @@ export default {
       var ComponentClass = Vue.extend(ReviewArea)
       var instance = new ComponentClass({
         propsData: {
-          code_id: this.code_id,
+          codeId: this.codeId,
           line: line
         }
       });
@@ -64,7 +64,7 @@ export default {
     fetchReview: function () {
       var vm = this;
 
-      axios.get('/reviews/' + this.code_id).then((response) => {
+      axios.get('/reviews/' + this.codeId).then((response) => {
         response.data.review.forEach(function(review) {
           var userName = vm.getUserName(response.data.users, review['user_id'])
           vm.appendPostedReview(review['line'], userName, review['review'])
@@ -73,20 +73,20 @@ export default {
         console.log(error);
       });
     },
-    appendPostedReview: function (line, user_name, review) {
+    appendPostedReview: function (line, userName, review) {
       var ComponentClass = Vue.extend(PostedReview);
       var instance = new ComponentClass({
         propsData: {
-          user_name: user_name,
+          userName: userName,
           review: review
         }
       });
       instance.$mount();
       $('#' + line).after(instance.$el);
     },
-    getUserName: function (users, user_id) {
+    getUserName: function (users, userId) {
       for(var i = 0; i < users.length; i++) {
-        if(user_id == users[i]['id']) {
+        if(userId == users[i]['id']) {
           return users[i]['name'];
         }
       }
@@ -98,7 +98,7 @@ export default {
       var ComponentClass = Vue.extend(PostedReview)
       var instance = new ComponentClass({
         propsData: {
-          user_name: component.user_name,
+          userName: component.userName,
           review: component.review
         }
       });

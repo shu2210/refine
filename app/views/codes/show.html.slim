@@ -6,7 +6,7 @@
 
       - if user_signed_in?
         good-bad-button[
-          :code_id=@code.id
+          :code-id=@code.id
           :likes=@code.likes
           :dislikes=@code.dislikes
           liked=@code.liked?(current_user.id)
@@ -18,6 +18,6 @@
         = @code.description
 
     .code-block.uk-width-1-1.uk-margin
-      code-area[title=@code.title code=@code.code :code_id=@code.id]
+      code-area[title=@code.title code=@code.code :code-id=@code.id]
 
 = javascript_pack_tag 'code'

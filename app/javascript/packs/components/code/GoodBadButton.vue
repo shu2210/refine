@@ -1,12 +1,12 @@
 <template>
   <div class="good-bad-buttons uk-margin-left uk-text-right uk-text-middle">
-    <a class="uk-link-reset" :class="{ 'liked': is_liked }" @click="toggleLike">
-      <img src="~good.png" :width="icon_size" uk-img />
-      <span class="likes uk-margin-small-left uk-text-large uk-text-middle">{{ likes_num }}</span>
+    <a class="uk-link-reset" :class="{ 'liked': isLiked }" @click="toggleLike">
+      <img src="~good.png" :width="iconSize" uk-img />
+      <span class="likes uk-margin-small-left uk-text-large uk-text-middle">{{ likesNum }}</span>
     </a>
-    <a class="uk-link-reset uk-margin-left" :class="{ 'disliked': is_disliked }" @click="toggleDislike">
-      <img src="~bad.png" :width="icon_size" uk-img />
-      <span class="dislikes uk-margin-small-left uk-text-large uk-text-middle">{{ dislikes_num }}</span>
+    <a class="uk-link-reset uk-margin-left" :class="{ 'disliked': isDisliked }" @click="toggleDislike">
+      <img src="~bad.png" :width="iconSize" uk-img />
+      <span class="dislikes uk-margin-small-left uk-text-large uk-text-middle">{{ dislikesNum }}</span>
     </a>
   </div>
 </template>
@@ -18,7 +18,7 @@ import axios from 'axios';
 
 export default {
   props: {
-    code_id: {
+    codeId: {
       type: Number,
       required: true
     },
@@ -29,59 +29,59 @@ export default {
   },
   data: function () {
     return {
-      icon_size: 25,
-      likes_num: this.likes,
-      is_liked: this.liked,
-      dislikes_num: this.dislikes,
-      is_disliked: this.disliked
+      iconSize: 25,
+      likesNum: this.likes,
+      isLiked: this.liked,
+      dislikesNum: this.dislikes,
+      isDisliked: this.disliked
     }
   },
   methods: {
     toggleLike: function () {
-      if(this.is_liked) {
+      if(this.isLiked) {
         this.deleteLike();
       } else {
         this.addLike();
       }
     },
     toggleDislike: function () {
-      if(this.is_disliked) {
+      if(this.isDisliked) {
         this.deleteDislike();
       } else {
         this.addDislike();
       }
     },
     addLike: function () {
-      axios.post('/codes/likes', { code_id: this.code_id }).then((response) => {
-        this.likes_num += 1;
-        this.is_liked = true;
+      axios.post('/codes/likes', { code_id: this.codeId }).then((response) => {
+        this.likesNum += 1;
+        this.isLiked = true;
         console.log(response.status);
       }, (error) => {
         console.log(error);
       });
     },
     deleteLike: function () {
-      axios.delete('/codes/likes/' + this.code_id).then((response) => {
-        this.likes_num -= 1;
-        this.is_liked = false;
+      axios.delete('/codes/likes/' + this.codeId).then((response) => {
+        this.likesNum -= 1;
+        this.isLiked = false;
         console.log(response.status);
       }, (error) => {
         console.log(error);
       });
     },
     addDislike: function () {
-      axios.post('/codes/dislikes', { code_id: this.code_id }).then((response) => {
-        this.dislikes_num += 1;
-        this.is_disliked = true;
+      axios.post('/codes/dislikes', { code_id: this.codeId }).then((response) => {
+        this.dislikesNum += 1;
+        this.isDisliked = true;
         console.log(response.status);
       }, (error) => {
         console.log(error);
       });
     },
     deleteDislike: function () {
-      axios.delete('/codes/dislikes/' + this.code_id).then((response) => {
-        this.dislikes_num -= 1;
-        this.is_disliked = false;
+      axios.delete('/codes/dislikes/' + this.codeId).then((response) => {
+        this.dislikesNum -= 1;
+        this.isDisliked = false;
         console.log(response.status);
       }, (error) => {
         console.log(error);
