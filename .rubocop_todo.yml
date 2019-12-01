@@ -103,9 +103,6 @@ Metrics/BlockLength:
     - 'spec/**/*'
     - 'config/**/*'
 
-Encoding:
-  Enabled: false
-
 Style/AsciiComments:
   Exclude:
     - '**/*'

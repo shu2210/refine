@@ -4,7 +4,7 @@
       <span class="uk-text-small">コードレビューサイト</span>
       <h1 class="uk-heading-small uk-margin-remove">Refine</h1>
       <p>
-        誰でもプロからのレビューを気軽に受けることができます。
+        誰でもプロからのレビューを気軽に受けることができます。
         <br />
         あなたのコードを"洗練"しましょう。
       </p>

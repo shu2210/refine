@@ -1,20 +1,28 @@
 #code.uk-margin.uk-width-1-1
   .uk-container
     .uk-flex.title
-      span.uk-text-large.uk-margin-remove Rubyのfizz_buzz問題
+      span.uk-text-large.uk-margin-remove
+         = @code.title
 
-      good-bad-button
+      - if user_signed_in?
+        good-bad-button[
+          :code-id=@code.id
+          :likes=@code.likes
+          :dislikes=@code.dislikes
+          liked=@code.liked?(current_user.id)
+          disliked=@code.disliked?(current_user.id)
+        ]
 
     .description.uk-margin
       p
-        | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        | tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        | veniam, quis nostrud exercitation
-        | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        | eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        | Ut enim ad minim veniam, quis nostrud exercitation
+        = @code.description
 
     .code-block.uk-width-1-1.uk-margin
-      code-area
+      code-area[
+        title=@code.title
+        code=@code.code
+        is-login=user_signed_in?
+        :code-id=@code.id
+      ]
 
 = javascript_pack_tag 'code'

@@ -14,6 +14,6 @@ new Vue({
     PopularTags,
     ReviewInfo,
     SocialLoginButton,
-    Tag,
+    Tag
   }
 })

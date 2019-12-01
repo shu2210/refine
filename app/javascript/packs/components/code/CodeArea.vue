@@ -1,26 +1,114 @@
 <template>
   <div class="uk-margin">
     <div class="code-title uk-padding-small">
-      <span>fizz_buzz.rb</span>
+      <span>{{ title }}</span>
       <a href="#" class="uk-icon-link uk-align-right uk-margin-remove" uk-icon="trash"></a>
       <a href="#" class="uk-icon-link uk-align-right uk-margin-remove" uk-icon="file-edit"></a>
       <a href="#" class="uk-icon-link uk-align-right uk-margin-remove" uk-icon="copy"></a>
     </div>
     <div class="code">
       <table class="uk-table uk-table-small uk-table-hover uk-margin-remove">
-        <tr v-for="n in 5">
+        <tr v-for="(codeLine, line) in codeLines" :id="line + 1" :key="line">
           <td class="line-num uk-table-shrink">
-            <a href="" class="uk-icon-button" uk-icon="comment"></a>
-            <span>{{ n }}</span>
+            <a class="uk-icon-button" uk-icon="comment" @click="createReviewArea(line + 1)" v-if="isLogin"></a>
+            <span>{{ line + 1 }}</span>
           </td>
           <td>
-            <span>def fizz_buzz(num)</span>
+            <pre class="line">{{ codeLine }}</pre>
           </td>
         </tr>
       </table>
     </div>
   </div>
 </template>
+
+<script>
+import ReviewArea from './ReviewArea.vue';
+import PostedReview from './PostedReview';
+import Vue from 'vue/dist/vue.esm.js';
+import axios from 'axios';
+
+export default {
+  props: {
+    title: String,
+    code: String,
+    codeId: Number,
+    isLogin: Boolean
+  },
+  data: function () {
+    return {
+      codeLines: []
+    }
+  },
+  mounted: function () {
+    this.codeLines = this.code.split(/\n/);
+    this.fetchReview();
+  },
+  methods: {
+    createReviewArea: function (line) {
+      var review = $('#' + line).next('.review-area');
+      if(review.length >= 1) {
+        return
+      }
+
+      var ComponentClass = Vue.extend(ReviewArea)
+      var instance = new ComponentClass({
+        propsData: {
+          codeId: this.codeId,
+          line: line
+        }
+      });
+      instance.$on('post-review', this.switchReview);
+      instance.$mount();
+      $('#' + line).after(instance.$el);
+    },
+    fetchReview: function () {
+      var vm = this;
+
+      axios.get('/reviews/' + this.codeId).then((response) => {
+        response.data.review.forEach(function(review) {
+          var userName = vm.getUserName(response.data.users, review['user_id'])
+          vm.appendPostedReview(review['line'], userName, review['review'])
+        });
+      }, (error) => {
+        console.log(error);
+      });
+    },
+    appendPostedReview: function (line, userName, review) {
+      var ComponentClass = Vue.extend(PostedReview);
+      var instance = new ComponentClass({
+        propsData: {
+          userName: userName,
+          review: review
+        }
+      });
+      instance.$mount();
+      $('#' + line).after(instance.$el);
+    },
+    getUserName: function (users, userId) {
+      for(var i = 0; i < users.length; i++) {
+        if(userId == users[i]['id']) {
+          return users[i]['name'];
+        }
+      }
+    },
+    // 投稿された後の処理
+    switchReview: function (component) {
+      component.$destroy();
+      component.$el.parentNode.removeChild(component.$el);
+      var ComponentClass = Vue.extend(PostedReview)
+      var instance = new ComponentClass({
+        propsData: {
+          userName: component.userName,
+          review: component.review
+        }
+      });
+      instance.$mount();
+      $('#' + component.line).after(instance.$el);
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 $background-color: #EFEFEF;
@@ -54,6 +142,12 @@ $border-color: #bbb;
         left: -25px;
         visibility: hidden;
       }
+    }
+
+    .line {
+      display: inline;
+      background-color: transparent;
+      border: none;
     }
   }
 }

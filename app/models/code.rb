@@ -6,6 +6,8 @@ class Code < ApplicationRecord
 
   has_many :code_tags
   has_many :tags, through: :code_tags
+  has_many :code_likes
+  has_many :code_dislikes
 
   validates :title, presence: true, length: { maximum: 200 }
   validates :description, presence: true, length: { maximum: 300 }
@@ -42,6 +44,24 @@ class Code < ApplicationRecord
   def draft
     self.status = :draft
     save(validate: false)
+  end
+
+  def likes
+    code_likes.length
+  end
+
+  def liked?(user_id)
+    code_like = code_likes.select { |like| like.user_id == user_id }
+    code_like.present?
+  end
+
+  def dislikes
+    code_dislikes.length
+  end
+
+  def disliked?(user_id)
+    code_dislike = code_dislikes.select { |dislike| dislike.user_id == user_id }
+    code_dislike.present?
   end
 
   private

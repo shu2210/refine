@@ -1,6 +1,6 @@
 <template>
   <div class="uk-inline uk-width-1-1 uk-margin-bottom"
-      :class="['uk-width-' + width, background_color]">
+      :class="['uk-width-' + width, backgroundColor]">
     <span class="uk-form-icon" :uk-icon="provider"></span>
     <a :href="url" class="uk-button uk-button-default uk-margin-small-right uk-width-1-1">
       {{ provider }}でログイン
@@ -23,7 +23,7 @@ export default {
       type: String,
       default: '1-1'
     },
-    background_color: {
+    backgroundColor: {
       type: String,
       default: 'default'
     }

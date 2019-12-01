@@ -67,4 +67,82 @@ RSpec.describe Code, type: :model do
       expect(code.status).to eq('draft')
     end
   end
+
+  describe 'likes' do
+    let(:code) { create(:code) }
+
+    context 'likesがない場合' do
+      it '0を返す' do
+        expect(code.likes).to eq(0)
+      end
+    end
+
+    context 'likesがある場合' do
+      before do
+        create(:code_like, code_id: code.id)
+        create(:code_like, code_id: code.id)
+      end
+
+      it 'likeの数を返す' do
+        expect(code.likes).to eq(2)
+      end
+    end
+  end
+
+  describe 'liked?' do
+    let(:code) { create(:code) }
+
+    context 'likeがある場合' do
+      let(:like) { create(:code_like, code_id: code.id) }
+
+      it 'trueを返す' do
+        expect(code.liked?(like.user_id)).to be_truthy
+      end
+    end
+
+    context 'likeがない場合' do
+      it 'falseを返す' do
+        expect(code.liked?(0)).to be_falsy
+      end
+    end
+  end
+
+  describe 'dislikes' do
+    let(:code) { create(:code) }
+
+    context 'dislikesがない場合' do
+      it '0を返す' do
+        expect(code.dislikes).to eq(0)
+      end
+    end
+
+    context 'dislikesがある場合' do
+      before do
+        create(:code_dislike, code_id: code.id)
+        create(:code_dislike, code_id: code.id)
+      end
+
+      it 'likeの数を返す' do
+        expect(code.dislikes).to eq(2)
+      end
+    end
+  end
+
+  describe 'disliked?' do
+    let(:code) { create(:code) }
+
+    context 'dislikeがある場合' do
+      let(:dislike) { create(:code_dislike, code_id: code.id) }
+
+      it 'trueを返す' do
+        expect(code.disliked?(dislike.user_id)).to be_truthy
+      end
+    end
+
+    context 'dislikeがない場合' do
+      it 'falseを返す' do
+        expect(code.disliked?(0)).to be_falsy
+      end
+    end
+  end
 end
