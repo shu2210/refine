@@ -18,6 +18,11 @@
         = @code.description
 
     .code-block.uk-width-1-1.uk-margin
-      code-area[title=@code.title code=@code.code :code-id=@code.id]
+      code-area[
+        title=@code.title
+        code=@code.code
+        is-login=user_signed_in?
+        :code-id=@code.id
+      ]
 
 = javascript_pack_tag 'code'

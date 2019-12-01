@@ -10,7 +10,7 @@
       <table class="uk-table uk-table-small uk-table-hover uk-margin-remove">
         <tr v-for="(codeLine, line) in codeLines" :id="line + 1" :key="line">
           <td class="line-num uk-table-shrink">
-            <a class="uk-icon-button" uk-icon="comment" @click="createReviewArea(line + 1)"></a>
+            <a class="uk-icon-button" uk-icon="comment" @click="createReviewArea(line + 1)" v-if="isLogin"></a>
             <span>{{ line + 1 }}</span>
           </td>
           <td>
@@ -32,7 +32,8 @@ export default {
   props: {
     title: String,
     code: String,
-    codeId: Number
+    codeId: Number,
+    isLogin: Boolean
   },
   data: function () {
     return {
