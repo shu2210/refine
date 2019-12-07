@@ -87,3 +87,6 @@ gem 'jquery-ui-rails'
 gem 'webpacker', github: 'rails/webpacker'
 # code editor
 gem 'ace-rails-ap'
+# AWS sdk
+gem 'aws-sdk-rails'
+gem 'aws-sdk-s3'
