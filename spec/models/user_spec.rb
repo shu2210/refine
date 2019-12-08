@@ -16,6 +16,13 @@ RSpec.describe User, type: :model do
         expect(User.last.name).to eq('test')
       end
     end
+
+    context 'profileのupdateの場合で空の場合' do
+      it 'エラーになる' do
+        user.name = ''
+        expect(user.valid?(:profile)).to be_falsy
+      end
+    end
   end
 
   describe 'flash_columns' do
@@ -64,6 +71,15 @@ RSpec.describe User, type: :model do
     context '短すぎる場合' do
       let(:password) { Faker::Lorem.characters(number: 2) }
       it { expect(user).not_to be_valid }
+    end
+  end
+
+  describe 'description' do
+    context '長すぎる場合' do
+      it 'エラーになる' do
+        user.description = Faker::Lorem.characters(number: 256)
+        expect(user.valid?(:profile)).to be_falsy
+      end
     end
   end
 end

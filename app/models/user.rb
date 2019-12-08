@@ -16,6 +16,7 @@ class User < ApplicationRecord
   has_many :code_dislikes
 
   validates :name, presence: true, on: :profile
+  validates :description, length: { maximum: 255 }, on: :profile
 
   before_save do
     self.name = email.match(/.*(?=@)/).to_s if new_record?

@@ -60,7 +60,11 @@ RSpec.describe Users::ProfilesController, type: :controller do
           expect(user.name).to eq(new_name)
         end
 
-        it '説明がupdateされる'
+        it '説明がupdateされる' do
+          user.reload
+          expect(user.description).to eq(description)
+        end
+
         it '画像がupdateされる'
       end
     end
