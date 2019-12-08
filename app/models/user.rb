@@ -15,6 +15,8 @@ class User < ApplicationRecord
   has_many :code_likes
   has_many :code_dislikes
 
+  validates :name, presence: true, on: :profile
+
   before_save do
     self.name = email.match(/.*(?=@)/).to_s if new_record?
   end
@@ -25,5 +27,10 @@ class User < ApplicationRecord
       user.password = Devise.friendly_token[0, 20]
       user.skip_confirmation!
     end
+  end
+
+  def update_profile(user_params)
+    assign_attributes(user_params)
+    save(context: :profile)
   end
 end
