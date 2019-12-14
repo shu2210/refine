@@ -1,0 +1,191 @@
+#profile.uk-container
+  .user-profile[uk-grid]
+    .user-information.uk-width-1-4.uk-margin-top
+      .icon.uk-text-center.uk-margin
+        = image_tag 'icons/python.png', class: 'uk-width-2-3'
+      .user-detail.uk-text-left.uk-text-large.uk-margin
+        span.user-name @s_yasunaga
+      .user-description.uk-margin
+        p
+          | Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+          | sed do eiusmod tempor incididunt ut labore et dolore magna
+      .following-tags.uk-margin
+        span フォロー中のタグ
+        .tags.uk-margin-small-top
+          tag[label="Rails"]
+          tag[label="Ruby"]
+          tag[label="Python"]
+          tag[label="C++"]
+          tag[label="Swift"]
+          tag[label="Rust"]
+
+      .edit-profile
+        = link_to 'プロフィールを編集する', '#'
+
+    .activity.uk-width-3-4
+      .graph.uk-text-center.uk-margin.uk-margin-top
+        = image_tag 'graph.png', class: 'uk-width-1-2'
+      .tabs
+        ul.uk-child-width-expand[uk-tab uk-switcher]
+          li.uk-active
+            a 投稿
+          li
+            a いいね
+          li
+            a レビュー
+
+        ul.uk-switcher.uk-margin
+          li.posted
+            ul.code-list
+              li.uk-margin
+                .uk-flex
+                  .status.uk-width-1-6.uk-text-center
+                    badge[label="受付中"]
+                    review-info
+                  .information.uk-width-4-6.uk-margin-left
+                    = link_to 'Rubyのfizz_buzz問題', code_path(id: 1), class: 'uk-text-large'
+                    .tags.uk-margin-top
+                      tag[label="Rails"]
+
+                  .user.uk-width-1-6
+                    .uk-width-1-4.uk-align-right
+                      = image_tag 'icons/python.png'
+                    .user-name.uk-text-right
+                      span s_yasunaga
+                hr
+              li.uk-margin
+                .uk-flex
+                  .status.uk-width-1-6.uk-text-center
+                    badge[label="受付中"]
+                    review-info
+                  .information.uk-width-4-6.uk-margin-left
+                    = link_to 'Rubyのfizz_buzz問題', code_path(id: 1), class: 'uk-text-large'
+                    .tags.uk-margin-top
+                      tag[label="Rails"]
+
+                  .user.uk-width-1-6
+                    .uk-width-1-4.uk-align-right
+                      = image_tag 'icons/python.png'
+                    .user-name.uk-text-right
+                      span s_yasunaga
+                hr
+              li.uk-margin
+                .uk-flex
+                  .status.uk-width-1-6.uk-text-center
+                    badge[label="受付中"]
+                    review-info
+                  .information.uk-width-4-6.uk-margin-left
+                    = link_to 'Rubyのfizz_buzz問題', code_path(id: 1), class: 'uk-text-large'
+                    .tags.uk-margin-top
+                      tag[label="Rails"]
+
+                  .user.uk-width-1-6
+                    .uk-width-1-4.uk-align-right
+                      = image_tag 'icons/python.png'
+                    .user-name.uk-text-right
+                      span s_yasunaga
+                hr
+
+          li.good
+            ul.code-list
+              li.uk-margin
+                .uk-flex
+                  .status.uk-width-1-6.uk-text-center
+                    badge[label="受付中"]
+                    review-info
+                  .information.uk-width-4-6.uk-margin-left
+                    = link_to 'Rubyのfizz_buzz問題', code_path(id: 1), class: 'uk-text-large'
+                    .tags.uk-margin-top
+                      tag[label="Rails"]
+
+                  .user.uk-width-1-6
+                    .uk-width-1-4.uk-align-right
+                      = image_tag 'icons/python.png'
+                    .user-name.uk-text-right
+                      span s_yasunaga
+                hr
+              li.uk-margin
+                .uk-flex
+                  .status.uk-width-1-6.uk-text-center
+                    badge[label="受付中"]
+                    review-info
+                  .information.uk-width-4-6.uk-margin-left
+                    = link_to 'Rubyのfizz_buzz問題', code_path(id: 1), class: 'uk-text-large'
+                    .tags.uk-margin-top
+                      tag[label="Rails"]
+
+                  .user.uk-width-1-6
+                    .uk-width-1-4.uk-align-right
+                      = image_tag 'icons/python.png'
+                    .user-name.uk-text-right
+                      span s_yasunaga
+                hr
+              li.uk-margin
+                .uk-flex
+                  .status.uk-width-1-6.uk-text-center
+                    badge[label="受付中"]
+                    review-info
+                  .information.uk-width-4-6.uk-margin-left
+                    = link_to 'Rubyのfizz_buzz問題', code_path(id: 1), class: 'uk-text-large'
+                    .tags.uk-margin-top
+                      tag[label="Rails"]
+
+                  .user.uk-width-1-6
+                    .uk-width-1-4.uk-align-right
+                      = image_tag 'icons/python.png'
+                    .user-name.uk-text-right
+                      span s_yasunaga
+                hr
+
+          li.reviews
+            ul.code-list
+              li.uk-margin
+                .uk-flex
+                  .status.uk-width-1-6.uk-text-center
+                    badge[label="受付中"]
+                    review-info
+                  .information.uk-width-4-6.uk-margin-left
+                    = link_to 'Rubyのfizz_buzz問題', code_path(id: 1), class: 'uk-text-large'
+                    .tags.uk-margin-top
+                      tag[label="Rails"]
+
+                  .user.uk-width-1-6
+                    .uk-width-1-4.uk-align-right
+                      = image_tag 'icons/python.png'
+                    .user-name.uk-text-right
+                      span s_yasunaga
+                hr
+              li.uk-margin
+                .uk-flex
+                  .status.uk-width-1-6.uk-text-center
+                    badge[label="受付中"]
+                    review-info
+                  .information.uk-width-4-6.uk-margin-left
+                    = link_to 'Rubyのfizz_buzz問題', code_path(id: 1), class: 'uk-text-large'
+                    .tags.uk-margin-top
+                      tag[label="Rails"]
+
+                  .user.uk-width-1-6
+                    .uk-width-1-4.uk-align-right
+                      = image_tag 'icons/python.png'
+                    .user-name.uk-text-right
+                      span s_yasunaga
+                hr
+              li.uk-margin
+                .uk-flex
+                  .status.uk-width-1-6.uk-text-center
+                    badge[label="受付中"]
+                    review-info
+                  .information.uk-width-4-6.uk-margin-left
+                    = link_to 'Rubyのfizz_buzz問題', code_path(id: 1), class: 'uk-text-large'
+                    .tags.uk-margin-top
+                      tag[label="Rails"]
+
+                  .user.uk-width-1-6
+                    .uk-width-1-4.uk-align-right
+                      = image_tag 'icons/python.png'
+                    .user-name.uk-text-right
+                      span s_yasunaga
+                hr
+
+= javascript_pack_tag 'profile'

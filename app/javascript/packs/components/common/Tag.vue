@@ -1,6 +1,6 @@
 <template>
   <div class="uk-inline" :class="'uk-width-' + width">
-    <span class="tag uk-margin-small-left uk-text-small">
+    <span class="tag uk-margin-small-left uk-margin-small-top uk-text-small">
       {{ label }}
     </span>
   </div>

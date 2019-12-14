@@ -10,6 +10,21 @@ RSpec.describe Users::ProfilesController, type: :controller do
     it { is_expected.to redirect_to('/users/sign_in') }
   end
 
+  describe 'GET #show' do
+    subject { get :show, params: { id: user.id } }
+
+    context 'ログインしていない場合' do
+      it_behaves_like 'ログイン画面へリダイレクトされる'
+    end
+
+    context 'ログインしている場合' do
+      before { sign_in user }
+
+      it { is_expected.to have_http_status(:ok) }
+      it { is_expected.to render_template(:show) }
+    end
+  end
+
   describe 'GET #edit' do
     subject { get :edit, params: { id: user.id } }
 
