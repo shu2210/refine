@@ -82,4 +82,65 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe 'posted_codes' do
+    context 'ユーザーに投稿したコードがある場合' do
+      let!(:code) { create(:code, user_id: post_user.id) }
+      let!(:post_user) { create(:user) }
+
+      it 'ユーザーが投稿したコードを10件取得する' do
+        codes = post_user.posted_codes
+        expect(codes.first).to eq(code)
+      end
+    end
+
+    context 'ユーザーに投稿したコードがない場合' do
+      it '空の配列が返る' do
+        codes = user.posted_codes
+        expect(codes).to be_empty
+      end
+    end
+  end
+
+  describe 'liked_codes' do
+    let!(:code) { create(:code, user_id: post_user.id) }
+    let!(:post_user) { create(:user) }
+
+    context 'いいねしたコードがあった場合' do
+      let!(:code_like) { create(:code_like, code_id: code.id, user_id: post_user.id) }
+
+      it 'いいねしたコードが返る' do
+        codes = post_user.liked_codes
+        expect(codes.first).to eq(code)
+      end
+    end
+
+    context 'いいねしたコードがない場合' do
+      it '空の配列が返る' do
+        codes = post_user.liked_codes
+        expect(codes).to be_empty
+      end
+    end
+  end
+
+  describe 'reviewed_codes' do
+    let!(:code) { create(:code, user_id: post_user.id) }
+    let!(:post_user) { create(:user) }
+
+    context 'レビューしたコードがあった場合' do
+      let!(:review) { create(:review, code_id: code.id, user_id: post_user.id) }
+
+      it 'レビューしたコードが返る' do
+        codes = post_user.reviewed_codes
+        expect(codes.first).to eq(code)
+      end
+    end
+
+    context 'レビューしたコードがない場合' do
+      it '空の配列が返る' do
+        codes = post_user.reviewed_codes
+        expect(codes).to be_empty
+      end
+    end
+  end
 end
