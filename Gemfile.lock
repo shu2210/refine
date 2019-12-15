@@ -123,6 +123,8 @@ GEM
       devise (>= 4.6)
     diff-lcs (1.3)
     docile (1.3.2)
+    enumerize (2.3.1)
+      activesupport (>= 3.2)
     erubi (1.9.0)
     execjs (2.7.0)
     factory_bot (5.1.1)
@@ -402,6 +404,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   devise
   devise-i18n
+  enumerize
   factory_bot_rails
   faker
   html2slim

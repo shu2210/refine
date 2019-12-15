@@ -9,26 +9,6 @@ describe CodesHelper, type: :helper do
     end
   end
 
-  describe 'badge_label' do
-    context 'publishedの場合' do
-      it '受付中を返す' do
-        expect(helper.badge_label('published')).to eq('受付中')
-      end
-    end
-
-    context 'closedの場合' do
-      it '受付終了を返す' do
-        expect(helper.badge_label('closed')).to eq('受付終了')
-      end
-    end
-
-    context '上記以外の場合' do
-      it 'その他を返す' do
-        expect(helper.badge_label('etc')).to eq('その他')
-      end
-    end
-  end
-
   describe 'language_image_path' do
     context 'イメージが見つかった場合' do
       it '言語名からイメージパスを生成する' do
