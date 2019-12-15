@@ -1,0 +1,19 @@
+.uk-container
+  .profile-edit[uk-grid]
+    = render partial: 'shared/profile_side_nav'
+
+    .profile-form.uk-width-3-4
+      = form_with url: '' do |f|
+        .user-icon.uk-text-center.uk-margin
+          = image_tag 'icons/python.png', class: 'uk-width-1-4'
+
+        .user-name.uk-margin
+          = f.label '表示名', for: 'name'
+          = f.text_field :name, class: 'uk-input', value: 's_yasunaga'
+
+        .description.uk-margin
+          = f.label '説明', for: 'description'
+          = f.text_area :description, class: 'uk-textarea', rows: 10, value: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit,'
+
+        .uk-submit.uk-text-center.uk-margin
+          = f.submit '保存', class: 'uk-button uk-button-primary'
