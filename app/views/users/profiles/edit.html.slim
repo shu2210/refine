@@ -1,5 +1,7 @@
 .uk-container
   .edit-profile.uk-margin-top
+    = render partial: 'shared/flash_messages'
+
     ul.uk-tab-right.uk-width-1-4.uk-inline-block[uk-tab uk-switcher style="vertical-align: top;"]
       li.uk-active
         = link_to 'プロフィール', '#'
@@ -10,46 +12,8 @@
 
     ul.uk-switcher.uk-width-3-4.uk-inline-block
       li
-        .profile-form
-          = form_with url: '' do |f|
-            .user-icon.uk-text-center.uk-margin
-              = image_tag 'icons/python.png', class: 'uk-width-1-4'
-
-            .user-name.uk-margin
-              = f.label '表示名', for: 'name'
-              = f.text_field :name, class: 'uk-input', value: 's_yasunaga'
-
-            .description.uk-margin
-              = f.label '説明', for: 'description'
-              = f.text_area :description, class: 'uk-textarea', rows: 10, value: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit,'
-
-            .uk-submit.uk-text-center.uk-margin
-              = f.submit '保存', class: 'uk-button uk-button-primary'
-
+        = render partial: 'profile_form'
       li
-        .change-email-form
-          = form_with url: '' do |f|
-            .new-email
-              = f.label '新しいメールアドレス', for: 'email'
-              = f.text_field :email, class: 'uk-input', value: 'yasunaga.shuto@gmail.com'
-
-            .uk-submit.uk-text-center.uk-margin
-              = f.submit '保存', class: 'uk-button uk-button-primary'
-
+        = render partial: 'change_email_form'
       li
-        .change-password-form
-          = form_with url: '' do |f|
-            .current-password.uk-margin
-              = f.label '現在のパスワード', for: 'new_password'
-              = f.password_field :new_password, class: 'uk-input'
-
-            .new-password.uk-margin
-              = f.label '新しいメールアドレス', for: 'new_password'
-              = f.password_field :new_password, class: 'uk-input'
-
-            .new-password-confirmation.uk-margin
-              = f.label '新しいメールアドレス確認', for: 'new_password_confirmation'
-              = f.password_field :new_password_confirmation, class: 'uk-input'
-
-            .uk-submit.uk-text-center.uk-margin
-              = f.submit '保存', class: 'uk-button uk-button-primary'
+        = render partial: 'change_password_form'

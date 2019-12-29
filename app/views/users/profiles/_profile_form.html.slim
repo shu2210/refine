@@ -1,0 +1,17 @@
+.profile-form
+  = form_with model: @user, url: users_profile_path, method: :put, local: true do |f|
+    = hidden_field_tag :id, '', value: @user.id
+
+    .user-icon.uk-text-center.uk-margin
+      = image_tag 'icons/python.png', class: 'uk-width-1-4'
+
+    .user-name.uk-margin
+      = f.label :name
+      = f.text_field :name, class: 'uk-input'
+
+    .description.uk-margin
+      = f.label :description
+      = f.text_area :description, class: 'uk-textarea', rows: 10
+
+    .uk-submit.uk-text-center.uk-margin
+      = f.submit '保存', class: 'uk-button uk-button-primary'

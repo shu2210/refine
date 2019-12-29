@@ -1,0 +1,8 @@
+.change-email-form
+  = form_with url: '' do |f|
+    .new-email
+      = f.label '新しいメールアドレス', for: 'email'
+      = f.text_field :email, class: 'uk-input', value: 'yasunaga.shuto@gmail.com'
+
+    .uk-submit.uk-text-center.uk-margin
+      = f.submit '保存', class: 'uk-button uk-button-primary'

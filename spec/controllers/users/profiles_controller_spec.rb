@@ -52,11 +52,11 @@ RSpec.describe Users::ProfilesController, type: :controller do
       before { sign_in user }
 
       context '異常がある場合' do
-        let(:params) { { id: user.id, users: { name: '' } } }
+        let(:params) { { id: user.id, user: { name: '' } } }
         before { put :update, params: params }
 
         it 'editをrenderする' do
-          expect(response).to render_template(:edit)
+          expect(response).to redirect_to(edit_users_profile_path)
         end
 
         it 'エラーメッセージが表示される' do
@@ -67,7 +67,7 @@ RSpec.describe Users::ProfilesController, type: :controller do
       context '正常な場合' do
         let(:new_name) { Faker::Name.name }
         let(:description) { Faker::Lorem.characters(number: 100) }
-        let(:params) { { id: user.id, users: { name: new_name, description: description } } }
+        let(:params) { { id: user.id, user: { name: new_name, description: description } } }
         before { put :update, params: params }
 
         it 'ユーザー名がupdateされる' do

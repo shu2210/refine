@@ -10,8 +10,12 @@ ja:
     invalid: 入力項目に誤りがあります
   activerecord:
     models:
+      user: ユーザー
       code: コード
     attributes:
+      user:
+        name: 表示名
+        description: 説明
       code:
         title: タイトル
         description: 説明
