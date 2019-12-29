@@ -1,8 +1,13 @@
 .change-email-form
-  = form_with url: '' do |f|
+  = form_with model: @user, url: users_profile_path, method: :put, builder: RefineFormBuilder, local: true do |f|
+
+    - if @user.pending_reconfirmation?
+      .uk-alert-primary.uk-margin[uk-alert]
+        | 現在メールアドレスの確認中です
+
     .new-email
-      = f.label '新しいメールアドレス', for: 'email'
-      = f.text_field :email, class: 'uk-input', value: 'yasunaga.shuto@gmail.com'
+      = f.label '新しいメールアドレス', for: :user_email
+      = f.email_field_with_icon :email, class: 'uk-input'
 
     .uk-submit.uk-text-center.uk-margin
       = f.submit '保存', class: 'uk-button uk-button-primary'

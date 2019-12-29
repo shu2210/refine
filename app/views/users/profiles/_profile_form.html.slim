@@ -1,7 +1,5 @@
 .profile-form
-  = form_with model: @user, url: users_profile_path, method: :put, local: true do |f|
-    = hidden_field_tag :id, '', value: @user.id
-
+  = form_with model: @user, url: users_profile_path, method: :put, builder: RefineFormBuilder, local: true do |f|
     .user-icon.uk-text-center.uk-margin
       = image_tag 'icons/python.png', class: 'uk-width-1-4'
 

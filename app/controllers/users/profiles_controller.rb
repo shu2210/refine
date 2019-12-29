@@ -16,14 +16,14 @@ class Users::ProfilesController < ApplicationController
     if @user.update_profile(user_params)
       flash[:success] = t('saved')
     else
-      flash[:error] = t('errors.invalid')
+      flash[:alert] = t('errors.invalid')
     end
-    redirect_to edit_users_profile_path
+    render :edit
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:name, :description)
+    params.require(:user).permit(:name, :description, :email)
   end
 end
