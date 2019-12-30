@@ -143,4 +143,20 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe 'sns_registration?' do
+    context 'snsで登録していた場合' do
+      it 'trueが返る' do
+        user = build(:user, provider: 'google')
+        expect(user.sns_registration?).to be_truthy
+      end
+    end
+
+    context 'メールアドレスで登録していた場合' do
+      it 'falseが返る' do
+        user = build(:user, provider: nil)
+        expect(user.sns_registration?).to be_falsy
+      end
+    end
+  end
 end

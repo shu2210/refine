@@ -56,11 +56,11 @@ RSpec.describe Users::ProfilesController, type: :controller do
         before { put :update, params: params }
 
         it 'editをrenderする' do
-          expect(response).to redirect_to(edit_users_profile_path)
+          expect(response).to render_template(:edit)
         end
 
         it 'エラーメッセージが表示される' do
-          expect(flash[:error]). to eq(I18n.t('errors.invalid'))
+          expect(flash[:alert]). to eq(I18n.t('errors.invalid'))
         end
       end
 

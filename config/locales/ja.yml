@@ -16,6 +16,8 @@ ja:
       user:
         name: 表示名
         description: 説明
+        new_password: 新しいパスワード
+        new_password_confirmation: 新しいパスワード確認
       code:
         title: タイトル
         description: 説明

@@ -4,8 +4,11 @@ require_relative 'concerns/flash_validatable'
 
 class User < ApplicationRecord
   include FlashValidatable
+
+  attr_accessor :current_password, :new_password, :new_password_confirmation
+
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # :lockable, :timeoutable, :trackable
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable, :omniauthable,
          omniauth_providers: %i[github google]
@@ -18,6 +21,9 @@ class User < ApplicationRecord
 
   validates :name, presence: true, on: :profile
   validates :description, length: { maximum: 255 }, on: :profile
+  validates :current_password, presence: true, on: :change_password
+  validates :new_password, presence: true, on: :change_password
+  validates :new_password_confirmation, presence: true, on: :change_password
 
   before_save do
     self.name = email.match(/.*(?=@)/).to_s if new_record?
@@ -48,5 +54,17 @@ class User < ApplicationRecord
   def reviewed_codes
     code_ids = Review.where(user_id: id).pluck(:code_id)
     Code.where(id: code_ids)
+  end
+
+  def change_password(user_params)
+    assign_attributes(user_params)
+    return false unless valid_password?(current_password)
+
+    valid?(:change_password)
+    reset_password(new_password, new_password_confirmation)
+  end
+
+  def sns_registration?
+    provider.present?
   end
 end

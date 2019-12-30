@@ -7,13 +7,14 @@
         = link_to 'プロフィール', '#'
       li
         = link_to 'メールアドレス', '#'
-      li
-        = link_to 'パスワード', '#'
+      - unless @user.sns_registration?
+        li
+          = link_to 'パスワード', '#'
 
     ul.uk-switcher.uk-width-3-4.uk-inline-block
       li
-        = render partial: 'profile_form'
+        = render partial: 'users/profiles/profile_form'
       li
-        = render partial: 'change_email_form'
+        = render partial: 'users/profiles/change_email_form'
       li
-        = render partial: 'change_password_form'
+        = render partial: 'users/profiles/change_password_form'

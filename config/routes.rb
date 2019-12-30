@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   end
   namespace :users do
     resources :profiles
+    resources :change_passwords
   end
   resources :reviews
 end
