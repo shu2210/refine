@@ -19,6 +19,8 @@ class User < ApplicationRecord
   has_many :code_likes
   has_many :code_dislikes
 
+  has_one_attached :icon
+
   validates :name, presence: true, on: :profile
   validates :description, length: { maximum: 255 }, on: :profile
   validates :current_password, presence: true, on: :change_password
