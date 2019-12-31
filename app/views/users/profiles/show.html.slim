@@ -2,7 +2,7 @@
   .user-profile[uk-grid]
     .user-information.uk-width-1-4.uk-margin-top
       .icon.uk-text-center.uk-margin
-        = image_tag 'icons/python.png', class: 'uk-width-2-3'
+        = image_tag @user.attached_icon
       .user-detail.uk-text-left.uk-text-large.uk-margin
         span.user-name
           = "@#{@user.name}"

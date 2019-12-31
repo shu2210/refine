@@ -16,7 +16,7 @@ RSpec.describe UserDecorator do
       let!(:user) { build(:user).decorate }
 
       it 'デフォルトのアイコンのパスを返す' do
-        expect(user.attached_icon).to eq("#{Rails.root}/assets/images/default.jpeg")
+        expect(user.attached_icon).to eq('default.jpeg')
       end
     end
   end
