@@ -3,7 +3,10 @@ version: '3'
 services:
   db:
     container_name: refine_db
-    build: docker/db
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=root
+      - MYSQL_ROOT_PASSWORD=password
     volumes:
       - database:/var/lib/mysql
     ports:
