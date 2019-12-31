@@ -79,8 +79,6 @@ RSpec.describe Users::ProfilesController, type: :controller do
           user.reload
           expect(user.description).to eq(description)
         end
-
-        it '画像がupdateされる'
       end
     end
   end

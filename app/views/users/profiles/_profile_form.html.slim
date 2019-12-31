@@ -1,7 +1,12 @@
 .profile-form
   = form_with model: @user, url: users_profile_path, method: :put, builder: RefineFormBuilder, local: true do |f|
     .user-icon.uk-text-center.uk-margin
-      = image_tag 'icons/python.png', class: 'uk-width-1-4'
+      .uk-width-1-2.uk-margin-auto
+        - if @user.icon.attached?
+          = image_tag @user.icon
+
+        .uk-text-center.uk-margin
+          = f.file_field :icon, accept: 'image/png, image/jpeg, image/gif'
 
     .user-name.uk-margin
       = f.label :name
