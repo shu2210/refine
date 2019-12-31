@@ -2,8 +2,7 @@
   = form_with model: @user, url: users_profile_path, method: :put, builder: RefineFormBuilder, local: true do |f|
     .user-icon.uk-text-center.uk-margin
       .uk-width-1-2.uk-margin-auto
-        - if @user.icon.attached?
-          = image_tag @user.icon
+        = image_tag @user.attached_icon
 
         .uk-text-center.uk-margin
           = f.file_field :icon, accept: 'image/png, image/jpeg, image/gif'

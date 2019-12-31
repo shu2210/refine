@@ -8,7 +8,7 @@ class Users::ProfilesController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    @user = User.find(params[:id]).decorate
   end
 
   def update
