@@ -33,7 +33,8 @@ export default {
     title: String,
     code: String,
     codeId: Number,
-    isLogin: Boolean
+    isLogin: Boolean,
+    postedUserIcon: String
   },
   data: function () {
     return {
@@ -68,22 +69,11 @@ export default {
       axios.get('/reviews/' + this.codeId).then((response) => {
         response.data.review.forEach(function(review) {
           var userName = vm.getUserName(response.data.users, review['user_id'])
-          vm.appendPostedReview(review['line'], userName, review['review'])
+          vm.appendPostedReview(review['line'], userName, review['review'], vm.postedUserIcon)
         });
       }, (error) => {
         console.log(error);
       });
-    },
-    appendPostedReview: function (line, userName, review) {
-      var ComponentClass = Vue.extend(PostedReview);
-      var instance = new ComponentClass({
-        propsData: {
-          userName: userName,
-          review: review
-        }
-      });
-      instance.$mount();
-      $('#' + line).after(instance.$el);
     },
     getUserName: function (users, userId) {
       for(var i = 0; i < users.length; i++) {
@@ -93,18 +83,23 @@ export default {
       }
     },
     // 投稿された後の処理
-    switchReview: function (component) {
+    switchReview: function (component, response) {
+      console.log(response.data.icon);
       component.$destroy();
       component.$el.parentNode.removeChild(component.$el);
-      var ComponentClass = Vue.extend(PostedReview)
+      this.appendPostedReview(component.line, component.userName, component.review, response.data.icon)
+    },
+    appendPostedReview: function (line, userName, review, icon) {
+      var ComponentClass = Vue.extend(PostedReview);
       var instance = new ComponentClass({
         propsData: {
-          userName: component.userName,
-          review: component.review
+          userName: userName,
+          review: review,
+          icon: icon
         }
       });
       instance.$mount();
-      $('#' + component.line).after(instance.$el);
+      $('#' + line).after(instance.$el);
     }
   }
 }
