@@ -10,5 +10,8 @@ html
     meta[name="viewport" content="width=360,initial-scale=1"]
 
   body
-    = render partial: 'shared/header'
-    = yield
+    #app
+      = render partial: 'shared/header'
+      = yield
+
+= javascript_pack_tag 'application'

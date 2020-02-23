@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Code < ApplicationRecord
+  extend Enumerize
+
   belongs_to :user
   belongs_to :language
 
@@ -13,7 +15,7 @@ class Code < ApplicationRecord
   validates :description, presence: true, length: { maximum: 300 }
   validates :code, presence: true
 
-  enum status: %i[draft published closed]
+  enumerize :status, in: %i[draft published closed]
 
   scope :latest, lambda {
     includes(:tags)

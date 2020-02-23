@@ -36,6 +36,7 @@ jobs:
     steps:
       - checkout
       - restore_gem
+      - run: gem install bundler -v '2.0.2'
       - run:
           name: install dependencies
           command: |
@@ -70,6 +71,7 @@ jobs:
     steps:
       - checkout
       - restore_gem
+      - run: gem install bundler -v '2.0.2'
       - run:
           name: install dependencies
           command: |
@@ -85,6 +87,7 @@ jobs:
     steps:
       - checkout
       - restore_gem
+      - run: gem install bundler -v '2.0.2'
       - run:
           name: install dependencies
           command: |

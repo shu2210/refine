@@ -92,7 +92,7 @@ Style/StringLiterals:
 # Cop supports --auto-correct.
 # Configuration parameters: AutoCorrect, AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
-Metrics/LineLength:
+Layout/LineLength:
   Max: 200
 
 Metrics/MethodLength:
@@ -106,3 +106,7 @@ Metrics/BlockLength:
 Style/AsciiComments:
   Exclude:
     - '**/*'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'db/migrate/*'

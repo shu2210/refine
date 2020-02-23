@@ -2,11 +2,12 @@
   .banner.uk-flex.uk-flex-center.uk-flex-middle.uk-width-1-1
     jumbotron
       .conversion.uk-width-2-5.uk-text-center
-        = link_to '会員登録はこちらから', new_user_registration_path, class: 'uk-button uk-button-primary uk-margin uk-width-1-2'
-        .github
-          social-login-button[url=user_google_omniauth_authorize_path provider='google' width="1-2" background-color="white"]
-        .google
-          social-login-button[url=user_github_omniauth_authorize_path provider='github' width="1-2" background-color="white"]
+        - unless user_signed_in?
+          = link_to '会員登録はこちらから', new_user_registration_path, class: 'uk-button uk-button-primary uk-margin uk-width-1-2'
+          .github
+            social-login-button[url=user_google_omniauth_authorize_path provider='google' width="1-2" background-color="white"]
+          .google
+            social-login-button[url=user_github_omniauth_authorize_path provider='github' width="1-2" background-color="white"]
 
   .uk-flex.uk-flex-center.uk-container.uk-margin
     section.code-section.uk-width-3-5
@@ -22,7 +23,7 @@
               li.uk-margin
                 .uk-flex
                   .status.uk-width-1-6.uk-text-center
-                    badge[label=badge_label(code.status)]
+                    badge[label=code.status_text]
                     review-info
                   .information.uk-width-4-6.uk-margin-left
                     = link_to code.title, code_path(id: code.id), class: 'uk-text-large'
@@ -42,7 +43,7 @@
               li.uk-margin
                 .uk-flex
                   .status.uk-width-1-6.uk-text-center
-                    badge[label=badge_label(code.status)]
+                    badge[label=code.status_text]
                     review-info
                   .information.uk-width-4-6.uk-margin-left
                     = link_to code.title, code_path(id: code.id), class: 'uk-text-large'
@@ -59,5 +60,3 @@
 
     section.uk-margin-large-left.popular-tags.uk-width-2-5
       popular-tags
-
-= javascript_pack_tag 'home'

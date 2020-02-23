@@ -14,7 +14,7 @@ class ReviewsController < ApplicationController
     review = Review.new(review_params)
     review.user = current_user
     if review.save
-      render json: { status: :success, user: review.user }
+      render json: { status: :success, user: review.user, icon: icon_url(review.user) }
     else
       render json: { status: :error, message: review.errors.full_messages }
     end
@@ -24,5 +24,11 @@ class ReviewsController < ApplicationController
 
   def review_params
     params.require(:review).permit(:code_id, :line, :review)
+  end
+
+  def icon_url(user)
+    return unless user.icon&.attached?
+
+    url_for(user.icon)
   end
 end

@@ -7,14 +7,6 @@ module CodesHelper
     Language.all
   end
 
-  def badge_label(status)
-    case status
-    when 'published' then '受付中'
-    when 'closed' then '受付終了'
-    else 'その他'
-    end
-  end
-
   def language_image_path(name)
     IMAGE_EXT.each do |ext|
       path = "icons/#{name}#{ext}"

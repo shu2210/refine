@@ -40,6 +40,9 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'pry-byebug'
+  gem 'pry-doc'
+  gem 'pry-rails'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'rspec_junit_formatter'
@@ -65,8 +68,10 @@ group :test do
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
 end
-
+# utility
 gem 'activerecord-import'
+gem 'draper'
+gem 'enumerize'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 # fluentd gem
@@ -87,3 +92,7 @@ gem 'jquery-ui-rails'
 gem 'webpacker', github: 'rails/webpacker'
 # code editor
 gem 'ace-rails-ap'
+# AWS sdk
+gem 'aws-sdk-rails'
+gem 'aws-sdk-s3'
+gem 'mini_magick'

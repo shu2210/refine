@@ -20,5 +20,9 @@ Rails.application.routes.draw do
     resources :likes
     resources :dislikes
   end
+  namespace :users do
+    resources :profiles
+    resources :change_passwords
+  end
   resources :reviews
 end

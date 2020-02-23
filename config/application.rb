@@ -34,5 +34,6 @@ module Refine
     config.action_view.field_error_proc = proc do |html_tag|
       html_tag.to_s.html_safe
     end
+    config.autoload_paths += Dir["#{config.root}/decorators/**/"]
   end
 end

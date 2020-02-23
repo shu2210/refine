@@ -1,0 +1,20 @@
+.uk-container
+  .edit-profile.uk-margin-top
+    = render partial: 'shared/flash_messages'
+
+    ul.uk-tab-right.uk-width-1-4.uk-inline-block[uk-tab uk-switcher style="vertical-align: top;"]
+      li.uk-active
+        = link_to 'プロフィール', '#'
+      li
+        = link_to 'メールアドレス', '#'
+      - unless @user.sns_registration?
+        li
+          = link_to 'パスワード', '#'
+
+    ul.uk-switcher.uk-width-3-4.uk-inline-block
+      li
+        = render partial: 'users/profiles/profile_form'
+      li
+        = render partial: 'users/profiles/change_email_form'
+      li
+        = render partial: 'users/profiles/change_password_form'

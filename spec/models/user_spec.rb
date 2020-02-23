@@ -16,6 +16,13 @@ RSpec.describe User, type: :model do
         expect(User.last.name).to eq('test')
       end
     end
+
+    context 'profileのupdateの場合で空の場合' do
+      it 'エラーになる' do
+        user.name = ''
+        expect(user.valid?(:profile)).to be_falsy
+      end
+    end
   end
 
   describe 'flash_columns' do
@@ -64,6 +71,92 @@ RSpec.describe User, type: :model do
     context '短すぎる場合' do
       let(:password) { Faker::Lorem.characters(number: 2) }
       it { expect(user).not_to be_valid }
+    end
+  end
+
+  describe 'description' do
+    context '長すぎる場合' do
+      it 'エラーになる' do
+        user.description = Faker::Lorem.characters(number: 256)
+        expect(user.valid?(:profile)).to be_falsy
+      end
+    end
+  end
+
+  describe 'posted_codes' do
+    context 'ユーザーに投稿したコードがある場合' do
+      let!(:code) { create(:code, user_id: post_user.id) }
+      let!(:post_user) { create(:user) }
+
+      it 'ユーザーが投稿したコードを10件取得する' do
+        codes = post_user.posted_codes
+        expect(codes.first).to eq(code)
+      end
+    end
+
+    context 'ユーザーに投稿したコードがない場合' do
+      it '空の配列が返る' do
+        codes = user.posted_codes
+        expect(codes).to be_empty
+      end
+    end
+  end
+
+  describe 'liked_codes' do
+    let!(:code) { create(:code, user_id: post_user.id) }
+    let!(:post_user) { create(:user) }
+
+    context 'いいねしたコードがあった場合' do
+      let!(:code_like) { create(:code_like, code_id: code.id, user_id: post_user.id) }
+
+      it 'いいねしたコードが返る' do
+        codes = post_user.liked_codes
+        expect(codes.first).to eq(code)
+      end
+    end
+
+    context 'いいねしたコードがない場合' do
+      it '空の配列が返る' do
+        codes = post_user.liked_codes
+        expect(codes).to be_empty
+      end
+    end
+  end
+
+  describe 'reviewed_codes' do
+    let!(:code) { create(:code, user_id: post_user.id) }
+    let!(:post_user) { create(:user) }
+
+    context 'レビューしたコードがあった場合' do
+      let!(:review) { create(:review, code_id: code.id, user_id: post_user.id) }
+
+      it 'レビューしたコードが返る' do
+        codes = post_user.reviewed_codes
+        expect(codes.first).to eq(code)
+      end
+    end
+
+    context 'レビューしたコードがない場合' do
+      it '空の配列が返る' do
+        codes = post_user.reviewed_codes
+        expect(codes).to be_empty
+      end
+    end
+  end
+
+  describe 'sns_registration?' do
+    context 'snsで登録していた場合' do
+      it 'trueが返る' do
+        user = build(:user, provider: 'google')
+        expect(user.sns_registration?).to be_truthy
+      end
+    end
+
+    context 'メールアドレスで登録していた場合' do
+      it 'falseが返る' do
+        user = build(:user, provider: nil)
+        expect(user.sns_registration?).to be_falsy
+      end
     end
   end
 end

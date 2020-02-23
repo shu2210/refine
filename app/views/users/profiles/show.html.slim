@@ -1,0 +1,99 @@
+#profile.uk-container
+  .user-profile[uk-grid]
+    .user-information.uk-width-1-4.uk-margin-top
+      .icon.uk-text-center.uk-margin
+        = image_tag @user.attached_icon
+      .user-detail.uk-text-left.uk-text-large.uk-margin
+        span.user-name
+          = "@#{@user.name}"
+      .user-description.uk-margin
+        p
+          = @user.description
+      .following-tags.uk-margin
+        span フォロー中のタグ
+        .tags.uk-margin-small-top
+          tag[label="Rails"]
+          tag[label="Ruby"]
+          tag[label="Python"]
+          tag[label="C++"]
+          tag[label="Swift"]
+          tag[label="Rust"]
+
+      .edit-profile
+        = link_to 'プロフィールを編集する', edit_users_profile_path
+
+    .activity.uk-width-3-4
+      .graph.uk-text-center.uk-margin.uk-margin-top
+        = image_tag 'graph.png', class: 'uk-width-1-2'
+      .tabs
+        ul.uk-child-width-expand[uk-tab uk-switcher]
+          li.uk-active
+            a 投稿
+          li
+            a いいね
+          li
+            a レビュー
+
+        ul.uk-switcher.uk-margin
+          li.posted
+            ul.code-list
+              - @user.posted_codes.each do |code|
+                li.uk-margin
+                  .uk-flex
+                    .status.uk-width-1-6.uk-text-center
+                      badge[label=code.status_text]
+                      review-info
+                    .information.uk-width-4-6.uk-margin-left
+                      = link_to code.title, code_path(id: code.id), class: 'uk-text-large'
+                      .tags.uk-margin-top
+                        - code.tags.each do |tag|
+                          tag[label=tag.name]
+
+                    .user.uk-width-1-6
+                      .uk-width-1-4.uk-align-right
+                        = image_tag language_image_path(code.language.mode)
+                      .user-name.uk-text-right
+                        span = code.user.name
+                  hr
+
+          li.good
+            ul.code-list
+              - @user.liked_codes.each do |code|
+                li.uk-margin
+                  .uk-flex
+                    .status.uk-width-1-6.uk-text-center
+                      badge[label=code.status_text]
+                      review-info
+                    .information.uk-width-4-6.uk-margin-left
+                      = link_to code.title, code_path(id: code.id), class: 'uk-text-large'
+                      .tags.uk-margin-top
+                        - code.tags.each do |tag|
+                          tag[label=tag.name]
+
+                    .user.uk-width-1-6
+                      .uk-width-1-4.uk-align-right
+                        = image_tag language_image_path(code.language.mode)
+                      .user-name.uk-text-right
+                        span = code.user.name
+                  hr
+
+          li.reviews
+            ul.code-list
+              - @user.reviewed_codes.each do |code|
+                li.uk-margin
+                  .uk-flex
+                    .status.uk-width-1-6.uk-text-center
+                      badge[label=code.status_text]
+                      review-info
+                    .information.uk-width-4-6.uk-margin-left
+                      = link_to code.title, code_path(id: code.id), class: 'uk-text-large'
+                      .tags.uk-margin-top
+                        - code.tags.each do |tag|
+                          tag[label=tag.name]
+
+                    .user.uk-width-1-6
+                      .uk-width-1-4.uk-align-right
+                        = image_tag language_image_path(code.language.mode)
+                      .user-name.uk-text-right
+                        span = code.user.name
+                  hr

@@ -23,6 +23,5 @@
         code=@code.code
         is-login=user_signed_in?
         :code-id=@code.id
+        posted-user-icon=url_for(@code.user.icon)
       ]
-
-= javascript_pack_tag 'code'

@@ -28,7 +28,7 @@ RSpec.describe ReviewsController, type: :controller do
     end
 
     context 'ログインしている場合' do
-      let(:user) { create(:user) }
+      let(:user) { create(:user, :with_icon) }
       let(:code) { create(:code) }
       before { sign_in user }
 

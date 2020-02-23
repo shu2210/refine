@@ -1,0 +1,16 @@
+.profile-form
+  = form_with model: @user, url: users_profile_path, method: :put, builder: RefineFormBuilder, local: true, multipart: true do |f|
+    icon-uploader[
+      image-source=url_for(@user.icon)
+    ]
+
+    .user-name.uk-margin
+      = f.label :name
+      = f.text_field :name, class: 'uk-input'
+
+    .description.uk-margin
+      = f.label :description
+      = f.text_area :description, class: 'uk-textarea', rows: 10
+
+    .uk-submit.uk-text-center.uk-margin
+      = f.submit '保存', class: 'uk-button uk-button-primary'
