@@ -252,6 +252,21 @@ GEM
     parallel (1.19.1)
     parser (2.6.5.0)
       ast (~> 2.4.0)
+    pry (0.12.2)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    pry (0.12.2-java)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+      spoon (~> 0.0)
+    pry-byebug (3.8.0)
+      byebug (~> 11.0)
+      pry (~> 0.10)
+    pry-doc (1.0.0)
+      pry (~> 0.11)
+      yard (~> 0.9.11)
+    pry-rails (0.3.9)
+      pry (>= 0.10.4)
     public_suffix (4.0.1)
     puma (3.12.2)
     puma (3.12.2-java)
@@ -393,6 +408,7 @@ GEM
     websocket-extensions (0.1.4)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    yard (0.9.24)
 
 PLATFORMS
   java
@@ -432,6 +448,9 @@ DEPENDENCIES
   omniauth
   omniauth-github
   omniauth-google-oauth2
+  pry-byebug
+  pry-doc
+  pry-rails
   puma (~> 3.12)
   rails (~> 5.2.3)
   rails-controller-testing
