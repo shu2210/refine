@@ -20,6 +20,18 @@ class ReviewsController < ApplicationController
     end
   end
 
+  def destroy
+    review = Review.find(params[:id])
+    if current_user != review.user
+      render json: { status: :error }
+    elsif review.destroy
+      render json: { status: :success }
+    end
+  rescue StandardError => e
+    logger.error e
+    render json: { status: :error }
+  end
+
   private
 
   def review_params

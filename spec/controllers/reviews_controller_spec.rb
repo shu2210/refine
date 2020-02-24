@@ -3,6 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe ReviewsController, type: :controller do
+  shared_context 'login' do
+    let(:user) { create(:user, :with_icon) }
+    before { sign_in user }
+  end
+
   describe 'GET #show' do
     subject { get :show, params: { id: 1 } }
     let!(:code) { create(:code) }
@@ -28,9 +33,9 @@ RSpec.describe ReviewsController, type: :controller do
     end
 
     context 'ログインしている場合' do
-      let(:user) { create(:user, :with_icon) }
+      include_context 'login'
+
       let(:code) { create(:code) }
-      before { sign_in user }
 
       context 'エラーの場合' do
         let(:params) { { review: { code_id: code.id, line: 1, review: nil } } }
@@ -57,6 +62,45 @@ RSpec.describe ReviewsController, type: :controller do
           post :create, params: params
           body = JSON.parse(response.body)
           expect(body['status']).to eq('success')
+        end
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    context 'ログインしていない場合' do
+      subject { delete :destroy, params: { id: 1 } }
+
+      it { is_expected.to have_http_status(:redirect) }
+      it { is_expected.to redirect_to('/users/sign_in') }
+    end
+
+    context 'ログインしている場合' do
+      include_context 'login'
+
+      let!(:review) { create(:review, user: reviewer) }
+
+      context 'ログインしているユーザー != レビューの作成者' do
+        let(:reviewer) { create(:user) }
+
+        it 'エラーになる' do
+          delete :destroy, params: { id: review.id }
+          expect(JSON.parse(response.body)['status']).to eq('error')
+        end
+      end
+
+      context 'ログインしているユーザー == レビューの作成者' do
+        let(:reviewer) { user }
+
+        it 'reviewが削除される' do
+          expect { delete :destroy, params: { id: review.id } }.to change(Review, :count).by(-1)
+        end
+
+        context 'review.idが見つからない場合' do
+          it 'エラーになる' do
+            delete :destroy, params: { id: 1 }
+            expect(JSON.parse(response.body)['status']).to eq('error')
+          end
         end
       end
     end
