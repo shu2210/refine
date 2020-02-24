@@ -69,7 +69,13 @@ export default {
       axios.get('/reviews/' + this.codeId).then((response) => {
         response.data.review.forEach(function(review) {
           var userName = vm.getUserName(response.data.users, review['user_id'])
-          vm.appendPostedReview(review['line'], userName, review['review'], vm.postedUserIcon)
+          vm.appendPostedReview({
+            id: review['id'],
+            line: review['line'],
+            userName: userName,
+            review: review['review'],
+            icon: vm.postedUserIcon
+          })
         });
       }, (error) => {
         console.log(error);
@@ -84,22 +90,21 @@ export default {
     },
     // 投稿された後の処理
     switchReview: function (component, response) {
-      console.log(response.data.icon);
       component.$destroy();
       component.$el.parentNode.removeChild(component.$el);
-      this.appendPostedReview(component.line, component.userName, component.review, response.data.icon)
+      this.appendPostedReview({
+        id: response.data.id,
+        line: component.line,
+        userName: component.userName,
+        review: component.review,
+        icon: response.data.icon
+      })
     },
-    appendPostedReview: function (line, userName, review, icon) {
+    appendPostedReview: function (props) {
       var ComponentClass = Vue.extend(PostedReview);
-      var instance = new ComponentClass({
-        propsData: {
-          userName: userName,
-          review: review,
-          icon: icon
-        }
-      });
+      var instance = new ComponentClass({ propsData: props });
       instance.$mount();
-      $('#' + line).after(instance.$el);
+      $('#' + props['line']).after(instance.$el);
     }
   }
 }

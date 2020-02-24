@@ -17,7 +17,7 @@
         </div>
         <div class="control-area uk-width-1-6 uk-text-center">
           <a class="uk-margin-small-right" uk-icon="pencil"></a>
-          <a class="uk-margin-small-right" uk-icon="trash"></a>
+          <a class="uk-margin-small-right" uk-icon="trash" @click="deleteReview"></a>
           <a class="uk-margin-small-right" uk-icon="menu"></a>
         </div>
       </div>
@@ -26,8 +26,13 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   props: {
+    id: {
+      type: Number
+    },
     userName: {
       type: String,
       default: ''
@@ -38,6 +43,19 @@ export default {
     },
     icon: {
       type: String
+    }
+  },
+  methods: {
+    deleteReview: function () {
+      axios.delete('/reviews/' + this.id).then((response) => {
+        if(response.data['status'] == 'success') {
+          this.$destroy();
+          this.$el.parentNode.removeChild(this.$el);
+        }
+        console.log(response.status);
+      }, (error) => {
+        console.log(error);
+      });
     }
   }
 }
