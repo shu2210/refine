@@ -34,7 +34,8 @@ export default {
     code: String,
     codeId: Number,
     isLogin: Boolean,
-    postedUserIcon: String
+    postedUserIcon: String,
+    currentUserId: Number
   },
   data: function () {
     return {
@@ -74,7 +75,8 @@ export default {
             line: review['line'],
             userName: userName,
             review: review['review'],
-            icon: vm.postedUserIcon
+            icon: vm.postedUserIcon,
+            canEdit: (review['user_id'] == vm.currentUserId)
           })
         });
       }, (error) => {
@@ -97,7 +99,8 @@ export default {
         line: component.line,
         userName: component.userName,
         review: component.review,
-        icon: response.data.icon
+        icon: response.data.icon,
+        canEdit: true
       })
     },
     appendPostedReview: function (props) {

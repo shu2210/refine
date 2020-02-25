@@ -15,7 +15,7 @@
             </p>
           </div>
         </div>
-        <div class="control-area uk-width-1-6 uk-text-center">
+        <div class="control-area uk-width-1-6 uk-text-center" v-if="canEdit">
           <a class="uk-margin-small-right" uk-icon="pencil"></a>
           <a class="uk-margin-small-right" uk-icon="trash" @click="deleteReview"></a>
           <a class="uk-margin-small-right" uk-icon="menu"></a>
@@ -43,6 +43,10 @@ export default {
     },
     icon: {
       type: String
+    },
+    canEdit: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
