@@ -17,9 +17,16 @@
         </div>
         <div class="control-area uk-width-1-6 uk-text-center" v-if="canEdit">
           <a class="uk-margin-small-right" uk-icon="pencil"></a>
-          <a class="uk-margin-small-right" uk-icon="trash" @click="deleteReview"></a>
+          <a :href="'#confirm' + id" class="uk-margin-small-right" uk-icon="trash" uk-toggle></a>
           <a class="uk-margin-small-right" uk-icon="menu"></a>
         </div>
+        <modal title="確認" :id="'confirm' + id">
+          <p class="uk-margin">削除すると元に戻せません。よろしいですか？</p>
+          <div class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">キャンセル</button>
+            <button class="uk-button uk-button-primary" type="button" @click="deleteReview">削除</button>
+          </div>
+        </modal>
       </div>
     </td>
   </tr>
@@ -27,6 +34,7 @@
 
 <script>
 import axios from 'axios';
+import Modal from '../common/Modal.vue';
 
 export default {
   props: {
@@ -56,11 +64,15 @@ export default {
           this.$destroy();
           this.$el.parentNode.removeChild(this.$el);
         }
+        UIkit.modal('#confirm' + this.id).hide();
         console.log(response.status);
       }, (error) => {
         console.log(error);
       });
     }
+  },
+  components: {
+    Modal
   }
 }
 </script>
