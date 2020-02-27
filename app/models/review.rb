@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Review < ApplicationRecord
+  acts_as_paranoid
+
   belongs_to :code
   belongs_to :user
 
