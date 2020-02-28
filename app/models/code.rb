@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 class Code < ApplicationRecord
-  extend Enumerize
-
-  belongs_to :user
   belongs_to :language
 
   has_many :code_tags
@@ -11,11 +8,7 @@ class Code < ApplicationRecord
   has_many :code_likes
   has_many :code_dislikes
 
-  validates :title, presence: true, length: { maximum: 200 }
-  validates :description, presence: true, length: { maximum: 300 }
   validates :code, presence: true
-
-  enumerize :status, in: %i[draft published closed]
 
   scope :latest, lambda {
     includes(:tags)
