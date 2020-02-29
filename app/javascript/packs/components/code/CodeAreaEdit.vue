@@ -15,12 +15,12 @@
       class="editor"
     ></prism-editor>
     <input type="hidden" :value="code" name="code[][code]" />
+    <span class="uk-text-danger" v-for="error in errors" :key="error">{{ error }}</span>
   </div>
 </template>
 
 <script>
 import "prismjs";
-import "prismjs/themes/prism-tomorrow.css";
 import "vue-prism-editor/dist/VuePrismEditor.css";
 import PrismEditor from 'vue-prism-editor';
 
@@ -29,7 +29,8 @@ export default {
     PrismEditor
   },
   props: {
-    langs: Array
+    langs: Array,
+    errors: Array
   },
   data: function () {
     return {

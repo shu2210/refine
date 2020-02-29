@@ -63,7 +63,7 @@ class UserCode < ApplicationRecord
   private
 
   def create_tags(tag_names)
-    tag_names.each do |name|
+    tag_names&.each do |name|
       tag = Tag.find_or_create_by(name: name)
       code_tag = UserCodeTag.new
       code_tag.user_code = self
