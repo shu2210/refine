@@ -15,9 +15,9 @@ class User < ApplicationRecord
 
   flash_validation :reset_password_token
 
-  has_many :codes
-  has_many :code_likes
-  has_many :code_dislikes
+  has_many :user_codes
+  has_many :user_code_likes
+  has_many :user_code_dislikes
 
   has_one_attached :icon
 

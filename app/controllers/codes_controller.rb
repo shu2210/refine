@@ -4,17 +4,18 @@ class CodesController < ApplicationController
   before_action :authenticate_user!, only: %i[new create]
 
   def index
-    @latest = Code.latest
-    @popular = Code.popular
+    @latest = UserCode.latest
+    @popular = UserCode.popular
   end
 
   def new
-    @code = Code.new
+    @code = UserCode.new
   end
 
   def create
-    @code = Code.new(code_params)
-    if @code.post(current_user, params[:tags])
+    @code = UserCode.new(user_codes_params)
+    @code.codes = codes
+    if @code.post(params[:tags])
       redirect_to root_path, success: 'コードの投稿が完了しました'
     else
       flash[:alert] = '入力内容に誤りがあります'
@@ -28,9 +29,17 @@ class CodesController < ApplicationController
 
   private
 
-  def code_params
-    params.require(:code).permit(
-      :title, :description, :language_id, :code
+  def user_codes_params
+    params[:user_code][:user_id] = current_user.id
+    params.require(:user_code).permit(
+      :title, :description, :user_id
     )
+  end
+
+  def codes
+    params[:code].each(&:permit!)
+    params[:code].map do |code|
+      Code.new(code)
+    end
   end
 end

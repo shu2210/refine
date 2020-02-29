@@ -1,7 +1,7 @@
 <template>
   <div class="code">
     <div class="language-select uk-width-1-1 uk-text-right uk-margin">
-      <select name="code[language_id]" class="uk-select uk-width-1-4" @change="changeMode($event)">
+      <select name="code[][language_id]" class="uk-select uk-width-1-4" @change="changeMode($event)">
         <option v-for="lang in langs"
                 :value="lang['id']"
                 :key="lang['id']">
@@ -9,49 +9,51 @@
         </option>
       </select>
     </div>
-    <div id="editor">
-    </div>
+    <prism-editor
+      :language="language"
+      v-model="code"
+      class="editor"
+    ></prism-editor>
+    <input type="hidden" :value="code" name="code[][code]" />
   </div>
 </template>
 
 <script>
+import "prismjs";
+import "prismjs/themes/prism-tomorrow.css";
+import "vue-prism-editor/dist/VuePrismEditor.css";
+import PrismEditor from 'vue-prism-editor';
+
 export default {
+  components: {
+    PrismEditor
+  },
   props: {
     langs: Array
   },
   data: function () {
     return {
-      editor: null
+      code: "",
+      editor: null,
+      language: "ruby"
     }
-  },
-  mounted: function () {
-    this.editor = ace.edit('editor', {
-      theme: 'ace/theme/textmate',
-      mode: 'ace/mode/ruby',
-      autoScrollEditorIntoView: true,
-      maxLines: 30,
-      minLines: 25,
-    });
   },
   methods: {
     changeMode: function (event) {
-      var mode = ''
+      var mode = '';
+      var vm = this;
       this.langs.forEach(function(lang){
         if(lang['id'] == event.target.value) {
-          mode = lang['mode']
+          vm.language = lang['mode'];
         }
       });
-      this.editor.session.setMode('ace/mode/' + mode);
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-#editor {
-  height: 400px;
-}
-textarea[name="editor"] {
-  display: none;
+.editor {
+  height: 400px !important;
 }
 </style>

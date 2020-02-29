@@ -6,7 +6,7 @@ class ChangeGroupColumnToCodes < ActiveRecord::Migration[5.2]
     remove_column :codes, :status, :string
     remove_column :codes, :title, :string
     remove_column :codes, :description, :string
-    add_column :codes, :user_codes_id, :integer, after: :id
+    add_column :codes, :user_code_id, :integer, after: :id
   end
 
   def down
@@ -14,6 +14,6 @@ class ChangeGroupColumnToCodes < ActiveRecord::Migration[5.2]
     add_column :codes, :status, :string
     add_column :codes, :title, :string
     add_column :codes, :description, :string
-    remove_column :codes, :user_codes_id, :integer
+    remove_column :codes, :user_code_id, :integer
   end
 end
