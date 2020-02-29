@@ -16,11 +16,11 @@ RSpec.describe Codes::DislikesController, type: :controller do
       before { sign_in user }
 
       context '成功した場合' do
-        let(:code) { create(:code) }
+        let(:code) { create(:user_code) }
         let(:params) { { code_id: code.id } }
 
         it 'code_dislikesを増やす' do
-          expect { post :create, params: params }.to change(CodeDislike, :count).by(1)
+          expect { post :create, params: params }.to change(UserCodeDislike, :count).by(1)
         end
 
         it 'status => success' do
@@ -52,10 +52,10 @@ RSpec.describe Codes::DislikesController, type: :controller do
 
     context 'ログインしている場合' do
       let(:user) { create(:user) }
-      let(:code) { create(:code) }
+      let(:code) { create(:user_code) }
 
       before do
-        create(:code_dislike, user_id: user.id, code_id: code.id)
+        create(:user_code_dislike, user_id: user.id, user_code_id: code.id)
         sign_in user
       end
 
@@ -63,7 +63,7 @@ RSpec.describe Codes::DislikesController, type: :controller do
         let(:params) { { id: code.id } }
 
         it 'code_dislikesを減らす' do
-          expect { delete :destroy, params: params }.to change(CodeDislike, :count).by(-1)
+          expect { delete :destroy, params: params }.to change(UserCodeDislike, :count).by(-1)
         end
 
         it 'status => success' do

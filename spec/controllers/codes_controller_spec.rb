@@ -32,27 +32,31 @@ RSpec.describe CodesController, type: :controller do
     before { sign_in_user }
 
     context '正常な場合' do
-      let(:param) { { code: { title: 'test', description: 'test', language_id: 1, code: 'test' }, tags: %w[Rails Ruby] } }
+      let!(:params) { { user_code: { title: 'test', description: 'test' }, code: [{ language_id: 1, code: 'test' }], tags: %w[Rails Ruby] } }
+
+      it 'user_codeが作成される' do
+        expect { post :create, params: params }.to change(UserCode, :count).by(1)
+      end
+
       it 'codeが作成される' do
-        expect { post :create, params: param }.to change(Code, :count).by(1)
+        expect { post :create, params: params }.to change(Code, :count).by(1)
       end
     end
 
     context 'エラーの場合' do
-      let(:param) { { code: { description: 'test', language_id: 1, code: 'test' }, tags: %w[Rails Ruby] } }
+      let!(:params) { { user_code: { description: 'test' }, code: [{ language_id: 1, code: 'test' }], tags: %w[Rails Ruby] } }
 
       it 'newがrenderされる' do
-        post :create, params: param
+        post :create, params: params
         expect(response).to render_template(:new)
       end
     end
   end
 
   describe 'GET #show' do
-    before { create(:code, id: id) }
-    let(:id) { Faker::Number.number(digits: 1) }
+    let(:user_code) { create(:user_code) }
 
-    subject { get :show, params: { id: id } }
+    subject { get :show, params: { id: user_code.id } }
 
     it { is_expected.to have_http_status(:ok) }
     it { is_expected.to render_template(:show) }

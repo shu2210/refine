@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :code_dislike do
+  factory :user_code_like do
     user { build(:user) }
-    code { build(:code) }
+    user_code { build(:user_code) }
   end
 end

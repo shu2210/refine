@@ -40,11 +40,11 @@ class UserCode < ApplicationRecord
   end
 
   def dislikes
-    code_dislikes.length
+    user_code_dislikes.length
   end
 
   def disliked?(user_id)
-    code_dislike = code_dislikes.select { |dislike| dislike.user_id == user_id }
+    code_dislike = user_code_dislikes.select { |dislike| dislike.user_id == user_id }
     code_dislike.present?
   end
 
@@ -56,7 +56,7 @@ class UserCode < ApplicationRecord
   def post(tag_names)
     transaction do
       self.status = :published
-      save || create_tags(tag_names)
+      save && create_tags(tag_names)
     end
   end
 

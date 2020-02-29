@@ -68,14 +68,14 @@ ActiveRecord::Schema.define(version: 2020_02_29_071426) do
 
   create_table "user_code_dislikes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "code_id"
+    t.integer "user_code_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "user_code_likes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "code_id"
+    t.integer "user_code_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -45,12 +45,12 @@ class User < ApplicationRecord
   end
 
   def posted_codes
-    Code.includes(:tags).where(user_id: id).order(created_at: :desc).limit(10)
+    UserCode.includes(:tags).where(user_id: id).order(created_at: :desc).limit(10)
   end
 
   def liked_codes
-    code_ids = CodeLike.where(user_id: id).pluck(:code_id)
-    Code.where(id: code_ids)
+    code_ids = UserCodeLike.where(user_id: id).pluck(:user_code_id)
+    UserCode.where(id: code_ids)
   end
 
   def reviewed_codes
