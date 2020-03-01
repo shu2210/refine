@@ -10,7 +10,7 @@
       </select>
     </div>
     <monaco-editor
-      language="javascript"
+      :language="language"
       v-model="code"
       height="400"
     >

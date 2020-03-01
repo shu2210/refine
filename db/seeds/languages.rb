@@ -5,6 +5,7 @@ langs = {
   'Python': 'python',
   'Perl': 'perl',
   'Java': 'java',
+  'JavaScript': 'javascript',
   'C': 'c',
   'C++': 'cpp',
   'Go': 'go',
