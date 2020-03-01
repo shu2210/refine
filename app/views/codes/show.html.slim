@@ -17,12 +17,13 @@
       p
         = @code.description
 
-    .code-block.uk-width-1-1.uk-margin
-      code-area[
-        title=@code.title
-        code=@code.codes.first.code
-        is-login=user_signed_in?
-        :code-id=@code.id
-        posted-user-icon=url_for(@code.user.icon)
-        :current-user-id=current_user&.id
-      ]
+    - @code.codes.each do |code|
+      .code-block.uk-width-1-1.uk-margin
+        code-area[
+          title=@code.title
+          code=code.code
+          is-login=user_signed_in?
+          :code-id=@code.id
+          posted-user-icon=url_for(@code.user.icon)
+          :current-user-id=current_user&.id
+        ]
