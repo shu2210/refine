@@ -28,10 +28,7 @@ class User < ApplicationRecord
   validates :new_password_confirmation, presence: true, on: :change_password
 
   before_save do
-    if new_record?
-      self.name = email.match(/.*(?=@)/).to_s
-      icon.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'default.jpeg')), filename: 'default.jpg', content_type: 'image/jpg')
-    end
+    self.name = email.match(/.*(?=@)/).to_s if new_record?
   end
 
   def self.from_omniauth(auth)
