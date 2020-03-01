@@ -9,37 +9,24 @@
         </option>
       </select>
     </div>
-    <prism-editor
-      :language="language"
+    <monaco-editor
+      language="javascript"
       v-model="code"
-      class="editor"
-    ></prism-editor>
+      height="400"
+    >
+    </monaco-editor>
     <input type="hidden" :value="code" name="code[][code]" />
     <span class="uk-text-danger" v-for="error in errors" :key="error">{{ error }}</span>
   </div>
 </template>
 
 <script>
-import "prismjs";
-import "prismjs/themes/prism.css";
-import "prismjs/components/prism-ruby.min.js";
-import "prismjs/components/prism-python.min.js";
-import "prismjs/components/prism-perl.min.js";
-import "prismjs/components/prism-java.min.js";
-import "prismjs/components/prism-c.min.js";
-import "prismjs/components/prism-cpp.min.js";
-import "prismjs/components/prism-go.min.js";
-import "prismjs/components/prism-kotlin.min.js";
-import "prismjs/components/prism-swift.min.js";
-import "prismjs/components/prism-lisp.min.js";
-import "prismjs/components/prism-scala.min.js";
-
-import "vue-prism-editor/dist/VuePrismEditor.css";
-import PrismEditor from 'vue-prism-editor';
+import 'monaco-editor';
+import MonacoEditor from 'monaco-editor-vue';
 
 export default {
   components: {
-    PrismEditor
+    MonacoEditor
   },
   props: {
     langs: Array,
@@ -48,7 +35,6 @@ export default {
   data: function () {
     return {
       code: "",
-      editor: null,
       language: "ruby"
     }
   },
@@ -68,6 +54,6 @@ export default {
 
 <style lang="scss" scoped>
 .editor {
-  height: 400px !important;
+  height: 400px;
 }
 </style>

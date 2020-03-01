@@ -2,12 +2,8 @@
 
 langs = {
   'Ruby': 'ruby',
-  'Javascript': 'javascript',
   'Python': 'python',
   'Perl': 'perl',
-  'HTML': 'html',
-  'XML': 'xml',
-  'CSS': 'css',
   'Java': 'java',
   'C': 'c',
   'C++': 'cpp',
