@@ -1,7 +1,7 @@
 #code.uk-container.uk-margin
   = render partial: 'shared/flash_messages'
 
-  = form_with model: @code, id: 'code-form', local: true, builder: RefineFormBuilder, html: { '@submit': 'addTags' } do |f|
+  = form_with model: @code, url: codes_path, id: 'code-form', local: true, builder: RefineFormBuilder, html: { '@submit': 'addTags' } do |f|
     .title.uk-margin
       = f.label :title, class: 'uk-text-small uk-margin-small-right'
       badge[label="必須" category="required"]
@@ -12,8 +12,10 @@
       badge[label="必須" category="required"]
       = f.text_area :description, class: 'uk-textarea', rows: 5, placeholder: '例）Rubyで作ったfizz_buzzのプログラムです。もう少し簡潔で綺麗な書き方があるかと思うのですが、なかなか思いつきません。どうかご教授いただきたいです。'
 
-    code-area-edit[:langs=languages.to_json]
-    = f.hidden_field :code, class: 'code'
+    code-area-edit[
+      :langs=languages.to_json
+      :errors=@code&.codes&.first&.errors&.full_messages
+    ]
 
     = f.hidden_field :tags, name: 'tags[]', 'v-for': 'tag in tags', ':value': 'tag'
     tag-input
@@ -31,24 +33,3 @@
     .uk-text-center
       button.uk-button.uk-button-primary.uk-button-small[type="submit" form="code-form"] 投稿
       button.uk-button.uk-button-default.uk-margin-left.uk-button-small.uk-modal-close[type="submit"] キャンセル
-
-javascript:
-  var editor = ace.edit('editor');
-
-  function syncTextValue() {
-    var textarea = $('.code');
-    editor.getSession().on('change', function () {
-      textarea.val(editor.getSession().getValue());
-    });
-  }
-
-  function setDefaultValue() {
-    var code = $('#code_code').val();
-    if(code != '') {
-      editor.setValue(code);
-      editor.clearSelection();
-    }
-  }
-
-  setDefaultValue();
-  syncTextValue();

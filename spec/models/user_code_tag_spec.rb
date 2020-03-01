@@ -2,5 +2,5 @@
 
 require 'rails_helper'
 
-RSpec.describe CodeTag, type: :model do
+RSpec.describe UserCodeTag, type: :model do
 end

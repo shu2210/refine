@@ -15,9 +15,9 @@ class User < ApplicationRecord
 
   flash_validation :reset_password_token
 
-  has_many :codes
-  has_many :code_likes
-  has_many :code_dislikes
+  has_many :user_codes
+  has_many :user_code_likes
+  has_many :user_code_dislikes
 
   has_one_attached :icon
 
@@ -45,12 +45,12 @@ class User < ApplicationRecord
   end
 
   def posted_codes
-    Code.includes(:tags).where(user_id: id).order(created_at: :desc).limit(10)
+    UserCode.includes(:tags).where(user_id: id).order(created_at: :desc).limit(10)
   end
 
   def liked_codes
-    code_ids = CodeLike.where(user_id: id).pluck(:code_id)
-    Code.where(id: code_ids)
+    code_ids = UserCodeLike.where(user_id: id).pluck(:user_code_id)
+    UserCode.where(id: code_ids)
   end
 
   def reviewed_codes

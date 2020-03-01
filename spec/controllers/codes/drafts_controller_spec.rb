@@ -12,8 +12,12 @@ RSpec.describe Codes::DraftsController, type: :controller do
     end
 
     context 'ログインしている場合' do
-      let(:params) { { code: { title: 'test', description: 'test' } } }
+      let(:params) { { user_code: { title: 'test', description: 'test' }, code: [{ language_id: 1, code: 'test' }] } }
       before { sign_in_user }
+
+      it 'user_codeが作成されること' do
+        expect { post :create, params: params }.to change(UserCode, :count).by(1)
+      end
 
       it 'codeが作成されること' do
         expect { post :create, params: params }.to change(Code, :count).by(1)

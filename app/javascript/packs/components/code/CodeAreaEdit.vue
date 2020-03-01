@@ -1,7 +1,7 @@
 <template>
   <div class="code">
     <div class="language-select uk-width-1-1 uk-text-right uk-margin">
-      <select name="code[language_id]" class="uk-select uk-width-1-4" @change="changeMode($event)">
+      <select name="code[][language_id]" class="uk-select uk-width-1-4" @change="changeMode($event)">
         <option v-for="lang in langs"
                 :value="lang['id']"
                 :key="lang['id']">
@@ -9,49 +9,51 @@
         </option>
       </select>
     </div>
-    <div id="editor">
-    </div>
+    <monaco-editor
+      :language="language"
+      v-model="code"
+      height="400"
+    >
+    </monaco-editor>
+    <input type="hidden" :value="code" name="code[][code]" />
+    <span class="uk-text-danger" v-for="error in errors" :key="error">{{ error }}</span>
   </div>
 </template>
 
 <script>
+import 'monaco-editor';
+import MonacoEditor from 'monaco-editor-vue';
+
 export default {
+  components: {
+    MonacoEditor
+  },
   props: {
-    langs: Array
+    langs: Array,
+    errors: Array
   },
   data: function () {
     return {
-      editor: null
+      code: "",
+      language: "ruby"
     }
-  },
-  mounted: function () {
-    this.editor = ace.edit('editor', {
-      theme: 'ace/theme/textmate',
-      mode: 'ace/mode/ruby',
-      autoScrollEditorIntoView: true,
-      maxLines: 30,
-      minLines: 25,
-    });
   },
   methods: {
     changeMode: function (event) {
-      var mode = ''
+      var mode = '';
+      var vm = this;
       this.langs.forEach(function(lang){
         if(lang['id'] == event.target.value) {
-          mode = lang['mode']
+          vm.language = lang['mode'];
         }
       });
-      this.editor.session.setMode('ace/mode/' + mode);
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-#editor {
+.editor {
   height: 400px;
-}
-textarea[name="editor"] {
-  display: none;
 }
 </style>

@@ -1,19 +1,17 @@
 <template>
   <div class="good-bad-buttons uk-margin-left uk-text-right uk-text-middle">
     <a class="uk-link-reset" :class="{ 'liked': isLiked }" @click="toggleLike">
-      <img src="~good.png" :width="iconSize" uk-img />
+      <img :src="images['good']" :width="iconSize" uk-img />
       <span class="likes uk-margin-small-left uk-text-large uk-text-middle">{{ likesNum }}</span>
     </a>
     <a class="uk-link-reset uk-margin-left" :class="{ 'disliked': isDisliked }" @click="toggleDislike">
-      <img src="~bad.png" :width="iconSize" uk-img />
+      <img :src="images['bad']" :width="iconSize" uk-img />
       <span class="dislikes uk-margin-small-left uk-text-large uk-text-middle">{{ dislikesNum }}</span>
     </a>
   </div>
 </template>
 
 <script>
-import 'good.png';
-import 'bad.png';
 import axios from 'axios';
 
 export default {
@@ -33,7 +31,11 @@ export default {
       likesNum: this.likes,
       isLiked: this.liked,
       dislikesNum: this.dislikes,
-      isDisliked: this.disliked
+      isDisliked: this.disliked,
+      images: {
+        good: require("../../../../assets/images/good.png"),
+        bad: require("../../../../assets/images/bad.png")
+      }
     }
   },
   methods: {

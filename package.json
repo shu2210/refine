@@ -2,15 +2,24 @@
   "name": "refine",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "^4.0.7",
+    "@rails/webpacker": "4.2.0",
     "axios": "^0.19.0",
-    "vue": "^2.6.10",
-    "vue-loader": "^15.7.1",
-    "vue-template-compiler": "^2.6.10"
+    "monaco-editor-vue": "^1.0.9",
+    "monaco-editor-webpack-plugin": "^1.9.0",
+    "prismjs": "^1.19.0",
+    "vue": "^2.6.11",
+    "vue-codemirror": "^4.0.6",
+    "vue-loader": "^15.9.0",
+    "vue-prism-editor": "^0.5.1",
+    "vue-template-compiler": "^2.6.11"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
     "eslint-plugin-vue": "^6.0.0",
-    "webpack-dev-server": "^3.7.2"
-  }
+    "webpack-dev-server": "^3.10.3"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/shu2210/refine.git",
+  "license": "MIT"
 }

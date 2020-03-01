@@ -5,8 +5,8 @@ class Codes::DislikesController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    code = Code.find(params[:code_id])
-    like = CodeDislike.new(user: current_user, code: code)
+    code = UserCode.find(params[:code_id])
+    like = UserCodeDislike.new(user: current_user, user_code: code)
     like.save!
     render json: { status: :success }
   rescue StandardError => e
@@ -15,7 +15,7 @@ class Codes::DislikesController < ApplicationController
   end
 
   def destroy
-    dislike = CodeDislike.find_by(code_id: params[:id], user_id: current_user.id)
+    dislike = UserCodeDislike.find_by(user_code_id: params[:id], user_id: current_user.id)
     dislike.destroy!
     render json: { status: :success }
   rescue StandardError => e
