@@ -1,7 +1,13 @@
 <template>
   <tr class="review-area">
     <td colspan="2">
-      <textarea class="uk-textarea review" v-model="review" rows="5"></textarea>
+      <div id="codex-editor" />
+
+      <quill-editor
+        v-model="review"
+        ref="quillEditor"
+        :options="option"
+      />
       <div class="uk-text-right uk-margin">
         <button class="uk-button uk-button-default" @click="cancelReview">キャンセル</button>
         <button class="uk-button uk-button-primary" @click="postReview">投稿</button>
@@ -11,7 +17,14 @@
 </template>
 
 <script>
+import Vue from 'vue/dist/vue.esm.js';
 import axios from 'axios';
+import VueQuillEditor from 'vue-quill-editor';
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+
+Vue.use(VueQuillEditor);
 
 export default {
   props: {
@@ -22,7 +35,10 @@ export default {
     return {
       review: '',
       type: 1,
-      userName: ''
+      userName: '',
+      option: {
+        theme: 'snow'
+      }
     }
   },
   methods: {
