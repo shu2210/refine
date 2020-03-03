@@ -11,9 +11,7 @@
               {{ userName }}
             </div>
             <div class="description">
-              <p>
-                {{ review }}
-              </p>
+              <p v-html="review"></p>
             </div>
           </div>
           <div class="control-area uk-width-1-6 uk-text-center" v-if="canEdit">
