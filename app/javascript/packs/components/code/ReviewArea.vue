@@ -3,11 +3,7 @@
     <td colspan="2">
       <div id="codex-editor" />
 
-      <quill-editor
-        v-model="review"
-        ref="quillEditor"
-        :options="option"
-      />
+      <vue-simplemde v-model="review" ref="markdownEditor" />
       <div class="uk-text-right uk-margin">
         <button class="uk-button uk-button-default" @click="cancelReview">キャンセル</button>
         <button class="uk-button uk-button-primary" @click="postReview">投稿</button>
@@ -17,16 +13,13 @@
 </template>
 
 <script>
-import Vue from 'vue/dist/vue.esm.js';
 import axios from 'axios';
-import VueQuillEditor from 'vue-quill-editor';
-import 'quill/dist/quill.core.css';
-import 'quill/dist/quill.snow.css';
-import 'quill/dist/quill.bubble.css';
-
-Vue.use(VueQuillEditor);
+import VueSimplemde from 'vue-simplemde';
 
 export default {
+  components: {
+    VueSimplemde
+  },
   props: {
     codeId: Number,
     line: Number
@@ -35,10 +28,7 @@ export default {
     return {
       review: '',
       type: 1,
-      userName: '',
-      option: {
-        theme: 'snow'
-      }
+      userName: ''
     }
   },
   methods: {
@@ -58,3 +48,7 @@ export default {
   }
 }
 </script>
+
+<style>
+@import 'simplemde/dist/simplemde.min.css';
+</style>
