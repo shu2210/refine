@@ -24,7 +24,7 @@ class CodesController < ApplicationController
   end
 
   def show
-    @code = UserCode.includes(:codes).find(params[:id])
+    @code = UserCode.includes(:codes, :user).find(params[:id])
   end
 
   private
