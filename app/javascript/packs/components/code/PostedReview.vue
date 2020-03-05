@@ -11,9 +11,7 @@
               {{ userName }}
             </div>
             <div class="description">
-              <p>
-                {{ review }}
-              </p>
+              <p v-html="markedReview"></p>
             </div>
           </div>
           <div class="control-area uk-width-1-6 uk-text-center" v-if="canEdit">
@@ -37,6 +35,9 @@
 <script>
 import axios from 'axios';
 import Modal from '../common/Modal.vue';
+import marked from 'marked/marked.min.js';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github-gist.css';
 
 export default {
   props: {
@@ -62,6 +63,19 @@ export default {
   data: function () {
     return {
       show: true
+    }
+  },
+  created: function () {
+    marked.setOptions({
+      langPrefix: '',
+      highlight: function(code, lang) {
+        return hljs.highlightAuto(code, [lang]).value
+      }
+    });
+  },
+  computed: {
+    markedReview: function () {
+      return marked(this.review);
     }
   },
   methods: {

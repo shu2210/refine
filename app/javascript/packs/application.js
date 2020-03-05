@@ -11,6 +11,9 @@ import SocialLoginButton from './components/sns/SocialLoginButton.vue';
 import PopularTags from './components/home/PopularTags.vue';
 import Jumbotron from './components/home/Jumbotron.vue';
 import Modal from './components/common/Modal.vue';
+import sanitizeHTML from 'sanitize-html';
+
+Vue.prototype.$sanitize = sanitizeHTML
 
 new Vue({
   el: '#app',

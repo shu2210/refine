@@ -18,13 +18,13 @@ class CodesController < ApplicationController
     if @code.post(params[:tags])
       redirect_to root_path, success: 'コードの投稿が完了しました'
     else
-      flash[:alert] = '入力内容に誤りがあります'
+      flash.now[:alert] = '入力内容に誤りがあります'
       render :new
     end
   end
 
   def show
-    @code = UserCode.includes(:codes).find(params[:id])
+    @code = UserCode.includes(:codes, :user).find(params[:id])
   end
 
   private

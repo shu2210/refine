@@ -1,7 +1,9 @@
 <template>
   <tr class="review-area">
     <td colspan="2">
-      <textarea class="uk-textarea review" v-model="review" rows="5"></textarea>
+      <div id="codex-editor" />
+
+      <vue-simplemde v-model="review" ref="markdownEditor" />
       <div class="uk-text-right uk-margin">
         <button class="uk-button uk-button-default" @click="cancelReview">キャンセル</button>
         <button class="uk-button uk-button-primary" @click="postReview">投稿</button>
@@ -12,8 +14,12 @@
 
 <script>
 import axios from 'axios';
+import VueSimplemde from 'vue-simplemde';
 
 export default {
+  components: {
+    VueSimplemde
+  },
   props: {
     codeId: Number,
     line: Number
@@ -42,3 +48,7 @@ export default {
   }
 }
 </script>
+
+<style>
+@import 'simplemde/dist/simplemde.min.css';
+</style>
