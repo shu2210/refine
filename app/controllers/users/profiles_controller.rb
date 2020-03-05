@@ -14,9 +14,9 @@ class Users::ProfilesController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update_profile(user_params)
-      flash[:success] = t('saved')
+      flash.now[:success] = t('saved')
     else
-      flash[:alert] = t('errors.invalid')
+      flash.now[:alert] = t('errors.invalid')
     end
     render :edit
   end
