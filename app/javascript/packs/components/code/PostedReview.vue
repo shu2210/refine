@@ -2,7 +2,16 @@
   <transition name="fade">
     <tr v-if="show">
       <td colspan="2">
-        <div class="posted-review uk-flex">
+        <div class="edit-review" v-if="mode == 'edit'">
+          <review-editor
+            commit-label="更新"
+            :review="review"
+            @input="review = $event"
+            @commit="updateReview"
+            @cancel="cancelReview"
+          />
+        </div>
+        <div class="posted-review uk-flex" v-else>
           <div class="uk-flex-first uk-width-1-6 uk-text-center">
             <img :src="icon" class="uk-border-circle uk-width-1-3" />
           </div>
@@ -15,7 +24,7 @@
             </div>
           </div>
           <div class="control-area uk-width-1-6 uk-text-center" v-if="canEdit">
-            <a class="uk-margin-small-right" uk-icon="pencil"></a>
+            <a class="uk-margin-small-right" uk-icon="pencil" @click="switchEditMode"></a>
             <a :href="'#confirm' + id" class="uk-margin-small-right" uk-icon="trash" uk-toggle></a>
             <a class="uk-margin-small-right" uk-icon="menu"></a>
           </div>
@@ -38,6 +47,7 @@ import Modal from '../common/Modal.vue';
 import marked from 'marked/marked.min.js';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github-gist.css';
+import ReviewEditor from './ReviewEditor.vue';
 
 export default {
   props: {
@@ -60,12 +70,13 @@ export default {
       default: false
     }
   },
-  data: function () {
+  data() {
     return {
-      show: true
+      show: true,
+      mode: 'view'
     }
   },
-  created: function () {
+  created() {
     marked.setOptions({
       langPrefix: '',
       highlight: function(code, lang) {
@@ -74,12 +85,29 @@ export default {
     });
   },
   computed: {
-    markedReview: function () {
+    markedReview() {
       return marked(this.review);
     }
   },
   methods: {
-    deleteReview: function () {
+    switchEditMode() {
+      this.mode = 'edit';
+    },
+    switchViewMode() {
+      this.mode = 'view';
+    },
+    cancelReview() {
+      this.switchViewMode();
+    },
+    updateReview() {
+      axios.put('/reviews/' + this.id, { review: this.review }).then((response) => {
+        this.switchViewMode();
+        console.log(response.status);
+      }, (error) => {
+        console.log(error);
+      });
+    },
+    deleteReview() {
       axios.delete('/reviews/' + this.id).then((response) => {
         if(response.data['status'] == 'success') {
           this.show = false;
@@ -95,7 +123,8 @@ export default {
     }
   },
   components: {
-    Modal
+    Modal,
+    ReviewEditor
   }
 }
 </script>

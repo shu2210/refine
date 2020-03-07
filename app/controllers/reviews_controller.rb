@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ReviewsController < ApplicationController
-  protect_from_forgery except: %i[create destroy]
+  protect_from_forgery except: %i[create update destroy]
   before_action :authenticate_user!, except: %i[show]
 
   def show
@@ -18,6 +18,19 @@ class ReviewsController < ApplicationController
     else
       render json: { status: :error, message: review.errors.full_messages }
     end
+  end
+
+  def update
+    review = Review.find(params[:id])
+    if current_user != review.user
+      render json: { status: :error }
+    else
+      review.update!(review: params[:review])
+      render json: { status: :success, review: review }
+    end
+  rescue StandardError => e
+    logger.error e
+    render json: { status: :error }
   end
 
   def destroy

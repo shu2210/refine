@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  mounted: function () {
+  mounted() {
     $('#tag').tagsInput({
       'height': 'auto',
       'width': '100%',

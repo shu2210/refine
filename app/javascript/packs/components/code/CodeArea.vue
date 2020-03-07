@@ -37,17 +37,17 @@ export default {
     postedUserIcon: String,
     currentUserId: Number
   },
-  data: function () {
+  data() {
     return {
       codeLines: []
     }
   },
-  mounted: function () {
+  mounted() {
     this.codeLines = this.code.split(/\n/);
     this.fetchReview();
   },
   methods: {
-    createReviewArea: function (line) {
+    createReviewArea(line) {
       var review = $('#' + line).next('.review-area');
       if(review.length >= 1) {
         return
@@ -64,7 +64,7 @@ export default {
       instance.$mount();
       $('#' + line).after(instance.$el);
     },
-    fetchReview: function () {
+    fetchReview() {
       var vm = this;
 
       axios.get('/reviews/' + this.codeId).then((response) => {
@@ -83,7 +83,7 @@ export default {
         console.log(error);
       });
     },
-    getUserName: function (users, userId) {
+    getUserName(users, userId) {
       for(var i = 0; i < users.length; i++) {
         if(userId == users[i]['id']) {
           return users[i]['name'];
@@ -91,7 +91,7 @@ export default {
       }
     },
     // 投稿された後の処理
-    switchReview: function (component, response) {
+    switchReview(component, response) {
       component.$destroy();
       component.$el.parentNode.removeChild(component.$el);
       this.appendPostedReview({
@@ -103,7 +103,7 @@ export default {
         canEdit: true
       })
     },
-    appendPostedReview: function (props) {
+    appendPostedReview(props) {
       var ComponentClass = Vue.extend(PostedReview);
       var instance = new ComponentClass({ propsData: props });
       instance.$mount();
