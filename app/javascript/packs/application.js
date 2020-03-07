@@ -5,7 +5,7 @@ import ReviewInfo from './components/home/ReviewInfo.vue';
 import IconUploader from './components/profile/IconUploader.vue';
 import GoodBadButton from './components/code/GoodBadButton.vue';
 import CodeArea from './components/code/CodeArea.vue';
-import CodeAreaEdit from './components/code/CodeAreaEdit.vue';
+import CodeForm from './components/code/CodeForm.vue';
 import TagInput from './components/code/TagInput.vue';
 import SocialLoginButton from './components/sns/SocialLoginButton.vue';
 import PopularTags from './components/home/PopularTags.vue';
@@ -20,7 +20,7 @@ new Vue({
   components: {
     GoodBadButton,
     CodeArea,
-    CodeAreaEdit,
+    CodeForm,
     Badge,
     TagInput,
     Tag,
