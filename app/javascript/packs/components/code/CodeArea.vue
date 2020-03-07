@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import ReviewArea from './ReviewArea.vue';
-import PostedReview from './PostedReview';
+import ReviewArea from '../review/ReviewArea.vue';
+import PostedReview from '../review/PostedReview';
 import Vue from 'vue/dist/vue.esm.js';
 import axios from 'axios';
 
