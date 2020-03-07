@@ -15,6 +15,7 @@
     tag-input
 
     code-form[
+      codes=@code.codes&.to_json
       :langs=languages.to_json
       :errors=@code&.codes&.first&.errors&.full_messages
     ]
