@@ -10,36 +10,27 @@
       </select>
     </div>
     <div class="uk-margin">
-      <monaco-editor
+      <code-editor
         :language="language"
-        v-model="code"
-        height="400"
-      >
-      </monaco-editor>
-      <input type="hidden" :value="code" name="code[][code]" />
-      <span class="uk-text-danger" v-for="error in errors" :key="error">{{ error }}</span>
+        :errors="errors"
+      />
     </div>
     <div class="uk-text-right">
-      <button class="uk-button uk-button-default">追加</button>
+      <a class="uk-button uk-button-default">追加</a>
     </div>
   </div>
 </template>
 
 <script>
-import 'monaco-editor';
-import MonacoEditor from 'monaco-editor-vue';
+import CodeEditor from './CodeEditor.vue';
 
 export default {
-  components: {
-    MonacoEditor
-  },
   props: {
     langs: Array,
     errors: Array
   },
   data() {
     return {
-      code: "",
       language: "ruby"
     }
   },
@@ -53,12 +44,9 @@ export default {
         }
       });
     }
+  },
+  components: {
+    CodeEditor
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.editor {
-  height: 400px;
-}
-</style>
