@@ -9,14 +9,19 @@
         </option>
       </select>
     </div>
-    <monaco-editor
-      :language="language"
-      v-model="code"
-      height="400"
-    >
-    </monaco-editor>
-    <input type="hidden" :value="code" name="code[][code]" />
-    <span class="uk-text-danger" v-for="error in errors" :key="error">{{ error }}</span>
+    <div class="uk-margin">
+      <monaco-editor
+        :language="language"
+        v-model="code"
+        height="400"
+      >
+      </monaco-editor>
+      <input type="hidden" :value="code" name="code[][code]" />
+      <span class="uk-text-danger" v-for="error in errors" :key="error">{{ error }}</span>
+    </div>
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-default">追加</button>
+    </div>
   </div>
 </template>
 
