@@ -67,6 +67,41 @@ RSpec.describe ReviewsController, type: :controller do
     end
   end
 
+  describe 'PUT #update' do
+    context 'ログインしていない場合' do
+      subject { put :update, params: { id: 1 } }
+
+      it { is_expected.to have_http_status(:redirect) }
+      it { is_expected.to redirect_to('/users/sign_in') }
+    end
+
+    context 'ログインしている場合' do
+      include_context 'login'
+
+      let!(:review) { create(:review, user: reviewer) }
+
+      context 'ログインしているユーザー == コードの作成者' do
+        let(:reviewer) { user }
+        let(:new_review) { Faker::Lorem.characters(number: 10) }
+
+        it 'updateされる' do
+          put :update, params: { id: review.id, review: new_review }
+          review.reload
+          expect(review.review).to eq(new_review)
+        end
+      end
+
+      context 'ログインしているユーザー != コードの作成者' do
+        let(:reviewer) { create(:user) }
+
+        it 'エラーになる' do
+          put :update, params: { id: review.id }
+          expect(JSON.parse(response.body)['status']).to eq('error')
+        end
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     context 'ログインしていない場合' do
       subject { delete :destroy, params: { id: 1 } }
