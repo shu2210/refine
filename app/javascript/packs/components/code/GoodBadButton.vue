@@ -25,7 +25,7 @@ export default {
     liked: Boolean,
     disliked: Boolean
   },
-  data: function () {
+  data() {
     return {
       iconSize: 25,
       likesNum: this.likes,
@@ -39,21 +39,21 @@ export default {
     }
   },
   methods: {
-    toggleLike: function () {
+    toggleLike() {
       if(this.isLiked) {
         this.deleteLike();
       } else {
         this.addLike();
       }
     },
-    toggleDislike: function () {
+    toggleDislike() {
       if(this.isDisliked) {
         this.deleteDislike();
       } else {
         this.addDislike();
       }
     },
-    addLike: function () {
+    addLike() {
       axios.post('/codes/likes', { code_id: this.codeId }).then((response) => {
         this.likesNum += 1;
         this.isLiked = true;
@@ -62,7 +62,7 @@ export default {
         console.log(error);
       });
     },
-    deleteLike: function () {
+    deleteLike() {
       axios.delete('/codes/likes/' + this.codeId).then((response) => {
         this.likesNum -= 1;
         this.isLiked = false;
@@ -71,7 +71,7 @@ export default {
         console.log(error);
       });
     },
-    addDislike: function () {
+    addDislike() {
       axios.post('/codes/dislikes', { code_id: this.codeId }).then((response) => {
         this.dislikesNum += 1;
         this.isDisliked = true;
@@ -80,7 +80,7 @@ export default {
         console.log(error);
       });
     },
-    deleteDislike: function () {
+    deleteDislike() {
       axios.delete('/codes/dislikes/' + this.codeId).then((response) => {
         this.dislikesNum -= 1;
         this.isDisliked = false;

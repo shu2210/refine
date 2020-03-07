@@ -32,14 +32,14 @@ export default {
     langs: Array,
     errors: Array
   },
-  data: function () {
+  data() {
     return {
       code: "",
       language: "ruby"
     }
   },
   methods: {
-    changeMode: function (event) {
+    changeMode(event) {
       var mode = '';
       var vm = this;
       this.langs.forEach(function(lang){

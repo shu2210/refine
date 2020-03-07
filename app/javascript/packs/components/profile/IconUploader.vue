@@ -16,16 +16,16 @@ export default {
       type: String
     }
   },
-  data: function () {
+  data() {
     return {
       selectedImage: ""
     }
   },
-  created: function () {
+  created() {
     this.selectedImage = this.imageSource;
   },
   methods: {
-    setImage: function (event) {
+    setImage(event) {
       const file = event.target.files[0];
       if (file.type.startsWith("image/")) {
         this.selectedImage = window.URL.createObjectURL(file);

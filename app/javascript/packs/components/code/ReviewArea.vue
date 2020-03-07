@@ -24,7 +24,7 @@ export default {
     codeId: Number,
     line: Number
   },
-  data: function () {
+  data() {
     return {
       review: '',
       type: 1,
@@ -32,7 +32,7 @@ export default {
     }
   },
   methods: {
-    postReview: function () {
+    postReview() {
       axios.post('/reviews', { review: { line: this.line, code_id: this.codeId, review: this.review } }).then((response) => {
         this.userName = response.data.user.name
         this.$emit('post-review', this, response);
@@ -41,7 +41,7 @@ export default {
         console.log(error);
       });
     },
-    cancelReview: function () {
+    cancelReview() {
       this.$destroy();
       this.$el.parentNode.removeChild(this.$el);
     }

@@ -31,13 +31,13 @@ new Vue({
     SocialLoginButton,
     Modal
   },
-  data: function () {
+  data() {
     return {
       tags: []
     }
   },
   methods: {
-    addTags: function () {
+    addTags() {
       var keywords = $('#tag').siblings('.tagsinput').children('.tag');
       for (var i = keywords.length; i--;) {
         this.tags.push($(keywords[i]).text().substring(0, $(keywords[i]).text().length -  1).trim());

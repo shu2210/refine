@@ -60,12 +60,12 @@ export default {
       default: false
     }
   },
-  data: function () {
+  data() {
     return {
       show: true
     }
   },
-  created: function () {
+  created() {
     marked.setOptions({
       langPrefix: '',
       highlight: function(code, lang) {
@@ -74,12 +74,12 @@ export default {
     });
   },
   computed: {
-    markedReview: function () {
+    markedReview() {
       return marked(this.review);
     }
   },
   methods: {
-    deleteReview: function () {
+    deleteReview() {
       axios.delete('/reviews/' + this.id).then((response) => {
         if(response.data['status'] == 'success') {
           this.show = false;
