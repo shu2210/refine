@@ -3,11 +3,13 @@
     <tr v-if="show">
       <td colspan="2">
         <div class="edit-review" v-if="mode == 'edit'">
-          <vue-simplemde v-model="review" ref="markdownEditor" />
-          <div class="uk-text-right uk-margin">
-            <button class="uk-button uk-button-default" @click="cancelReview">キャンセル</button>
-            <button class="uk-button uk-button-primary" @click="updateReview">更新</button>
-          </div>
+          <review-editor
+            commit-label="更新"
+            :review="review"
+            @input="review = $event"
+            @commit="updateReview"
+            @cancel="cancelReview"
+          />
         </div>
         <div class="posted-review uk-flex" v-else>
           <div class="uk-flex-first uk-width-1-6 uk-text-center">
@@ -45,7 +47,7 @@ import Modal from '../common/Modal.vue';
 import marked from 'marked/marked.min.js';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github-gist.css';
-import VueSimplemde from 'vue-simplemde';
+import ReviewEditor from './ReviewEditor.vue';
 
 export default {
   props: {
@@ -122,7 +124,7 @@ export default {
   },
   components: {
     Modal,
-    VueSimplemde
+    ReviewEditor
   }
 }
 </script>

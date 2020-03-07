@@ -1,24 +1,28 @@
 <template>
   <tr class="review-area">
     <td colspan="2">
-      <div id="codex-editor" />
-
-      <vue-simplemde v-model="review" ref="markdownEditor" />
+      <review-editor
+        commit-label="投稿"
+        @input="review = $event"
+        @commit="postReview"
+        @cancel="cancelReview"
+      />
+      <!-- <vue-simplemde v-model="review" ref="markdownEditor" />
       <div class="uk-text-right uk-margin">
         <button class="uk-button uk-button-default" @click="cancelReview">キャンセル</button>
         <button class="uk-button uk-button-primary" @click="postReview">投稿</button>
-      </div>
+      </div> -->
     </td>
   </tr>
 </template>
 
 <script>
 import axios from 'axios';
-import VueSimplemde from 'vue-simplemde';
+import ReviewEditor from './ReviewEditor.vue';
 
 export default {
   components: {
-    VueSimplemde
+    ReviewEditor
   },
   props: {
     codeId: Number,
