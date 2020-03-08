@@ -1,10 +1,17 @@
 <template>
   <div class="editor">
     <div class="language-select uk-width-1-1 uk-text-right uk-margin">
-      <select name="code[][language_id]" class="uk-select uk-width-1-4" @change="changeMode($event)">
-        <option v-for="lang in langs"
-                :value="lang['id']"
-                :key="lang['id']">
+      <select
+        name="code[][language_id]"
+        class="uk-select uk-width-1-4"
+        @change="changeMode($event)"
+      >
+        <option
+          v-for="lang in langs"
+          :value="lang['id']"
+          :key="lang['id']"
+          :selected="language == lang['mode']"
+        >
           {{ lang['name'] }}
         </option>
       </select>
@@ -26,6 +33,14 @@ import MonacoEditor from 'monaco-editor-vue';
 
 export default {
   props: {
+    code: {
+      type: String,
+      default: ''
+    },
+    defaultLanguage: {
+      type: Object,
+      default: null
+    },
     langs: Array,
     errors: Array
   },
@@ -37,6 +52,9 @@ export default {
   },
   created() {
     this.editCode = this.code;
+    if(this.defaultLanguage != null) {
+      this.language = this.defaultLanguage.mode;
+    }
   },
   methods: {
     changeMode(event) {

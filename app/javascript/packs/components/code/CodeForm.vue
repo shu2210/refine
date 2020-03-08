@@ -2,6 +2,8 @@
   <div class="code">
     <div class="uk-margin">
       <code-editor
+        :code="code.code"
+        :default-language="langs[code.language_id - 1]"
         :langs="langs"
         :errors="errors"
         v-for="code in formCodes"
