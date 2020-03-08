@@ -2,12 +2,12 @@
   <div class="code">
     <div class="uk-margin">
       <code-editor
+        v-for="(code, index) in formCodes"
         :code="code.code"
         :default-language="langs[code.language_id - 1]"
         :langs="langs"
-        :errors="errors"
-        v-for="code in formCodes"
-        :key="code.id"
+        :errors="errors[index]"
+        :key="index"
       />
     </div>
     <div class="uk-text-right">
@@ -30,6 +30,7 @@ export default {
   data() {
     return {
       codeObject: null,
+      codeErrors: null,
       formCodes: []
     }
   },

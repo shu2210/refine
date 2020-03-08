@@ -40,7 +40,9 @@ class CodesController < ApplicationController
   def codes
     params[:code].each(&:permit!)
     params[:code].map do |code|
-      Code.new(code)
+      code = Code.new(code)
+      code.valid?
+      code
     end
   end
 end

@@ -23,7 +23,9 @@
       v-model="editCode"
     ></monaco-editor>
     <input type="hidden" :value="editCode" name="code[][code]" />
-    <span class="uk-text-danger" v-for="error in errors" :key="error">{{ error }}</span>
+    <span class="uk-text-danger" v-for="(error, index) in errors" :key="index">
+      {{ error }}
+    </span>
   </div>
 </template>
 
@@ -42,7 +44,12 @@ export default {
       default: null
     },
     langs: Array,
-    errors: Array
+    errors: {
+      type: Array,
+      default() {
+        return [];
+      }
+    }
   },
   data() {
     return {
