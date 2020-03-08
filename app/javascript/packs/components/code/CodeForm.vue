@@ -9,7 +9,7 @@
       />
     </div>
     <div class="uk-text-right">
-      <a class="uk-button uk-button-default" @click="deleteCode">削除</a>
+      <a class="uk-button uk-button-default" v-show="canDelete" @click="deleteCode">削除</a>
       <a class="uk-button uk-button-default" @click="addCode">追加</a>
     </div>
   </div>
@@ -34,6 +34,11 @@ export default {
   created() {
     this.formCodes = JSON.parse(this.codes);
     this.codeObject = JSON.parse(this.newCode);
+  },
+  computed: {
+    canDelete() {
+      return this.formCodes.length >= 2;
+    }
   },
   methods: {
     addCode() {
