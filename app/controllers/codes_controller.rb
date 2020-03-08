@@ -10,6 +10,7 @@ class CodesController < ApplicationController
 
   def new
     @code = UserCode.new
+    @code.codes.push(Code.new)
   end
 
   def create

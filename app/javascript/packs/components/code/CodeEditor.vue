@@ -14,8 +14,7 @@
       :language="language"
       height="400"
       v-model="editCode"
-    >
-    </monaco-editor>
+    ></monaco-editor>
     <input type="hidden" :value="editCode" name="code[][code]" />
     <span class="uk-text-danger" v-for="error in errors" :key="error">{{ error }}</span>
   </div>
@@ -55,9 +54,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.editor {
-  height: 400px;
-}
-</style>
