@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     createReviewArea(line) {
-      var review = $('#' + line).next('.review-area');
+      var review = $(`#code${this.no}-${line}`).next('.review-area');
       if(review.length >= 1) {
         return
       }
