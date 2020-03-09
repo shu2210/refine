@@ -17,9 +17,10 @@
       p
         = @code.description
 
-    - @code.codes.each do |code|
+    - @code.codes.each.with_index(1) do |code, index|
       .code-block.uk-width-1-1.uk-margin
         code-area[
+          :no=index
           title=@code.title
           code=code.code
           is-login=user_signed_in?
