@@ -111,9 +111,6 @@ export default {
       axios.delete('/reviews/' + this.id).then((response) => {
         if(response.data['status'] == 'success') {
           this.show = false;
-          // TODO: fade後、削除
-          // this.$destroy();
-          // this.$el.parentNode.removeChild(this.$el);
         }
         UIkit.modal('#confirm' + this.id).hide();
         console.log(response.status);
