@@ -12,13 +12,16 @@
       badge[label="必須" category="required"]
       = f.text_area :description, class: 'uk-textarea', rows: 5, placeholder: '例）Rubyで作ったfizz_buzzのプログラムです。もう少し簡潔で綺麗な書き方があるかと思うのですが、なかなか思いつきません。どうかご教授いただきたいです。'
 
-    code-area-edit[
+    tag-input
+
+    code-form[
+      new-code=Code.new.to_json
+      codes=@code.codes.to_json
       :langs=languages.to_json
-      :errors=@code&.codes&.first&.errors&.full_messages
+      :errors=@code.codes.map(&:errors).map(&:full_messages).to_json
     ]
 
     = f.hidden_field :tags, name: 'tags[]', 'v-for': 'tag in tags', ':value': 'tag'
-    tag-input
 
     .submit-btn.uk-text-center.uk-margin
       a.uk-button.uk-button-primary[href="#confirm" uk-toggle] 投稿

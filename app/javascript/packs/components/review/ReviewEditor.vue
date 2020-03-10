@@ -25,11 +25,8 @@ export default {
   },
   data() {
     return {
-      editReview: ''
+      editReview: this.review
     }
-  },
-  created() {
-    this.editReview = this.review;
   },
   methods: {
     cancel() {

@@ -10,6 +10,7 @@ class CodesController < ApplicationController
 
   def new
     @code = UserCode.new
+    @code.codes.push(Code.new)
   end
 
   def create
@@ -39,7 +40,9 @@ class CodesController < ApplicationController
   def codes
     params[:code].each(&:permit!)
     params[:code].map do |code|
-      Code.new(code)
+      code = Code.new(code)
+      code.valid?
+      code
     end
   end
 end

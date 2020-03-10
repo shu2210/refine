@@ -7,11 +7,6 @@
         @commit="postReview"
         @cancel="cancelReview"
       />
-      <!-- <vue-simplemde v-model="review" ref="markdownEditor" />
-      <div class="uk-text-right uk-margin">
-        <button class="uk-button uk-button-default" @click="cancelReview">キャンセル</button>
-        <button class="uk-button uk-button-primary" @click="postReview">投稿</button>
-      </div> -->
     </td>
   </tr>
 </template>
@@ -21,9 +16,6 @@ import axios from 'axios';
 import ReviewEditor from './ReviewEditor.vue';
 
 export default {
-  components: {
-    ReviewEditor
-  },
   props: {
     codeId: Number,
     line: Number
@@ -31,7 +23,6 @@ export default {
   data() {
     return {
       review: '',
-      type: 1,
       userName: ''
     }
   },
@@ -49,6 +40,9 @@ export default {
       this.$destroy();
       this.$el.parentNode.removeChild(this.$el);
     }
+  },
+  components: {
+    ReviewEditor
   }
 }
 </script>

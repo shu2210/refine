@@ -132,7 +132,7 @@ RSpec.describe User, type: :model do
 
       it 'レビューしたコードが返る' do
         codes = post_user.reviewed_codes
-        expect(codes.first).to eq(code)
+        expect(codes.first).to eq(code.user_code)
       end
     end
 

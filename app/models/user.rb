@@ -54,8 +54,8 @@ class User < ApplicationRecord
   end
 
   def reviewed_codes
-    code_ids = Review.where(user_id: id).pluck(:code_id)
-    Code.where(id: code_ids)
+    code_ids = Review.where(user_id: id).pluck(:code_id).uniq
+    Code.includes(:user_code).where(id: code_ids)&.map(&:user_code)
   end
 
   def change_password(user_params)

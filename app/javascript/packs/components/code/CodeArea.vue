@@ -8,7 +8,7 @@
     </div>
     <div class="code">
       <table class="uk-table uk-table-small uk-table-hover uk-margin-remove">
-        <tr v-for="(codeLine, line) in codeLines" :id="line + 1" :key="line">
+        <tr v-for="(codeLine, line) in codeLines" :id="`code${no}-${(line + 1)}`" :key="line">
           <td class="line-num uk-table-shrink">
             <a class="uk-icon-button" uk-icon="comment" @click="createReviewArea(line + 1)" v-if="isLogin"></a>
             <span>{{ line + 1 }}</span>
@@ -23,13 +23,14 @@
 </template>
 
 <script>
-import ReviewArea from './ReviewArea.vue';
-import PostedReview from './PostedReview';
+import ReviewArea from '../review/ReviewArea.vue';
+import PostedReview from '../review/PostedReview';
 import Vue from 'vue/dist/vue.esm.js';
 import axios from 'axios';
 
 export default {
   props: {
+    no: Number,
     title: String,
     code: String,
     codeId: Number,
@@ -48,7 +49,7 @@ export default {
   },
   methods: {
     createReviewArea(line) {
-      var review = $('#' + line).next('.review-area');
+      var review = $(`#code${this.no}-${line}`).next('.review-area');
       if(review.length >= 1) {
         return
       }
@@ -62,7 +63,7 @@ export default {
       });
       instance.$on('post-review', this.switchReview);
       instance.$mount();
-      $('#' + line).after(instance.$el);
+      $(`#code${this.no}-${line}`).after(instance.$el);
     },
     fetchReview() {
       var vm = this;
@@ -107,7 +108,7 @@ export default {
       var ComponentClass = Vue.extend(PostedReview);
       var instance = new ComponentClass({ propsData: props });
       instance.$mount();
-      $('#' + props['line']).after(instance.$el);
+      $(`#code${this.no}-${props['line']}`).after(instance.$el);
     }
   }
 }
