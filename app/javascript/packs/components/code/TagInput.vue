@@ -1,17 +1,31 @@
 <template>
   <div class="uk-margin tag">
-    <input type="text" id="tag" class="uk-input" data-role="tagsinput" />
+    <vue-tags-input
+      v-model="tag"
+      :tags="tags"
+      @tags-changed="newTags => tags = newTags"
+    />
   </div>
 </template>
 
 <script>
+import VueTagsInput from '@johmun/vue-tags-input';
+
 export default {
-  mounted() {
-    $('#tag').tagsInput({
-      'height': 'auto',
-      'width': '100%',
-      'defaultText': 'タグを入力'
-    });
+  data() {
+    return {
+      tag: '',
+      tags: []
+    }
+  },
+  components: {
+    VueTagsInput
   }
 }
 </script>
+
+<style scoped>
+.vue-tags-input {
+  max-width: 100% !important;
+}
+</style>
