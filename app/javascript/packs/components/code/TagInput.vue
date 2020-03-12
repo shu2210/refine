@@ -1,5 +1,6 @@
 <template>
   <div class="uk-margin tag">
+    <input type="hidden" name="tags[]" :value="tag.text" v-for="(tag, index) in tags" :key="index">
     <vue-tags-input
       v-model="tag"
       :tags="tags"
