@@ -4,6 +4,7 @@
       v-model="tag"
       :tags="tags"
       @tags-changed="newTags => tags = newTags"
+      placeholder="タグを追加"
     />
   </div>
 </template>
@@ -24,8 +25,20 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .vue-tags-input {
-  max-width: 100% !important;
+  min-width: 100% !important;
+  background: #324652;
+}
+.ti-tag {
+  color: #FCF6F5FF !important;
+  background-color: #2460A7FF !important;
+}
+.vue-tags-input .ti-input {
+  min-height: 40px !important;
+  border: solid 1px rgb(229, 229, 229);
+}
+.vue-tags-input .ti-tag {
+  font-size: 15px;
 }
 </style>
