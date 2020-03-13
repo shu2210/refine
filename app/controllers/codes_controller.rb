@@ -11,6 +11,7 @@ class CodesController < ApplicationController
   def new
     @code = UserCode.new
     @code.codes.push(Code.new)
+    @tags = Tag.all.pluck(:name)
   end
 
   def create
