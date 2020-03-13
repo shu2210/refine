@@ -6,6 +6,7 @@
       :tags="tags"
       @tags-changed="newTags => tags = newTags"
       placeholder="タグを追加"
+      :autocomplete-items="autocompleteItems"
     />
   </div>
 </template>
@@ -14,11 +15,21 @@
 import VueTagsInput from '@johmun/vue-tags-input';
 
 export default {
+  props: {
+    autocompleteTags: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
       tag: '',
-      tags: []
+      tags: [],
+      autocompleteItems: []
     }
+  },
+  created() {
+    this.autocompleteItems = JSON.parse(this.autocompleteTags);
   },
   components: {
     VueTagsInput
