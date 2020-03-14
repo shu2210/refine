@@ -15,6 +15,14 @@ module CodesHelper
     raise "イメージが見つかりませんでした。name:#{name}, ext:#{IMAGE_EXT}"
   end
 
+  def tag_hash(tag_names)
+    tags = []
+    tag_names&.each do |tag|
+      tags.push(text: tag)
+    end
+    tags
+  end
+
   private
 
   def image_exists?(path)

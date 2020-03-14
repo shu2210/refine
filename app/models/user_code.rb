@@ -54,30 +54,23 @@ class UserCode < ApplicationRecord
   end
 
   def post(tag_names)
-    valid = false
     transaction do
       self.status = :published
+      create_tags(tag_names)
+      raise ActiveRecord::Rollback if invalid?
 
-      valid = save && create_tags(tag_names)
-      raise ActiveRecord::Rollback unless valid
+      save
     end
-    valid
   end
 
   private
 
   def create_tags(tag_names)
-    return true if tag_names.blank?
+    return if tag_names.blank?
 
-    valid = true
     tag_names.each do |name|
       tag = Tag.find_or_create_by(name: name)
-      code_tag = UserCodeTag.new
-      code_tag.user_code = self
-      code_tag.tag = tag
-      valid = false if code_tag.invalid?
-      code_tag.save
+      tags.push(tag)
     end
-    valid
   end
 end
