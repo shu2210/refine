@@ -18,6 +18,7 @@ class User < ApplicationRecord
   has_many :user_codes
   has_many :user_code_likes
   has_many :user_code_dislikes
+  has_many :comments
 
   has_one_attached :icon
 

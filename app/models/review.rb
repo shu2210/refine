@@ -6,5 +6,7 @@ class Review < ApplicationRecord
   belongs_to :code
   belongs_to :user
 
+  has_many :comments
+
   validates :review, presence: true, length: { maximum: 500 }
 end
