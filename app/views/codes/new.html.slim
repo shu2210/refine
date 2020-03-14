@@ -4,12 +4,12 @@
   = form_with model: @code, url: codes_path, id: 'code-form', local: true, builder: RefineFormBuilder, html: { '@submit': 'addTags' } do |f|
     .title.uk-margin
       = f.label :title, class: 'uk-text-small uk-margin-small-right'
-      badge[label="必須" category="required"]
+      required-badge
       = f.text_field :title, class: 'uk-input', placeholder: '例）Rubyのfizz_buzzプログラムです'
 
     .description.uk-margin
       = f.label :description, class: 'uk-text-small uk-margin-small-right'
-      badge[label="必須" category="required"]
+      required-badge
       = f.text_area :description, class: 'uk-textarea', rows: 5, placeholder: '例）Rubyで作ったfizz_buzzのプログラムです。もう少し簡潔で綺麗な書き方があるかと思うのですが、なかなか思いつきません。どうかご教授いただきたいです。'
 
     tag-input[

@@ -1,9 +1,8 @@
 <template>
-  <span class="status-badge uk-badge"
-        :class="{
-          'uk-padding-small uk-margin-small-bottom': category == 'large',
-          'uk-text-small': category == 'required'
-        }">
+  <span
+    class="status-badge uk-badge"
+    :class="badgeClass"
+  >
     {{ label }}
   </span>
 </template>
@@ -15,9 +14,9 @@ export default {
       type: String,
       required: true
     },
-    category: {
+    badgeClass: {
       type: String,
-      default: 'large'
+      default: ''
     }
   }
 }
