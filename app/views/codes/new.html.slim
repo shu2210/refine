@@ -14,6 +14,7 @@
 
     tag-input[
       autocomplete-tags=tag_hash(@tags).to_json
+      :default-tags=tag_hash(@code&.tags&.map(&:name)).to_json
     ]
 
     code-form[

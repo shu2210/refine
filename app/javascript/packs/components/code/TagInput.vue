@@ -19,6 +19,12 @@ export default {
     autocompleteTags: {
       type: String,
       default: ''
+    },
+    defaultTags: {
+      type: Array,
+      default() {
+        return [];
+      }
     }
   },
   data() {
@@ -30,6 +36,8 @@ export default {
   },
   created() {
     this.autocompleteItems = JSON.parse(this.autocompleteTags);
+    console.log(this.defaultTags);
+    this.tags = this.defaultTags;
   },
   components: {
     VueTagsInput
