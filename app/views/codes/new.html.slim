@@ -13,7 +13,7 @@
       = f.text_area :description, class: 'uk-textarea', rows: 5, placeholder: '例）Rubyで作ったfizz_buzzのプログラムです。もう少し簡潔で綺麗な書き方があるかと思うのですが、なかなか思いつきません。どうかご教授いただきたいです。'
 
     tag-input[
-      autocomplete-tags=tag_hash(@tags).to_json
+      :autocomplete-tags=tag_hash(@tags).to_json
       :default-tags=tag_hash(@code&.tags&.map(&:name)).to_json
     ]
 

@@ -17,8 +17,10 @@ import VueTagsInput from '@johmun/vue-tags-input';
 export default {
   props: {
     autocompleteTags: {
-      type: String,
-      default: ''
+      type: Array,
+      default() {
+        return [];
+      }
     },
     defaultTags: {
       type: Array,
@@ -35,8 +37,7 @@ export default {
     }
   },
   created() {
-    this.autocompleteItems = JSON.parse(this.autocompleteTags);
-    console.log(this.defaultTags);
+    this.autocompleteItems = this.autocompleteTags;
     this.tags = this.defaultTags;
   },
   components: {
