@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <tr v-if="show">
+    <tr v-if="show" :id="'review-' + id">
       <td colspan="2">
         <div class="edit-review" v-if="mode == 'edit'">
           <review-editor

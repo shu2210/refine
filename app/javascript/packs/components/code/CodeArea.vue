@@ -25,6 +25,7 @@
 <script>
 import ReviewArea from '../review/ReviewArea.vue';
 import PostedReview from '../review/PostedReview';
+import Comment from '../review/Comment';
 import Vue from 'vue/dist/vue.esm.js';
 import axios from 'axios';
 
@@ -109,6 +110,13 @@ export default {
       var instance = new ComponentClass({ propsData: props });
       instance.$mount();
       $(`#code${this.no}-${props['line']}`).after(instance.$el);
+      this.appendCommentArea(props);
+    },
+    appendCommentArea(props) {
+      var ComponentClass = Vue.extend(Comment);
+      var instance = new ComponentClass();
+      instance.$mount();
+      $(`#review-${props['id']}`).after(instance.$el);
     }
   }
 }
