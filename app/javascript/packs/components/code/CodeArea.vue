@@ -114,7 +114,11 @@ export default {
     },
     appendCommentArea(props) {
       var ComponentClass = Vue.extend(Comment);
-      var instance = new ComponentClass();
+      var instance = new ComponentClass({
+        propsData: {
+          reviewId: props['id']
+        }
+      });
       instance.$mount();
       $(`#review-${props['id']}`).after(instance.$el);
     }
