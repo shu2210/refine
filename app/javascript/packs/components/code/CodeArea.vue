@@ -17,19 +17,25 @@
             <pre class="line">{{ codeLine }}</pre>
           </td>
         </tr>
+        <posted-comment />
       </table>
     </div>
   </div>
 </template>
 
 <script>
-import ReviewArea from '../review/ReviewArea.vue';
+import ReviewArea from '../review/ReviewArea';
 import PostedReview from '../review/PostedReview';
+import PostedComment from '../review/PostedComment';
 import Comment from '../review/Comment';
 import Vue from 'vue/dist/vue.esm.js';
 import axios from 'axios';
 
 export default {
+  // 暫定対応
+  components: {
+    PostedComment
+  },
   props: {
     no: Number,
     title: String,
