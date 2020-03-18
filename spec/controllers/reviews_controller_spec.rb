@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe ReviewsController, type: :controller do
-  shared_context 'login' do
+  shared_context :login do
     let(:user) { create(:user, :with_icon) }
     before { sign_in user }
   end
@@ -33,7 +33,7 @@ RSpec.describe ReviewsController, type: :controller do
     end
 
     context 'ログインしている場合' do
-      include_context 'login'
+      include_context :login
 
       let(:code) { create(:code) }
 
@@ -76,7 +76,7 @@ RSpec.describe ReviewsController, type: :controller do
     end
 
     context 'ログインしている場合' do
-      include_context 'login'
+      include_context :login
 
       let!(:review) { create(:review, user: reviewer) }
 
@@ -111,7 +111,7 @@ RSpec.describe ReviewsController, type: :controller do
     end
 
     context 'ログインしている場合' do
-      include_context 'login'
+      include_context :login
 
       let!(:review) { create(:review, user: reviewer) }
 

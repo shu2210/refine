@@ -4,6 +4,11 @@ class CommentsController < ApplicationController
   protect_from_forgery except: %i[create]
   before_action :authenticate_user!
 
+  def index
+    comments = Comment.all
+    render json: { comments: comments }
+  end
+
   def create
     comment = Comment.new(comment_params)
     if comment.save
