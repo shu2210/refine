@@ -127,6 +127,24 @@ export default {
       });
       instance.$mount();
       $(`#review-${props['id']}`).after(instance.$el);
+      this.appendPostedComment(props);
+    },
+    appendPostedComment(props) {
+      axios.get('/comments').then((response) => {
+        response.data.comments.forEach(function(comment) {
+          var ComponentClass = Vue.extend(PostedComment);
+          var instance = new ComponentClass({
+            propsData: {
+              comment: comment['comment']
+            }
+          });
+          instance.$mount();
+
+          $(`#comment-${props['id']}`).after(instance.$el);
+        });
+      }, (error) => {
+        console.log(error);
+      });
     }
   }
 }

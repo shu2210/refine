@@ -1,5 +1,5 @@
 <template>
-  <tr>
+  <tr :id="`comment-${reviewId}`">
     <td colspan="2">
       <div class="uk-container uk-flex">
         <input type="text" class="uk-input" v-model="comment" />

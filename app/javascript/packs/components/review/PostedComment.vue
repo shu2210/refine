@@ -16,7 +16,7 @@
             </div>
             <div class="review-info uk-width-1-1">
               <div class="description">
-                <p>レビューありがとうございます。修正しました。</p>
+                <p>{{ comment }}</p>
               </div>
             </div>
           </div>
@@ -37,6 +37,12 @@
 import Modal from '../common/Modal.vue';
 
 export default {
+  props: {
+    comment: {
+      type: String,
+      default: ''
+    }
+  },
   components: {
     Modal
   }

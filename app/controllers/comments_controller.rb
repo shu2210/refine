@@ -5,8 +5,13 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    comments = Comment.all
+    comments = Comment.all.order(:created_at)
     render json: { comments: comments }
+  end
+
+  def show
+    reviews = Review.find(params[:id])
+    render json: { comments: reviews&.comments&.order(:created_at) }
   end
 
   def create
