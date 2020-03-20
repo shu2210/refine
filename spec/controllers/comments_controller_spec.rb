@@ -8,28 +8,6 @@ RSpec.describe CommentsController, type: :controller do
     before { sign_in user }
   end
 
-  describe 'GET #index' do
-    context 'ログインしていない場合' do
-      subject { get :index }
-
-      it { is_expected.to have_http_status(:redirect) }
-      it { is_expected.to redirect_to('/users/sign_in') }
-    end
-
-    context 'ログインしている場合' do
-      include_context :login
-
-      let!(:comment) { create(:comment) }
-
-      it 'commentsのjsonが返ってくる' do
-        get :index
-        comments = JSON.parse(response.body)['comments']
-        expect(comments.count).to eq(1)
-        expect(comments.last['id']).to eq(comment.id)
-      end
-    end
-  end
-
   describe 'GET #show' do
     context 'ログインしていない場合' do
       subject { get :show, params: { id: 1 } }

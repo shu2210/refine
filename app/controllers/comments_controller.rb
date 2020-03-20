@@ -4,14 +4,9 @@ class CommentsController < ApplicationController
   protect_from_forgery except: %i[create]
   before_action :authenticate_user!
 
-  def index
-    comments = Comment.all.order(:created_at)
-    render json: { comments: comments }
-  end
-
   def show
     reviews = Review.find(params[:id])
-    render json: { comments: reviews&.comments&.order(:created_at) }
+    render json: { comments: reviews&.comments&.order(created_at: :desc) }
   end
 
   def create

@@ -17,7 +17,6 @@
             <pre class="line">{{ codeLine }}</pre>
           </td>
         </tr>
-        <posted-comment />
       </table>
     </div>
   </div>
@@ -32,10 +31,6 @@ import Vue from 'vue/dist/vue.esm.js';
 import axios from 'axios';
 
 export default {
-  // 暫定対応
-  components: {
-    PostedComment
-  },
   props: {
     no: Number,
     title: String,
@@ -130,7 +125,7 @@ export default {
       this.appendPostedComment(props);
     },
     appendPostedComment(props) {
-      axios.get('/comments').then((response) => {
+      axios.get(`/comments/${props['id']}`).then((response) => {
         response.data.comments.forEach(function(comment) {
           var ComponentClass = Vue.extend(PostedComment);
           var instance = new ComponentClass({
