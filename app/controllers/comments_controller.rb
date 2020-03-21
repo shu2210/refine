@@ -6,10 +6,9 @@ class CommentsController < ApplicationController
 
   def show
     reviews = Review.find(params[:id])
-    json = reviews.comments&.order(created_at: :desc)&.to_json(include: :user)
-    comments = JSON.parse(json)
+    comments = reviews.comments&.array_with_user
     comments.each do |comment|
-      comment['user']['icon'] = url_for(User.find(comment['user']['id']).icon)
+      comment['user']['icon'] = icon_url(User.find(comment['user']['id']))
     end
     render json: { comments: comments }
   end
@@ -28,5 +27,11 @@ class CommentsController < ApplicationController
   def comment_params
     params[:comments][:user_id] = current_user.id
     params.require(:comments).permit(:review_id, :user_id, :comment)
+  end
+
+  def icon_url(user)
+    return unless user.icon&.attached?
+
+    url_for(user.icon)
   end
 end
