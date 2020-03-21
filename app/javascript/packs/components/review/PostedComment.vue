@@ -4,7 +4,7 @@
       <div class="comment-area uk-margin-large-left">
         <div class="posted-review uk-flex">
           <div class="uk-flex-first uk-width-1-6 uk-text-center">
-            <img src="icon" class="uk-border-circle uk-width-1-3" />
+            <img :src="userIcon" class="uk-border-circle uk-width-1-3" />
             <div class="user-name uk-margin">
               {{ userName }}
             </div>
@@ -43,6 +43,10 @@ export default {
       default: ''
     },
     userName: {
+      type: String,
+      default: ''
+    },
+    userIcon: {
       type: String,
       default: ''
     }
