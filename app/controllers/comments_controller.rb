@@ -28,10 +28,4 @@ class CommentsController < ApplicationController
     params[:comments][:user_id] = current_user.id
     params.require(:comments).permit(:review_id, :user_id, :comment)
   end
-
-  def icon_url(user)
-    return unless user.icon&.attached?
-
-    url_for(user.icon)
-  end
 end
