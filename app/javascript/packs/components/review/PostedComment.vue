@@ -6,7 +6,7 @@
           <div class="uk-flex-first uk-width-1-6 uk-text-center">
             <img src="icon" class="uk-border-circle uk-width-1-3" />
             <div class="user-name uk-margin">
-              shuto.yasunaga
+              {{ userName }}
             </div>
           </div>
           <div class="uk-width-expand">
@@ -39,6 +39,10 @@ import Modal from '../common/Modal.vue';
 export default {
   props: {
     comment: {
+      type: String,
+      default: ''
+    },
+    userName: {
       type: String,
       default: ''
     }

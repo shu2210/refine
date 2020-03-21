@@ -130,7 +130,8 @@ export default {
           var ComponentClass = Vue.extend(PostedComment);
           var instance = new ComponentClass({
             propsData: {
-              comment: comment['comment']
+              comment: comment['comment'],
+              userName: comment['user']['name']
             }
           });
           instance.$mount();

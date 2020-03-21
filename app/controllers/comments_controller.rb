@@ -6,7 +6,8 @@ class CommentsController < ApplicationController
 
   def show
     reviews = Review.find(params[:id])
-    render json: { comments: reviews&.comments&.order(created_at: :desc) }
+    comments = reviews.comments&.order(created_at: :desc)&.to_json(include: :user)
+    render json: { comments: JSON.parse(comments) }
   end
 
   def create
