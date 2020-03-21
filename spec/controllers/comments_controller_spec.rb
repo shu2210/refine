@@ -73,4 +73,23 @@ RSpec.describe CommentsController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    context 'ログインしていない場合' do
+      subject { delete :destroy, params: { id: 1 } }
+
+      it { is_expected.to have_http_status(:redirect) }
+      it { is_expected.to redirect_to('/users/sign_in') }
+    end
+
+    context 'ログインしている場合' do
+      include_context :login
+
+      let!(:comment) { create(:comment) }
+
+      it 'commentが削除される' do
+        expect { delete :destroy, params: { id: comment.id } }.to change(Comment, :count).by(-1)
+      end
+    end
+  end
 end
