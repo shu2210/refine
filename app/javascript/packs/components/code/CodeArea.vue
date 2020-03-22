@@ -127,10 +127,10 @@ export default {
     appendPostedComment(props) {
       axios.get(`/comments/${props['id']}`).then((response) => {
         response.data.comments.forEach(function(comment) {
-          console.log(comment);
           var ComponentClass = Vue.extend(PostedComment);
           var instance = new ComponentClass({
             propsData: {
+              id: comment['id'],
               comment: comment['comment'],
               userName: comment['user']['name'],
               userIcon: comment['user']['icon']

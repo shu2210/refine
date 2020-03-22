@@ -29,7 +29,7 @@
               </div>
             </div>
           </div>
-          <modal title="確認" :id="'confirm' + id">
+          <modal :id="'confirm' + id">
             <p class="uk-margin">削除すると元に戻せません。よろしいですか？</p>
             <div class="uk-text-right">
               <button class="uk-button uk-button-default uk-modal-close" type="button">キャンセル</button>
