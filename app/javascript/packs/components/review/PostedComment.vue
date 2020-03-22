@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="uk-width-expand">
-            <div class="control-area uk-width-1-1 uk-text-right uk-margin">
+            <div class="control-area uk-width-1-1 uk-text-right uk-margin" v-if="canEdit">
               <a class="uk-margin-small-right" uk-icon="pencil" @click="switchEditMode"></a>
               <a :href="`#confirm${id}`" class="uk-margin-small-right" uk-icon="trash" uk-toggle></a>
             </div>
@@ -67,6 +67,10 @@ export default {
     show: {
       type: Boolean,
       default: true
+    },
+    canEdit: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

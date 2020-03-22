@@ -140,6 +140,8 @@ export default {
     },
     // ~件のコメントを表示クリック時に発火
     appendPostedComment(reviewId) {
+      var vm = this;
+
       axios.get(`/comments/${reviewId}`).then((response) => {
         response.data.comments.forEach(function(comment) {
           var ComponentClass = Vue.extend(PostedComment);
@@ -148,7 +150,8 @@ export default {
               id: comment['id'],
               defaultComment: comment['comment'],
               userName: comment['user']['name'],
-              userIcon: comment['user']['icon']
+              userIcon: comment['user']['icon'],
+              canEdit: (comment['user_id'] == vm.currentUserId)
             }
           });
           instance.$mount();
