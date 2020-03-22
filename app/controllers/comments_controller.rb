@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CommentsController < ApplicationController
-  protect_from_forgery except: %i[create destroy]
+  protect_from_forgery except: %i[create update destroy]
   before_action :authenticate_user!
 
   def show

@@ -131,7 +131,7 @@ export default {
           var instance = new ComponentClass({
             propsData: {
               id: comment['id'],
-              comment: comment['comment'],
+              defaultComment: comment['comment'],
               userName: comment['user']['name'],
               userIcon: comment['user']['icon']
             }

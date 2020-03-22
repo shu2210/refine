@@ -2,7 +2,16 @@
   <tr v-if="show">
     <td colspan="2">
       <div class="comment-area uk-margin-large-left">
-        <div class="posted-review uk-flex">
+        <div class="edit-comment" v-if="mode == 'edit'">
+          <div class="uk-container">
+            <textarea class="uk-input uk-margin" v-model="comment" />
+            <div class="uk-text-right">
+              <button class="uk-button uk-button-default uk-text-nowrap" @click="cancelComment">キャンセル</button>
+              <button class="uk-button uk-button-primary uk-text-nowrap" @click="updateComment">更新</button>
+            </div>
+          </div>
+        </div>
+        <div class="posted-review uk-flex" v-else>
           <div class="uk-flex-first uk-width-1-6 uk-text-center">
             <img :src="userIcon" class="uk-border-circle uk-width-1-3" />
             <div class="user-name uk-margin">
@@ -11,7 +20,7 @@
           </div>
           <div class="uk-width-expand">
             <div class="control-area uk-width-1-1 uk-text-right uk-margin">
-              <a class="uk-margin-small-right" uk-icon="pencil"></a>
+              <a class="uk-margin-small-right" uk-icon="pencil" @click="switchEditMode"></a>
               <a :href="`#confirm${id}`" class="uk-margin-small-right" uk-icon="trash" uk-toggle></a>
             </div>
             <div class="review-info uk-width-1-1">
@@ -43,7 +52,7 @@ export default {
       type: Number,
       default: 0
     },
-    comment: {
+    defaultComment: {
       type: String,
       default: ''
     },
@@ -60,7 +69,36 @@ export default {
       default: true
     }
   },
+  data() {
+    return {
+      originalComment: '',
+      comment: this.defaultComment,
+      mode: 'view'
+    }
+  },
   methods: {
+    switchEditMode() {
+      // キャンセルした時のためにオリジナルのコメントを保持
+      this.originalComment = this.comment;
+      this.mode = 'edit';
+    },
+    switchViewMode() {
+      this.mode = 'view';
+    },
+    cancelComment() {
+      this.comment = this.originalComment;
+      this.switchViewMode();
+    },
+    updateComment() {
+      axios.put(`/comments/${this.id}`, { comment: this.comment }).then((response) => {
+        if(response.data['status'] == 'success') {
+          this.switchViewMode();
+        }
+        console.log(response.status);
+      }, (error) => {
+        console.log(error);
+      });
+    },
     deleteComment() {
       axios.delete(`/comments/${this.id}`).then((response) => {
         if(response.data['status'] == 'success') {
