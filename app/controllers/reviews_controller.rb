@@ -7,7 +7,8 @@ class ReviewsController < ApplicationController
   def show
     reviews = Review.includes(:user).where(code_id: params[:id])
     users = reviews.map(&:user)
-    render json: { review: reviews, users: users }
+    json = JSON.parse(reviews.to_json(include: :comments))
+    render json: { review: json, users: users }
   end
 
   def create

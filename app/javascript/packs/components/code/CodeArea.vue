@@ -27,6 +27,7 @@ import ReviewArea from '../review/ReviewArea';
 import PostedReview from '../review/PostedReview';
 import PostedComment from '../review/PostedComment';
 import Comment from '../review/Comment';
+import FoldingComment from '../review/FoldingComment';
 import Vue from 'vue/dist/vue.esm.js';
 import axios from 'axios';
 
@@ -70,9 +71,9 @@ export default {
     fetchReview() {
       var vm = this;
 
-      axios.get('/reviews/' + this.codeId).then((response) => {
+      axios.get(`/reviews/${this.codeId}`).then((response) => {
         response.data.review.forEach(function(review) {
-          var userName = vm.getUserName(response.data.users, review['user_id'])
+          var userName = vm.getUserName(response.data.users, review['user_id']);
           vm.appendPostedReview({
             id: review['id'],
             line: review['line'],
@@ -81,6 +82,8 @@ export default {
             icon: vm.postedUserIcon,
             canEdit: (review['user_id'] == vm.currentUserId)
           })
+          vm.appendCommentArea(review['id']);
+          vm.appendFoldingComment(review['id'], review['comments'].length);
         });
       }, (error) => {
         console.log(error);
@@ -111,21 +114,33 @@ export default {
       var instance = new ComponentClass({ propsData: props });
       instance.$mount();
       $(`#code${this.no}-${props['line']}`).after(instance.$el);
-      this.appendCommentArea(props);
     },
-    appendCommentArea(props) {
+    appendCommentArea(reviewId) {
       var ComponentClass = Vue.extend(Comment);
       var instance = new ComponentClass({
         propsData: {
-          reviewId: props['id']
+          reviewId: reviewId
         }
       });
       instance.$mount();
-      $(`#review-${props['id']}`).after(instance.$el);
-      this.appendPostedComment(props);
+      $(`#review-${reviewId}`).after(instance.$el);
     },
-    appendPostedComment(props) {
-      axios.get(`/comments/${props['id']}`).then((response) => {
+    appendFoldingComment(reviewId, commentCount) {
+      var ComponentClass = Vue.extend(FoldingComment);
+      var instance = new ComponentClass({
+        propsData: {
+          reviewId: reviewId,
+          commentCount: commentCount
+        }
+      });
+      instance.$mount();
+      instance.$on('display', this.appendPostedComment)
+
+      $(`#comment-${reviewId}`).after(instance.$el);
+    },
+    // ~件のコメントを表示クリック時に発火
+    appendPostedComment(reviewId) {
+      axios.get(`/comments/${reviewId}`).then((response) => {
         response.data.comments.forEach(function(comment) {
           var ComponentClass = Vue.extend(PostedComment);
           var instance = new ComponentClass({
@@ -138,7 +153,7 @@ export default {
           });
           instance.$mount();
 
-          $(`#comment-${props['id']}`).after(instance.$el);
+          $(`#comment-${reviewId}`).after(instance.$el);
         });
       }, (error) => {
         console.log(error);
