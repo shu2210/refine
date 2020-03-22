@@ -22,6 +22,19 @@ class CommentsController < ApplicationController
     end
   end
 
+  def update
+    comment = Comment.find(params[:id])
+    if current_user != comment.user
+      render json: { status: :error }
+    else
+      comment.update!(comment: params[:comment])
+      render json: { status: :success, comment: comment }
+    end
+  rescue StandardError => e
+    logger.error e
+    render json: { status: :error }
+  end
+
   def destroy
     comment = Comment.find(params[:id])
     if comment.destroy

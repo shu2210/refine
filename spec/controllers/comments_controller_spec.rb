@@ -74,6 +74,51 @@ RSpec.describe CommentsController, type: :controller do
     end
   end
 
+  describe 'PUT #update' do
+    context 'ログインしていない場合' do
+      subject { put :update, params: { id: 1 } }
+
+      it { is_expected.to have_http_status(:redirect) }
+      it { is_expected.to redirect_to('/users/sign_in') }
+    end
+
+    context 'ログインしている場合' do
+      include_context :login
+
+      let(:comment) { create(:comment, user: commenter) }
+
+      context 'commentの作成者 != 更新者の場合' do
+        let!(:commenter) { build(:user) }
+
+        it 'エラーが返る' do
+          put :update, params: { id: comment.id }
+          res = JSON.parse(response.body)
+          expect(res['status']).to eq('error')
+        end
+      end
+
+      context 'commentの作成者 == 更新者の場合' do
+        let!(:commenter) { user }
+
+        context 'commentが空の場合' do
+          it 'エラーが返る' do
+            put :update, params: { id: comment.id, comment: '' }
+            res = JSON.parse(response.body)
+            expect(res['status']).to eq('error')
+          end
+        end
+
+        context '成功の場合' do
+          it 'commentが更新される' do
+            put :update, params: { id: comment.id, comment: 'updated' }
+            comment.reload
+            expect(comment.comment).to eq('updated')
+          end
+        end
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     context 'ログインしていない場合' do
       subject { delete :destroy, params: { id: 1 } }
