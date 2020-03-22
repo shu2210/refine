@@ -9,4 +9,9 @@ class Review < ApplicationRecord
   has_many :comments
 
   validates :review, presence: true, length: { maximum: 500 }
+
+  def self.array_with_comments
+    json_with_comments = order(:created_at)&.to_json(include: :comments)
+    JSON.parse(json_with_comments)
+  end
 end

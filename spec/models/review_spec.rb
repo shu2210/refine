@@ -24,4 +24,17 @@ RSpec.describe Review, type: :model do
       it { expect(model.errors[:review]).not_to be_empty }
     end
   end
+
+  describe 'array_with_comments' do
+    let!(:comment) { build(:comment) }
+    let!(:review) { create(:review, comments: [comment]) }
+
+    it 'commentを含めた配列を返す' do
+      reviews = Review.where(id: review.id)
+      array = reviews.array_with_comments
+      array.each do |comment|
+        expect(comment['comments']).to be_any
+      end
+    end
+  end
 end
