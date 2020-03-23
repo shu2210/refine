@@ -83,7 +83,7 @@ export default {
             canEdit: (review['user_id'] == vm.currentUserId),
             createdAt: vm.parseDate(review['created_at'])
           })
-          vm.appendCommentArea(review['id']);
+          vm.appendCommentArea(review['id'], review['comments'].length, `#review-${review['id']}`);
           vm.appendFoldingComment(review['id'], review['comments'].length);
         });
       }, (error) => {
@@ -117,7 +117,10 @@ export default {
       instance.$mount();
       $(`#code${this.no}-${props['line']}`).after(instance.$el);
     },
-    appendCommentArea(reviewId) {
+    appendCommentArea(reviewId, commentCount, appendId) {
+      if(commentCount > 0) {
+        return;
+      }
       var ComponentClass = Vue.extend(Comment);
       var instance = new ComponentClass({
         propsData: {
@@ -125,7 +128,7 @@ export default {
         }
       });
       instance.$mount();
-      $(`#review-${reviewId}`).after(instance.$el);
+      $(appendId).after(instance.$el);
     },
     appendFoldingComment(reviewId, commentCount) {
       var ComponentClass = Vue.extend(FoldingComment);
@@ -138,7 +141,7 @@ export default {
       instance.$mount();
       instance.$on('display', this.appendPostedComment)
 
-      $(`#comment-${reviewId}`).after(instance.$el);
+      $(`#review-${reviewId}`).after(instance.$el);
     },
     // ~件のコメントを表示クリック時に発火
     appendPostedComment(reviewId) {
@@ -159,8 +162,9 @@ export default {
           });
           instance.$mount();
 
-          $(`#comment-${reviewId}`).after(instance.$el);
+          $(`#review-${reviewId}`).after(instance.$el);
         });
+        vm.appendCommentArea(reviewId, 0, `#comment-${response.data.comments[0]['id']}`);
       }, (error) => {
         console.log(error);
       });

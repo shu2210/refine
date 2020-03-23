@@ -1,5 +1,5 @@
 <template>
-  <tr v-if="show">
+  <tr :id="`comment-${id}`" v-if="show">
     <td colspan="2">
       <div class="comment-area uk-margin-large-left">
         <div class="edit-comment" v-if="mode == 'edit'">
