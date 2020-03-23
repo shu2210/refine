@@ -80,7 +80,8 @@ export default {
             userName: userName,
             review: review['review'],
             icon: vm.postedUserIcon,
-            canEdit: (review['user_id'] == vm.currentUserId)
+            canEdit: (review['user_id'] == vm.currentUserId),
+            createdAt: vm.parseDate(review['created_at'])
           })
           vm.appendCommentArea(review['id']);
           vm.appendFoldingComment(review['id'], review['comments'].length);
@@ -106,7 +107,8 @@ export default {
         userName: component.userName,
         review: component.review,
         icon: response.data.icon,
-        canEdit: true
+        canEdit: true,
+        createdAt: this.parseDate(response.data.review['created_at'])
       })
     },
     appendPostedReview(props) {
@@ -151,7 +153,8 @@ export default {
               defaultComment: comment['comment'],
               userName: comment['user']['name'],
               userIcon: comment['user']['icon'],
-              canEdit: (comment['user_id'] == vm.currentUserId)
+              canEdit: (comment['user_id'] == vm.currentUserId),
+              createdAt: vm.parseDate(comment['created_at'])
             }
           });
           instance.$mount();
@@ -161,6 +164,10 @@ export default {
       }, (error) => {
         console.log(error);
       });
+    },
+    parseDate(dateStr) {
+      var date = Date.parse(dateStr);
+      return new Date(date);
     }
   }
 }

@@ -28,6 +28,7 @@
                 <p>{{ comment }}</p>
               </div>
             </div>
+            <post-date :posted-at="createdAt" />
           </div>
           <modal :id="`confirm${id}`">
             <p class="uk-margin">削除すると元に戻せません。よろしいですか？</p>
@@ -45,6 +46,7 @@
 <script>
 import axios from 'axios';
 import Modal from '../common/Modal.vue';
+import PostDate from './PostDate.vue';
 
 export default {
   props: {
@@ -71,6 +73,9 @@ export default {
     canEdit: {
       type: Boolean,
       default: false
+    },
+    createdAt: {
+      type: Date
     }
   },
   data() {
@@ -116,7 +121,8 @@ export default {
     }
   },
   components: {
-    Modal
+    Modal,
+    PostDate
   }
 }
 </script>

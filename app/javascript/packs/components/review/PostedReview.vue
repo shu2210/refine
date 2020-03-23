@@ -28,6 +28,7 @@
                 <p v-html="markedReview"></p>
               </div>
             </div>
+            <post-date :posted-at="createdAt" />
           </div>
           <modal :id="'confirm' + id">
             <p class="uk-margin">削除すると元に戻せません。よろしいですか？</p>
@@ -49,6 +50,7 @@ import marked from 'marked/marked.min.js';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github-gist.css';
 import ReviewEditor from './ReviewEditor.vue';
+import PostDate from './PostDate.vue';
 
 export default {
   props: {
@@ -69,6 +71,9 @@ export default {
     canEdit: {
       type: Boolean,
       default: false
+    },
+    createdAt: {
+      type: Date
     }
   },
   data() {
@@ -122,7 +127,8 @@ export default {
   },
   components: {
     Modal,
-    ReviewEditor
+    ReviewEditor,
+    PostDate
   }
 }
 </script>
