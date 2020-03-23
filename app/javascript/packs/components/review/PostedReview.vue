@@ -45,12 +45,12 @@
 
 <script>
 import axios from 'axios';
-import Modal from '../common/Modal.vue';
+import Modal from '../common/Modal';
 import marked from 'marked/marked.min.js';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github-gist.css';
-import ReviewEditor from './ReviewEditor.vue';
-import PostDate from './PostDate.vue';
+import ReviewEditor from './ReviewEditor';
+import PostDate from './PostDate';
 
 export default {
   props: {

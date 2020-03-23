@@ -13,7 +13,7 @@
 
 <script>
 import axios from 'axios';
-import ReviewEditor from './ReviewEditor.vue';
+import ReviewEditor from './ReviewEditor';
 
 export default {
   props: {

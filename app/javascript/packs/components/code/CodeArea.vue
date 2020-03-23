@@ -117,19 +117,6 @@ export default {
       instance.$mount();
       $(`#code${this.no}-${props['line']}`).after(instance.$el);
     },
-    appendCommentArea(reviewId, commentCount, appendId) {
-      if(commentCount > 0) {
-        return;
-      }
-      var ComponentClass = Vue.extend(Comment);
-      var instance = new ComponentClass({
-        propsData: {
-          reviewId: reviewId
-        }
-      });
-      instance.$mount();
-      $(appendId).after(instance.$el);
-    },
     appendFoldingComment(reviewId, commentCount) {
       var ComponentClass = Vue.extend(FoldingComment);
       var instance = new ComponentClass({
@@ -172,6 +159,19 @@ export default {
     parseDate(dateStr) {
       var date = Date.parse(dateStr);
       return new Date(date);
+    },
+    appendCommentArea(reviewId, commentCount, appendId) {
+      if(commentCount > 0) {
+        return;
+      }
+      var ComponentClass = Vue.extend(Comment);
+      var instance = new ComponentClass({
+        propsData: {
+          reviewId: reviewId
+        }
+      });
+      instance.$mount();
+      $(appendId).after(instance.$el);
     }
   }
 }

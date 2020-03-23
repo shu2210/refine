@@ -45,8 +45,8 @@
 
 <script>
 import axios from 'axios';
-import Modal from '../common/Modal.vue';
-import PostDate from './PostDate.vue';
+import Modal from '../common/Modal';
+import PostDate from './PostDate';
 
 export default {
   props: {
