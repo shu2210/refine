@@ -14,7 +14,11 @@
             <span>{{ line + 1 }}</span>
           </td>
           <td>
-            <pre class="line">{{ codeLine }}</pre>
+            <pre
+              class="line"
+              v-html="highlight(codeLine)"
+            >
+            </pre>
           </td>
         </tr>
       </table>
@@ -30,6 +34,8 @@ import Comment from '../review/Comment';
 import FoldingComment from '../review/FoldingComment';
 import Vue from 'vue/dist/vue.esm.js';
 import axios from 'axios';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github-gist.css';
 
 export default {
   props: {
@@ -172,6 +178,9 @@ export default {
       });
       instance.$mount();
       $(appendId).after(instance.$el);
+    },
+    highlight(code) {
+      return hljs.highlightAuto(code).value;
     }
   }
 }
