@@ -1,7 +1,8 @@
 <template>
   <tr v-if="show">
     <td colspan="2" class="uk-text-center">
-      <a @click="displayComments">
+      <img :src="loader" width="35" uk-img v-if="isLoading" />
+      <a @click="displayComments" v-else>
         {{ `${commentCount}件のコメントを表示する` }}
       </a>
     </td>
@@ -18,10 +19,13 @@ export default {
     commentCount: {
       type: Number,
       default: 0
-    },
-    show: {
-      type: Boolean,
-      default: false
+    }
+  },
+  data() {
+    return {
+      loader: require('../../../../assets/images/loader.gif'),
+      show: false,
+      isLoading: false
     }
   },
   mounted() {
@@ -31,9 +35,9 @@ export default {
   },
   methods: {
     displayComments() {
+      this.isLoading = true;
       this.$emit('display', this.reviewId);
-      this.$destroy();
-      this.$el.parentNode.removeChild(this.$el);
+      this.show = false;
     }
   }
 }
