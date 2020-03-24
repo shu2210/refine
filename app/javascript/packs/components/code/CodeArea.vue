@@ -1,10 +1,11 @@
 <template>
   <div class="uk-margin">
     <div class="code-title uk-padding-small">
-      <span>{{ title }}</span>
-      <a href="#" class="uk-icon-link uk-align-right uk-margin-remove" uk-icon="trash"></a>
-      <a href="#" class="uk-icon-link uk-align-right uk-margin-remove" uk-icon="file-edit"></a>
-      <a href="#" class="uk-icon-link uk-align-right uk-margin-remove" uk-icon="copy"></a>
+      <div class="uk-panel uk-text-right">
+        <a href="#" class="uk-icon-link" uk-icon="copy"></a>
+        <a href="#" class="uk-icon-link" uk-icon="file-edit"></a>
+        <a href="#" class="uk-icon-link" uk-icon="trash"></a>
+      </div>
     </div>
     <div class="code">
       <table class="uk-table uk-table-small uk-table-hover uk-margin-remove">
@@ -192,9 +193,10 @@ $border-color: #bbb;
 .code-title {
   background-color: $background-color;
   border: solid 1px $border-color;
+  border-bottom: none;
 
-  .uk-icon-link:not(:first-of-type) {
-    margin-right: 15px !important;
+  .uk-icon-link {
+    margin-right: 10px !important;
   }
 }
 
