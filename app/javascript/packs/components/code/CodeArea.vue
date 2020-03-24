@@ -28,9 +28,9 @@
 
 <script>
 import ReviewArea from '../review/ReviewArea';
+import CommentArea from '../review/CommentArea';
 import PostedReview from '../review/PostedReview';
 import PostedComment from '../review/PostedComment';
-import Comment from '../review/Comment';
 import FoldingComment from '../review/FoldingComment';
 import Vue from 'vue/dist/vue.esm.js';
 import axios from 'axios';
@@ -88,8 +88,10 @@ export default {
             icon: vm.postedUserIcon,
             canEdit: (review['user_id'] == vm.currentUserId),
             createdAt: vm.parseDate(review['created_at'])
-          })
-          vm.appendCommentArea(review['id'], review['comments'].length, `#review-${review['id']}`);
+          });
+          if(review['comments'].length == 0) {
+            vm.appendCommentArea(review['id'], `#review-${review['id']}`);
+          }
           vm.appendFoldingComment(review['id'], review['comments'].length);
         });
       }, (error) => {
@@ -132,12 +134,12 @@ export default {
         }
       });
       instance.$mount();
-      instance.$on('display', this.appendPostedComment)
+      instance.$on('display', this.fetchPostedComment)
 
       $(`#review-${reviewId}`).after(instance.$el);
     },
     // ~件のコメントを表示クリック時に発火
-    appendPostedComment(reviewId) {
+    fetchPostedComment(reviewId) {
       var vm = this;
 
       axios.get(`/comments/${reviewId}`).then((response) => {
@@ -157,7 +159,7 @@ export default {
 
           $(`#review-${reviewId}`).after(instance.$el);
         });
-        vm.appendCommentArea(reviewId, 0, `#comment-${response.data.comments[0]['id']}`);
+        vm.appendCommentArea(reviewId, `#comment-${response.data.comments[0]['id']}`);
       }, (error) => {
         console.log(error);
       });
@@ -166,11 +168,8 @@ export default {
       var date = Date.parse(dateStr);
       return new Date(date);
     },
-    appendCommentArea(reviewId, commentCount, appendId) {
-      if(commentCount > 0) {
-        return;
-      }
-      var ComponentClass = Vue.extend(Comment);
+    appendCommentArea(reviewId, appendId) {
+      var ComponentClass = Vue.extend(CommentArea);
       var instance = new ComponentClass({
         propsData: {
           reviewId: reviewId

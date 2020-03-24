@@ -85,7 +85,7 @@ export default {
   created() {
     marked.setOptions({
       langPrefix: '',
-      highlight: function(code, lang) {
+      highlight(code, lang) {
         return hljs.highlightAuto(code, [lang]).value
       }
     });
