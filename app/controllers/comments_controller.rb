@@ -2,7 +2,7 @@
 
 class CommentsController < ApplicationController
   protect_from_forgery except: %i[create update destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: %i[show]
 
   def show
     reviews = Review.find(params[:id])
