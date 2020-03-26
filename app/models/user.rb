@@ -70,4 +70,10 @@ class User < ApplicationRecord
   def sns_registration?
     provider.present?
   end
+
+  def icon_url
+    return unless icon&.attached?
+
+    Rails.application.routes.url_helpers.rails_blob_path(icon, disposition: 'attachment', only_path: true)
+  end
 end

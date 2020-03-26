@@ -7,9 +7,6 @@ class CommentsController < ApplicationController
   def show
     reviews = Review.find(params[:id])
     comments = reviews.comments&.array_with_user
-    comments.each do |comment|
-      comment['user']['icon'] = icon_url(User.find(comment['user']['id']))
-    end
     render json: { comments: comments }
   end
 
