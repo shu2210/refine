@@ -25,6 +25,6 @@
           code=code.code
           is-login=user_signed_in?
           :code-id=@code.id
-          posted-user-icon=url_for(@code.user.icon)
+          posted-user-icon=@code.user.icon_url
           :current-user-id=current_user&.id
         ]
