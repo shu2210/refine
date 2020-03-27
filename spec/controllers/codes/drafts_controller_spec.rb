@@ -12,7 +12,9 @@ RSpec.describe Codes::DraftsController, type: :controller do
     end
 
     context 'ログインしている場合' do
-      let(:params) { { user_code: { title: 'test', description: 'test' }, code: [{ language_id: 1, code: 'test' }] } }
+      let!(:language) { Language.first }
+      let!(:params) { { user_code: { title: 'test', description: 'test' }, code: [{ language_id: language.id, code: 'test' }] } }
+
       before { sign_in_user }
 
       it 'user_codeが作成されること' do
