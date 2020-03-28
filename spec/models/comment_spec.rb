@@ -17,7 +17,7 @@ RSpec.describe Comment, type: :model do
     end
   end
 
-  describe 'array_with_user' do
+  describe 'self.array_with_user' do
     let!(:user) { build(:user) }
     let!(:comment1) { create(:comment, user: user) }
     let!(:comment2) { create(:comment, user: user) }
@@ -28,6 +28,17 @@ RSpec.describe Comment, type: :model do
       array.each do |comment|
         expect(comment['user']).to be_any
       end
+    end
+  end
+
+  describe 'array_with_user' do
+    let!(:user) { build(:user) }
+    let!(:comment) { create(:comment, user: user) }
+
+    it 'userを含めた配列を返す' do
+      array = comment.array_with_user
+      expect(array['user']).to be_any
+      expect(array['user']['id']).to eq(user.id)
     end
   end
 

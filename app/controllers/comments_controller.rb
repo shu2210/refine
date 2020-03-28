@@ -13,7 +13,7 @@ class CommentsController < ApplicationController
   def create
     comment = Comment.new(comment_params)
     if comment.save
-      render json: { status: :success, comment: comment, user: comment&.user, user_icon: comment.user.icon_url }
+      render json: { status: :success, comment: comment.array_with_user }
     else
       render json: { status: :error, message: comment.errors.full_messages }
     end

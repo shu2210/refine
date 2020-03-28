@@ -42,8 +42,8 @@ export default {
           propsData: {
             id: newComment['id'],
             defaultComment: newComment['comment'],
-            userName: response.data.user['name'],
-            userIcon: response.data.user_icon,
+            userName: newComment['user']['name'],
+            userIcon: newComment['user']['icon'],
             canEdit: true,
             createdAt: vm.parseDate(newComment['created_at'])
           }

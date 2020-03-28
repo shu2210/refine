@@ -8,11 +8,13 @@ class Comment < ApplicationRecord
 
   def self.array_with_user
     comments = includes(:user).order(created_at: :desc)
-    comments.map do |comment|
-      hash_with_user = comment.attributes_with(:user)
-      hash_with_user['user']['icon'] = comment.user.icon_url
-      hash_with_user
-    end
+    comments.map(&:array_with_user)
+  end
+
+  def array_with_user
+    hash_with_user = attributes_with(:user)
+    hash_with_user['user']['icon'] = user.icon_url
+    hash_with_user
   end
 
   def attributes_with(model)
