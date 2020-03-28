@@ -117,6 +117,7 @@ export default {
       axios.delete('/reviews/' + this.id).then((response) => {
         if(response.data['status'] == 'success') {
           this.show = false;
+          $(`#comment-area-${this.id}`).fadeOut();
         }
         UIkit.modal('#confirm' + this.id).hide();
         console.log(response.status);

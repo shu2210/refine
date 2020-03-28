@@ -122,7 +122,8 @@ export default {
         icon: newReview['user']['icon_url'],
         canEdit: true,
         createdAt: this.parseDate(newReview['created_at'])
-      })
+      });
+      this.appendCommentArea(newReview['id'], `#review-${newReview['id']}`);
     },
     appendPostedReview(props) {
       var ComponentClass = Vue.extend(PostedReview);
