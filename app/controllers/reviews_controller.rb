@@ -38,7 +38,7 @@ class ReviewsController < ApplicationController
     if current_user != review.user
       render json: { status: :error }
     elsif review.destroy
-      render json: { status: :success }
+      render json: { status: :success, comments: review.comments.with_deleted }
     end
   rescue StandardError => e
     logger.error e

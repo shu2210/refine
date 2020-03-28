@@ -118,6 +118,10 @@ export default {
         if(response.data['status'] == 'success') {
           this.show = false;
           $(`#comment-area-${this.id}`).fadeOut();
+          $(`#folding-comment-${this.id}`).fadeOut();
+          response.data.comments.forEach(function(comment) {
+            $(`#comment-${comment['id']}`).fadeOut();
+          });
         }
         UIkit.modal('#confirm' + this.id).hide();
         console.log(response.status);

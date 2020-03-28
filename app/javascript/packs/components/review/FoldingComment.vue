@@ -1,5 +1,5 @@
 <template>
-  <tr v-if="show">
+  <tr :id="`folding-comment-${reviewId}`" v-if="show">
     <td colspan="2" class="uk-text-center">
       <img :src="loader" width="35" uk-img v-if="isLoading" />
       <a @click="displayComments" v-else>
