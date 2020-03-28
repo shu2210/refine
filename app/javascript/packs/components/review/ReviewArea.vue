@@ -29,6 +29,9 @@ export default {
   methods: {
     postReview() {
       axios.post('/reviews', { review: { line: this.line, code_id: this.codeId, review: this.review } }).then((response) => {
+        if(response.data.status != 'success') {
+          return;
+        }
         this.userName = response.data.user.name
         this.$emit('post-review', this, response);
         console.log(response.status);

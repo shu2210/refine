@@ -34,6 +34,9 @@ export default {
       axios.post('/comments', {
         comments: { comment: this.comment, review_id: this.reviewId }
       }).then((response) => {
+        if(response.data.status != 'success') {
+          return;
+        }
         this.comment = '';
 
         var newComment = response.data.comment;
