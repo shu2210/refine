@@ -76,4 +76,10 @@ class User < ApplicationRecord
 
     Rails.application.routes.url_helpers.rails_blob_path(icon, disposition: 'attachment', only_path: true)
   end
+
+  def attributes
+    hash = super
+    hash['icon_url'] = icon_url
+    hash
+  end
 end

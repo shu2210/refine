@@ -18,4 +18,15 @@ class Review < ApplicationRecord
       hash
     end
   end
+
+  def array_with_user
+    hash_with_user = attributes_with(:user)
+    hash_with_user
+  end
+
+  def attributes_with(model)
+    attributes = self.attributes
+    attributes[model] = send(model).attributes
+    attributes.with_indifferent_access
+  end
 end

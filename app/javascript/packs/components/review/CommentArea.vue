@@ -46,7 +46,7 @@ export default {
             id: newComment['id'],
             defaultComment: newComment['comment'],
             userName: newComment['user']['name'],
-            userIcon: newComment['user']['icon'],
+            userIcon: newComment['user']['icon_url'],
             canEdit: true,
             createdAt: vm.parseDate(newComment['created_at'])
           }

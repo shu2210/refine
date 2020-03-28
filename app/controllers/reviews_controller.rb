@@ -14,7 +14,7 @@ class ReviewsController < ApplicationController
     review = Review.new(review_params)
     review.user = current_user
     if review.save
-      render json: { status: :success, id: review.id, review: review, user: review.user, icon: review.user.icon_url }
+      render json: { status: :success, review: review.array_with_user }
     else
       render json: { status: :error, message: review.errors.full_messages }
     end

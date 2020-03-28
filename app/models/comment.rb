@@ -13,7 +13,6 @@ class Comment < ApplicationRecord
 
   def array_with_user
     hash_with_user = attributes_with(:user)
-    hash_with_user['user']['icon'] = user.icon_url
     hash_with_user
   end
 

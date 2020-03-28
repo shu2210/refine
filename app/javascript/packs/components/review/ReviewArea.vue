@@ -22,8 +22,7 @@ export default {
   },
   data() {
     return {
-      review: '',
-      userName: ''
+      review: ''
     }
   },
   methods: {
@@ -32,7 +31,6 @@ export default {
         if(response.data.status != 'success') {
           return;
         }
-        this.userName = response.data.user.name
         this.$emit('post-review', this, response);
         console.log(response.status);
       }, (error) => {

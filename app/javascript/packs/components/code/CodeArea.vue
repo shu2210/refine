@@ -110,16 +110,18 @@ export default {
     },
     // 投稿された後の処理
     switchReview(component, response) {
+      var newReview = response.data.review;
+
       component.$destroy();
       component.$el.parentNode.removeChild(component.$el);
       this.appendPostedReview({
-        id: response.data.id,
-        line: component.line,
-        userName: component.userName,
-        review: component.review,
-        icon: response.data.icon,
+        id: newReview['id'],
+        line: newReview['line'],
+        userName: newReview['user']['name'],
+        review: newReview['review'],
+        icon: newReview['user']['icon_url'],
         canEdit: true,
-        createdAt: this.parseDate(response.data.review['created_at'])
+        createdAt: this.parseDate(newReview['created_at'])
       })
     },
     appendPostedReview(props) {
@@ -153,7 +155,7 @@ export default {
               id: comment['id'],
               defaultComment: comment['comment'],
               userName: comment['user']['name'],
-              userIcon: comment['user']['icon'],
+              userIcon: comment['user']['icon_url'],
               canEdit: (comment['user_id'] == vm.currentUserId),
               createdAt: vm.parseDate(comment['created_at'])
             }
