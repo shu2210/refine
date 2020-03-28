@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'concerns/array_parsable'
+
 class Review < ApplicationRecord
+  include ArrayParsable
+
   acts_as_paranoid
 
   belongs_to :code
@@ -17,16 +21,5 @@ class Review < ApplicationRecord
       hash['comments'] = review.comments.map(&:attributes)
       hash
     end
-  end
-
-  def array_with_user
-    hash_with_user = attributes_with(:user)
-    hash_with_user
-  end
-
-  def attributes_with(model)
-    attributes = self.attributes
-    attributes[model] = send(model).attributes
-    attributes.with_indifferent_access
   end
 end

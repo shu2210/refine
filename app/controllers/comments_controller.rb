@@ -6,14 +6,14 @@ class CommentsController < ApplicationController
 
   def show
     reviews = Review.find(params[:id])
-    comments = reviews.comments&.array_with_user
+    comments = reviews.comments&.array_with_one(:user)
     render json: { comments: comments }
   end
 
   def create
     comment = Comment.new(comment_params)
     if comment.save
-      render json: { status: :success, comment: comment.array_with_user }
+      render json: { status: :success, comment: comment.array_with_one(:user) }
     else
       render json: { status: :error, message: comment.errors.full_messages }
     end
