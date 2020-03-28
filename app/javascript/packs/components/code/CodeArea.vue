@@ -37,8 +37,10 @@ import Vue from 'vue/dist/vue.esm.js';
 import axios from 'axios';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github-gist.css';
+import DateHelper from '../../helpers/date.helper.js';
 
 export default {
+  mixins: [DateHelper],
   props: {
     no: Number,
     title: String,
@@ -164,10 +166,6 @@ export default {
       }, (error) => {
         console.log(error);
       });
-    },
-    parseDate(dateStr) {
-      var date = Date.parse(dateStr);
-      return new Date(date);
     },
     appendCommentArea(reviewId, appendId) {
       var ComponentClass = Vue.extend(CommentArea);

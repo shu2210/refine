@@ -13,8 +13,10 @@
 import Vue from 'vue/dist/vue.esm.js';
 import PostedComment from './PostedComment';
 import axios from 'axios';
+import DateHelper from '../../helpers/date.helper.js';
 
 export default {
+  mixins: [DateHelper],
   props: {
     reviewId: {
       type: Number
@@ -27,11 +29,10 @@ export default {
   },
   methods: {
     addComment() {
+      var vm = this;
+
       axios.post('/comments', {
-        comments: {
-          comment: this.comment,
-          review_id: this.reviewId
-        }
+        comments: { comment: this.comment, review_id: this.reviewId }
       }).then((response) => {
         this.comment = '';
 
@@ -44,7 +45,7 @@ export default {
             userName: response.data.user['name'],
             userIcon: response.data.user_icon,
             canEdit: true,
-            createdAt: new Date(Date.parse(newComment['created_at']))
+            createdAt: vm.parseDate(newComment['created_at'])
           }
         });
         instance.$mount();
