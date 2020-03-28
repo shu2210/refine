@@ -39,6 +39,9 @@ class CommentsController < ApplicationController
     else
       render json: { status: :error, message: comment.errors.full_messages }
     end
+  rescue StandardError => e
+    logger.error e
+    render json: { status: :error }
   end
 
   private

@@ -121,8 +121,18 @@ RSpec.describe CommentsController, type: :controller do
 
       let!(:comment) { create(:comment) }
 
-      it 'commentが削除される' do
-        expect { delete :destroy, params: { id: comment.id } }.to change(Comment, :count).by(-1)
+      context '存在するidが渡された場合' do
+        it 'commentが削除される' do
+          expect { delete :destroy, params: { id: comment.id } }.to change(Comment, :count).by(-1)
+        end
+      end
+
+      context '存在しないidが渡された場合' do
+        it 'errorが返る' do
+          delete :destroy, params: { id: comment.id + 1 }
+          res = JSON.parse(response.body)
+          expect(res['status']).to eq('error')
+        end
       end
     end
   end
