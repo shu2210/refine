@@ -37,7 +37,6 @@ export default {
     displayComments() {
       this.isLoading = true;
       this.$emit('display', this.reviewId);
-      this.show = false;
     }
   }
 }

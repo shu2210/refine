@@ -166,6 +166,7 @@ export default {
           $(`#review-${reviewId}`).after(instance.$el);
         });
         vm.appendCommentArea(reviewId, `#comment-${response.data.comments[0]['id']}`);
+        $(`#folding-comment-${reviewId}`).hide();
       }, (error) => {
         console.log(error);
       });

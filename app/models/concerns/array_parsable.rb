@@ -7,9 +7,9 @@ module ArrayParsable
 
   class_methods do
     def array_with_one(model)
-      comments = includes(model).order(created_at: :desc)
-      comments.map do |comment|
-        comment.array_with_one(model)
+      records = includes(model).order(created_at: :desc)
+      records.map do |record|
+        record.array_with_one(model)
       end
     end
   end
