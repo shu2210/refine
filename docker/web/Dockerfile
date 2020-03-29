@@ -26,7 +26,7 @@ COPY ./docker/web/.pryrc /root/.pryrc
 
 RUN gem install bundler -v '2.0.2'
 RUN bundle install
-COPY . $APP_ROOT
 
 RUN echo "alias dbreset='bundle exec rake db:migrate:reset && bundle exec rake db:seed && bundle exec rake db:migrate:reset RAILS_ENV=test && bundle exec rake db:seed RAILS_ENV=test'" >> ~/.bashrc
+RUN echo "alias dbsetup='bundle exec rake db:migrate && bundle exec rake db:seed && bundle exec rake db:migrate RAILS_ENV=test && bundle exec rake db:seed RAILS_ENV=test'" >> ~/.bashrc
 RUN /bin/bash -c "source ~/.bashrc"
