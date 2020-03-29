@@ -140,12 +140,12 @@ export default {
         }
       });
       instance.$mount();
-      instance.$on('display', this.fetchPostedComment)
+      instance.$on('display', this.fetchComment)
 
       $(`#review-${reviewId}`).after(instance.$el);
     },
     // ~件のコメントを表示クリック時に発火
-    fetchPostedComment(reviewId) {
+    fetchComment(reviewId) {
       var vm = this;
 
       axios.get(`/comments/${reviewId}`).then((response) => {
@@ -174,7 +174,8 @@ export default {
       var ComponentClass = Vue.extend(CommentArea);
       var instance = new ComponentClass({
         propsData: {
-          reviewId: reviewId
+          reviewId: reviewId,
+          isLogin: this.isLogin
         }
       });
       instance.$mount();

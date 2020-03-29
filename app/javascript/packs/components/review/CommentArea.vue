@@ -1,9 +1,14 @@
 <template>
   <tr :id="`comment-area-${reviewId}`">
     <td colspan="2">
-      <div class="uk-container uk-flex">
+      <div class="uk-container uk-flex" v-if="isLogin">
         <input type="text" class="uk-input" v-model="comment" />
         <button class="uk-button uk-button-primary uk-text-nowrap" @click="addComment">コメント</button>
+      </div>
+      <div class="uk-text-center" v-else>
+        <a class="uk-button uk-button-default uk-width-expand" href="/users/sign_in">
+          コメントをするには会員登録またはログインしてください
+        </a>
       </div>
     </td>
   </tr>
@@ -20,6 +25,9 @@ export default {
   props: {
     reviewId: {
       type: Number
+    },
+    isLogin: {
+      type: Boolean
     }
   },
   data() {
