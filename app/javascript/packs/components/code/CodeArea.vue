@@ -1,10 +1,11 @@
 <template>
   <div class="uk-margin">
     <div class="code-title uk-padding-small">
-      <span>{{ title }}</span>
-      <a href="#" class="uk-icon-link uk-align-right uk-margin-remove" uk-icon="trash"></a>
-      <a href="#" class="uk-icon-link uk-align-right uk-margin-remove" uk-icon="file-edit"></a>
-      <a href="#" class="uk-icon-link uk-align-right uk-margin-remove" uk-icon="copy"></a>
+      <div class="uk-panel uk-text-right">
+        <a href="#" class="uk-icon-link" uk-icon="copy"></a>
+        <a href="#" class="uk-icon-link" uk-icon="file-edit"></a>
+        <a href="#" class="uk-icon-link" uk-icon="trash"></a>
+      </div>
     </div>
     <div class="code">
       <table class="uk-table uk-table-small uk-table-hover uk-margin-remove">
@@ -14,7 +15,11 @@
             <span>{{ line + 1 }}</span>
           </td>
           <td>
-            <pre class="line">{{ codeLine }}</pre>
+            <pre
+              class="line"
+              v-html="highlight(codeLine)"
+            >
+            </pre>
           </td>
         </tr>
       </table>
@@ -23,12 +28,19 @@
 </template>
 
 <script>
-import ReviewArea from '../review/ReviewArea.vue';
+import ReviewArea from '../review/ReviewArea';
+import CommentArea from '../review/CommentArea';
 import PostedReview from '../review/PostedReview';
+import PostedComment from '../review/PostedComment';
+import FoldingComment from '../review/FoldingComment';
 import Vue from 'vue/dist/vue.esm.js';
 import axios from 'axios';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github-gist.css';
+import DateHelper from '../../helpers/date.helper.js';
 
 export default {
+  mixins: [DateHelper],
   props: {
     no: Number,
     title: String,
@@ -68,17 +80,22 @@ export default {
     fetchReview() {
       var vm = this;
 
-      axios.get('/reviews/' + this.codeId).then((response) => {
+      axios.get(`/reviews/${this.codeId}`).then((response) => {
         response.data.review.forEach(function(review) {
-          var userName = vm.getUserName(response.data.users, review['user_id'])
+          var userName = vm.getUserName(response.data.users, review['user_id']);
           vm.appendPostedReview({
             id: review['id'],
             line: review['line'],
             userName: userName,
             review: review['review'],
             icon: vm.postedUserIcon,
-            canEdit: (review['user_id'] == vm.currentUserId)
-          })
+            canEdit: (review['user_id'] == vm.currentUserId),
+            createdAt: vm.parseDate(review['created_at'])
+          });
+          if(review['comments'].length == 0) {
+            vm.appendCommentArea(review['id'], `#review-${review['id']}`);
+          }
+          vm.appendFoldingComment(review['id'], review['comments'].length);
         });
       }, (error) => {
         console.log(error);
@@ -93,22 +110,80 @@ export default {
     },
     // 投稿された後の処理
     switchReview(component, response) {
+      var newReview = response.data.review;
+
       component.$destroy();
       component.$el.parentNode.removeChild(component.$el);
       this.appendPostedReview({
-        id: response.data.id,
-        line: component.line,
-        userName: component.userName,
-        review: component.review,
-        icon: response.data.icon,
-        canEdit: true
-      })
+        id: newReview['id'],
+        line: newReview['line'],
+        userName: newReview['user']['name'],
+        review: newReview['review'],
+        icon: newReview['user']['icon_url'],
+        canEdit: true,
+        createdAt: this.parseDate(newReview['created_at'])
+      });
+      this.appendCommentArea(newReview['id'], `#review-${newReview['id']}`);
     },
     appendPostedReview(props) {
       var ComponentClass = Vue.extend(PostedReview);
       var instance = new ComponentClass({ propsData: props });
       instance.$mount();
       $(`#code${this.no}-${props['line']}`).after(instance.$el);
+    },
+    appendFoldingComment(reviewId, commentCount) {
+      var ComponentClass = Vue.extend(FoldingComment);
+      var instance = new ComponentClass({
+        propsData: {
+          reviewId: reviewId,
+          commentCount: commentCount
+        }
+      });
+      instance.$mount();
+      instance.$on('display', this.fetchComment)
+
+      $(`#review-${reviewId}`).after(instance.$el);
+    },
+    // ~件のコメントを表示クリック時に発火
+    fetchComment(reviewId) {
+      var vm = this;
+
+      axios.get(`/comments/${reviewId}`).then((response) => {
+        response.data.comments.forEach(function(comment) {
+          var ComponentClass = Vue.extend(PostedComment);
+          var instance = new ComponentClass({
+            propsData: {
+              id: comment['id'],
+              defaultComment: comment['comment'],
+              userName: comment['user']['name'],
+              userIcon: comment['user']['icon_url'],
+              canEdit: (comment['user_id'] == vm.currentUserId),
+              createdAt: vm.parseDate(comment['created_at'])
+            }
+          });
+          instance.$mount();
+
+          $(`#review-${reviewId}`).after(instance.$el);
+        });
+        vm.appendCommentArea(reviewId, `#comment-${response.data.comments[0]['id']}`);
+        $(`#folding-comment-${reviewId}`).hide();
+      }, (error) => {
+        console.log(error);
+      });
+    },
+    appendCommentArea(reviewId, appendId) {
+      var ComponentClass = Vue.extend(CommentArea);
+      var instance = new ComponentClass({
+        propsData: {
+          reviewId: reviewId,
+          isLogin: this.isLogin
+        }
+      });
+      instance.$mount();
+      $(appendId).after(instance.$el);
+    },
+    highlight(code) {
+      return hljs.highlightAuto(code).value;
     }
   }
 }
@@ -121,9 +196,10 @@ $border-color: #bbb;
 .code-title {
   background-color: $background-color;
   border: solid 1px $border-color;
+  border-bottom: none;
 
-  .uk-icon-link:not(:first-of-type) {
-    margin-right: 15px !important;
+  .uk-icon-link {
+    margin-right: 10px !important;
   }
 }
 

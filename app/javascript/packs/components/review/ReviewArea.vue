@@ -13,7 +13,7 @@
 
 <script>
 import axios from 'axios';
-import ReviewEditor from './ReviewEditor.vue';
+import ReviewEditor from './ReviewEditor';
 
 export default {
   props: {
@@ -22,14 +22,15 @@ export default {
   },
   data() {
     return {
-      review: '',
-      userName: ''
+      review: ''
     }
   },
   methods: {
     postReview() {
       axios.post('/reviews', { review: { line: this.line, code_id: this.codeId, review: this.review } }).then((response) => {
-        this.userName = response.data.user.name
+        if(response.data.status != 'success') {
+          return;
+        }
         this.$emit('post-review', this, response);
         console.log(response.status);
       }, (error) => {

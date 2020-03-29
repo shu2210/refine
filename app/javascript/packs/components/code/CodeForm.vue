@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import CodeEditor from './CodeEditor.vue';
+import CodeEditor from './CodeEditor';
 
 export default {
   props: {

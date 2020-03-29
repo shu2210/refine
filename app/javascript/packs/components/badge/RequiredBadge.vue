@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Badge from './Badge.vue';
+import Badge from './Badge';
 
 export default {
   components: {

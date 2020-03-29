@@ -7,14 +7,14 @@ class ReviewsController < ApplicationController
   def show
     reviews = Review.includes(:user).where(code_id: params[:id])
     users = reviews.map(&:user)
-    render json: { review: reviews, users: users }
+    render json: { review: reviews.array_with_comments, users: users }
   end
 
   def create
     review = Review.new(review_params)
     review.user = current_user
     if review.save
-      render json: { status: :success, id: review.id, user: review.user, icon: icon_url(review.user) }
+      render json: { status: :success, review: review.array_with_one(:user) }
     else
       render json: { status: :error, message: review.errors.full_messages }
     end
@@ -38,7 +38,7 @@ class ReviewsController < ApplicationController
     if current_user != review.user
       render json: { status: :error }
     elsif review.destroy
-      render json: { status: :success }
+      render json: { status: :success, comments: review.comments.with_deleted }
     end
   rescue StandardError => e
     logger.error e
@@ -49,11 +49,5 @@ class ReviewsController < ApplicationController
 
   def review_params
     params.require(:review).permit(:code_id, :line, :review)
-  end
-
-  def icon_url(user)
-    return unless user.icon&.attached?
-
-    url_for(user.icon)
   end
 end

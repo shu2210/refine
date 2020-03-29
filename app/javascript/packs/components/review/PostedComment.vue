@@ -1,19 +1,19 @@
 <template>
-  <transition name="fade">
-    <tr v-if="show" :id="'review-' + id">
-      <td colspan="2">
-        <div class="edit-review" v-if="mode == 'edit'">
-          <review-editor
-            commit-label="更新"
-            :review="review"
-            @input="review = $event"
-            @commit="updateReview"
-            @cancel="cancelReview"
-          />
+  <tr :id="`comment-${id}`" v-if="show">
+    <td colspan="2">
+      <div class="comment-area uk-margin-large-left">
+        <div class="edit-comment" v-if="mode == 'edit'">
+          <div class="uk-container">
+            <textarea class="uk-input uk-margin" v-model="comment" />
+            <div class="uk-text-right">
+              <button class="uk-button uk-button-default uk-text-nowrap" @click="cancelComment">キャンセル</button>
+              <button class="uk-button uk-button-primary uk-text-nowrap" @click="updateComment">更新</button>
+            </div>
+          </div>
         </div>
         <div class="posted-review uk-flex" v-else>
           <div class="uk-flex-first uk-width-1-6 uk-text-center">
-            <img :src="icon" class="uk-border-circle uk-width-1-3" />
+            <img :src="userIcon" class="uk-border-circle uk-width-1-3" />
             <div class="user-name uk-margin">
               {{ userName }}
             </div>
@@ -21,52 +21,54 @@
           <div class="uk-width-expand">
             <div class="control-area uk-width-1-1 uk-text-right uk-margin" v-if="canEdit">
               <a class="uk-margin-small-right" uk-icon="pencil" @click="switchEditMode"></a>
-              <a :href="'#confirm' + id" class="uk-margin-small-right" uk-icon="trash" uk-toggle></a>
+              <a :href="`#confirm${id}`" class="uk-margin-small-right" uk-icon="trash" uk-toggle></a>
             </div>
             <div class="review-info uk-width-1-1">
               <div class="description">
-                <p v-html="markedReview"></p>
+                <p>{{ comment }}</p>
               </div>
             </div>
             <post-date :posted-at="createdAt" />
           </div>
-          <modal :id="'confirm' + id">
+          <modal :id="`confirm${id}`">
             <p class="uk-margin">削除すると元に戻せません。よろしいですか？</p>
             <div class="uk-text-right">
               <button class="uk-button uk-button-default uk-modal-close" type="button">キャンセル</button>
-              <button class="uk-button uk-button-primary" type="button" @click="deleteReview">削除</button>
+              <button class="uk-button uk-button-primary" type="button" @click="deleteComment">削除</button>
             </div>
           </modal>
         </div>
-      </td>
-    </tr>
-  </transition>
+      </div>
+    </td>
+  </tr>
 </template>
 
 <script>
 import axios from 'axios';
 import Modal from '../common/Modal';
-import marked from 'marked/marked.min.js';
-import hljs from 'highlight.js';
-import 'highlight.js/styles/github-gist.css';
-import ReviewEditor from './ReviewEditor';
 import PostDate from './PostDate';
 
 export default {
   props: {
     id: {
-      type: Number
+      type: Number,
+      default: 0
+    },
+    defaultComment: {
+      type: String,
+      default: ''
     },
     userName: {
       type: String,
       default: ''
     },
-    review: {
+    userIcon: {
       type: String,
       default: ''
     },
-    icon: {
-      type: String
+    show: {
+      type: Boolean,
+      default: true
     },
     canEdit: {
       type: Boolean,
@@ -78,52 +80,40 @@ export default {
   },
   data() {
     return {
-      show: true,
+      originalComment: '',
+      comment: this.defaultComment,
       mode: 'view'
-    }
-  },
-  created() {
-    marked.setOptions({
-      langPrefix: '',
-      highlight(code, lang) {
-        return hljs.highlightAuto(code, [lang]).value
-      }
-    });
-  },
-  computed: {
-    markedReview() {
-      return marked(this.review);
     }
   },
   methods: {
     switchEditMode() {
+      // キャンセルした時のためにオリジナルのコメントを保持
+      this.originalComment = this.comment;
       this.mode = 'edit';
     },
     switchViewMode() {
       this.mode = 'view';
     },
-    cancelReview() {
+    cancelComment() {
+      this.comment = this.originalComment;
       this.switchViewMode();
     },
-    updateReview() {
-      axios.put('/reviews/' + this.id, { review: this.review }).then((response) => {
-        this.switchViewMode();
+    updateComment() {
+      axios.put(`/comments/${this.id}`, { comment: this.comment }).then((response) => {
+        if(response.data['status'] == 'success') {
+          this.switchViewMode();
+        }
         console.log(response.status);
       }, (error) => {
         console.log(error);
       });
     },
-    deleteReview() {
-      axios.delete('/reviews/' + this.id).then((response) => {
+    deleteComment() {
+      axios.delete(`/comments/${this.id}`).then((response) => {
         if(response.data['status'] == 'success') {
           this.show = false;
-          $(`#comment-area-${this.id}`).fadeOut();
-          $(`#folding-comment-${this.id}`).fadeOut();
-          response.data.comments.forEach(function(comment) {
-            $(`#comment-${comment['id']}`).fadeOut();
-          });
         }
-        UIkit.modal('#confirm' + this.id).hide();
+        UIkit.modal(`#confirm${this.id}`).hide();
         console.log(response.status);
       }, (error) => {
         console.log(error);
@@ -132,17 +122,7 @@ export default {
   },
   components: {
     Modal,
-    ReviewEditor,
     PostDate
   }
 }
 </script>
-
-<style scoped>
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
-</style>

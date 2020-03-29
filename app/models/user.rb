@@ -18,6 +18,7 @@ class User < ApplicationRecord
   has_many :user_codes
   has_many :user_code_likes
   has_many :user_code_dislikes
+  has_many :comments
 
   has_one_attached :icon
 
@@ -68,5 +69,17 @@ class User < ApplicationRecord
 
   def sns_registration?
     provider.present?
+  end
+
+  def icon_url
+    return unless icon&.attached?
+
+    Rails.application.routes.url_helpers.rails_blob_path(icon, disposition: 'attachment', only_path: true)
+  end
+
+  def attributes
+    hash = super
+    hash['icon_url'] = icon_url
+    hash
   end
 end

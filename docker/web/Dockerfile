@@ -5,10 +5,10 @@ RUN apt-get update -qq && \
                        libpq-dev \
                        nodejs \
                        npm \
-                       vim
+                       vim \
+                       less
 
 RUN npm install --global yarn
-RUN mkdir /app
 
 ENV DB_HOST_NAME="db" \
     DB_USER_NAME="root" \
@@ -16,14 +16,17 @@ ENV DB_HOST_NAME="db" \
     S3_BUCKETNAME="refine-development" \
     APP_ROOT="/app"
 
+RUN mkdir $APP_ROOT
+
 WORKDIR $APP_ROOT
 
-ADD ./Gemfile $APP_ROOT/Gemfile
-ADD ./Gemfile.lock $APP_ROOT/Gemfile.lock
+COPY ./Gemfile $APP_ROOT/Gemfile
+COPY ./Gemfile.lock $APP_ROOT/Gemfile.lock
+COPY ./docker/web/.pryrc /root/.pryrc
 
 RUN gem install bundler -v '2.0.2'
 RUN bundle install
-ADD . $APP_ROOT
+COPY . $APP_ROOT
 
 RUN echo "alias dbreset='bundle exec rake db:migrate:reset && bundle exec rake db:seed && bundle exec rake db:migrate:reset RAILS_ENV=test && bundle exec rake db:seed RAILS_ENV=test'" >> ~/.bashrc
 RUN /bin/bash -c "source ~/.bashrc"

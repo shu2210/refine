@@ -1,7 +1,7 @@
 .profile-form
   = form_with model: @user, url: users_profile_path, method: :put, builder: RefineFormBuilder, local: true, multipart: true do |f|
     icon-uploader[
-      image-source=url_for(@user.icon)
+      image-source=@user.icon_url
     ]
 
     .user-name.uk-margin

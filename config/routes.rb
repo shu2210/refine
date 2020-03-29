@@ -25,4 +25,5 @@ Rails.application.routes.draw do
     resources :change_passwords
   end
   resources :reviews
+  resources :comments
 end

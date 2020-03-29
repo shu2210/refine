@@ -23,10 +23,12 @@ ja:
         description: 説明
       code:
         code: コード
+        language: 言語
     errors:
       messages:
         invalid: が不正です
         blank: を入力してください
+        required: が必要です
         too_short: が短すぎます
         too_long: が長すぎます
       models:
