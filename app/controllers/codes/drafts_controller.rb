@@ -3,6 +3,8 @@
 class Codes::DraftsController < ApplicationController
   before_action :authenticate_user!
 
+  def index; end
+
   def create
     @code = UserCode.new(code_params)
     @code.codes = codes
