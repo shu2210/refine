@@ -3,8 +3,14 @@
     button.uk-offcanvas-close[uk-close]
     ul.uk-list
       li
-      = link_to 'プロフィール', users_profile_path(id: current_user.id), class: 'uk-link'
+        = link_to 'プロフィール', users_profile_path(id: current_user.id), class: 'uk-link'
       li
         = link_to 'コードを投稿する', new_code_path, class: 'uk-link'
+      li
+        = link_to '投稿一覧', '#', class: 'uk-link'
+      li
+        = link_to 'レビュー一覧', '#', class: 'uk-link'
+      li
+        = link_to '下書き一覧', codes_drafts_path, class: 'uk-link'
       li
         = link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'uk-link'

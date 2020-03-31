@@ -14,12 +14,12 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
 
-  resources :codes
   namespace :codes do
     resources :drafts
     resources :likes
     resources :dislikes
   end
+  resources :codes
   namespace :users do
     resources :profiles
     resources :change_passwords
