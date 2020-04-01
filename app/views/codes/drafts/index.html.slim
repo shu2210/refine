@@ -1,0 +1,49 @@
+.uk-container
+  .drafts.uk-margin-top
+    ul.uk-tab-right.uk-width-1-4.uk-inline-block.uk-tab[uk-switcher="" uk-tab=""]
+      li.uk-active
+        a[href="#" aria-expanded="true"]
+          .uk-text-emphasis[style="text-transform: none !important"]
+            | Railsのプロジェクト
+          .uk-text-small.uk-text-muted.uk-text-light
+            | 2020-03-31 14:00:00
+      li
+        a[href="#" aria-expanded="true"]
+          .uk-text-emphasis[style="text-transform: none !important"]
+            | Railsのプロジェクト
+          .uk-text-small.uk-text-muted.uk-text-light
+            | 2020-03-31 14:00:00
+      li
+        a[href="#" aria-expanded="true"]
+          .uk-text-emphasis[style="text-transform: none !important"]
+            | Railsのプロジェクト
+          .uk-text-small.uk-text-muted.uk-text-light
+            | 2020-03-31 14:00:00
+
+    ul.uk-switcher.uk-inline-block.uk-width-3-4[style="vertical-align: top"]
+      li.uk-active
+        .edit-buttons.uk-margin.uk-text-right
+          button.uk-button.uk-button-default.uk-margin-right 編集
+          button.uk-button.uk-button-danger 削除
+
+        article.uk-article
+          .heading.uk-background-muted.uk-padding-small
+            h1.uk-article-title Railsのプロジェクト
+            tag[label="Rails"]
+            tag[label="Ruby"]
+            tag[label="MySQL"]
+
+          p.uk-padding-small
+            | どうしても上手いこと書けません。
+            br
+            | どうしたら綺麗に教えてください。お願いします。
+
+          code-area[
+            :no=1
+            code='def test; puts "test"; end'
+            :code-id=1
+            is-login=user_signed_in?
+            posted-user-icon=current_user.icon_url
+            :current-user-id=current_user.id
+            :disabled="true"
+          ]

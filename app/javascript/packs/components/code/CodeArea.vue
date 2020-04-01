@@ -1,17 +1,18 @@
 <template>
   <div class="uk-margin">
     <div class="code-title uk-padding-small">
-      <div class="uk-panel uk-text-right">
-        <a href="#" class="uk-icon-link" uk-icon="copy"></a>
-        <a href="#" class="uk-icon-link" uk-icon="file-edit"></a>
-        <a href="#" class="uk-icon-link" uk-icon="trash"></a>
-      </div>
+      <div class="uk-panel uk-text-right"></div>
     </div>
     <div class="code">
       <table class="uk-table uk-table-small uk-table-hover uk-margin-remove">
         <tr v-for="(codeLine, line) in codeLines" :id="`code${no}-${(line + 1)}`" :key="line">
           <td class="line-num uk-table-shrink">
-            <a class="uk-icon-button" uk-icon="comment" @click="createReviewArea(line + 1)" v-if="isLogin"></a>
+            <a
+              class="uk-icon-button"
+              uk-icon="comment"
+              @click="createReviewArea(line + 1)"
+              v-if="isLogin && !disabled"
+            ></a>
             <span>{{ line + 1 }}</span>
           </td>
           <td>
@@ -42,13 +43,28 @@ import DateHelper from '../../helpers/date.helper.js';
 export default {
   mixins: [DateHelper],
   props: {
-    no: Number,
-    title: String,
-    code: String,
-    codeId: Number,
-    isLogin: Boolean,
-    postedUserIcon: String,
-    currentUserId: Number
+    no: {
+      type: Number
+    },
+    code: {
+      type: String
+    },
+    codeId: {
+      type: Number
+    },
+    isLogin: {
+      type: Boolean
+    },
+    postedUserIcon: {
+      type: String
+    },
+    currentUserId: {
+      type: Number
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
