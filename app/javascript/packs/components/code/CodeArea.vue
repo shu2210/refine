@@ -5,7 +5,7 @@
     </div>
     <div class="code">
       <table class="uk-table uk-table-small uk-table-hover uk-margin-remove">
-        <tr v-for="(codeLine, line) in codeLines" :id="`code${no}-${(line + 1)}`" :key="line">
+        <tr v-for="(codeLine, line) in codeLines" :id="`code${codeId}-${(line + 1)}`" :key="line">
           <td class="line-num uk-table-shrink">
             <a
               class="uk-icon-button"
@@ -43,9 +43,6 @@ import DateHelper from '../../helpers/date.helper.js';
 export default {
   mixins: [DateHelper],
   props: {
-    no: {
-      type: Number
-    },
     code: {
       type: String
     },
@@ -77,7 +74,7 @@ export default {
   },
   methods: {
     createReviewArea(line) {
-      var review = $(`#code${this.no}-${line}`).next('.review-area');
+      var review = $(`#code${this.codeId}-${line}`).next('.review-area');
       if(review.length >= 1) {
         return
       }
@@ -91,7 +88,7 @@ export default {
       });
       instance.$on('post-review', this.switchReview);
       instance.$mount();
-      $(`#code${this.no}-${line}`).after(instance.$el);
+      $(`#code${this.codeId}-${line}`).after(instance.$el);
     },
     fetchReview() {
       if(this.disabled) {
@@ -148,7 +145,7 @@ export default {
       var ComponentClass = Vue.extend(PostedReview);
       var instance = new ComponentClass({ propsData: props });
       instance.$mount();
-      $(`#code${this.no}-${props['line']}`).after(instance.$el);
+      $(`#code${this.codeId}-${props['line']}`).after(instance.$el);
     },
     appendFoldingComment(reviewId, commentCount) {
       var ComponentClass = Vue.extend(FoldingComment);
