@@ -11,7 +11,7 @@ class Codes::DraftsController < ApplicationController
     @code = UserCode.new(code_params)
     @code.codes = codes
     @code.user = current_user
-    @code.draft
+    @code.draft(params[:tags])
     redirect_to root_path, success: '下書き保存が完了しました'
   end
 
@@ -23,6 +23,7 @@ class Codes::DraftsController < ApplicationController
     )
   end
 
+  # TODO: codes_controllerとの重複解消
   def codes
     params[:code].each(&:permit!)
     params[:code].map do |code|

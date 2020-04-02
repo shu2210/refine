@@ -48,9 +48,12 @@ class UserCode < ApplicationRecord
     code_dislike.present?
   end
 
-  def draft
-    self.status = :draft
-    save(validate: false)
+  def draft(tag_names)
+    transaction do
+      self.status = :draft
+      create_tags(tag_names)
+      save(validate: false)
+    end
   end
 
   def post(tag_names)
