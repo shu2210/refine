@@ -1,49 +1,39 @@
 .uk-container
   .drafts.uk-margin-top
     ul.uk-tab-right.uk-width-1-4.uk-inline-block.uk-tab[uk-switcher="" uk-tab=""]
-      li.uk-active
-        a[href="#" aria-expanded="true"]
-          .uk-text-emphasis.no-text-transform
-            | Railsのプロジェクト
-          .uk-text-small.uk-text-muted.uk-text-light
-            | 2020-03-31 14:00:00
-      li
-        a[href="#" aria-expanded="true"]
-          .uk-text-emphasis.no-text-transform
-            | Railsのプロジェクト
-          .uk-text-small.uk-text-muted.uk-text-light
-            | 2020-03-31 14:00:00
-      li
-        a[href="#" aria-expanded="true"]
-          .uk-text-emphasis.no-text-transform
-            | Railsのプロジェクト
-          .uk-text-small.uk-text-muted.uk-text-light
-            | 2020-03-31 14:00:00
+      - @drafts.each do |draft|
+        li
+          a[href="#" aria-expanded="true"]
+            .uk-text-emphasis.no-text-transform
+              = draft.title
+            .uk-text-small.uk-text-muted.uk-text-light
+              = l(draft.updated_at)
 
     ul.uk-switcher.uk-inline-block.uk-width-3-4.vertical-top
-      li.uk-active
-        .edit-buttons.uk-margin.uk-text-right
-          button.uk-button.uk-button-default.uk-margin-right 編集
-          button.uk-button.uk-button-danger 削除
+      - @drafts.each do |draft|
+        li
+          .edit-buttons.uk-margin.uk-text-right
+            button.uk-button.uk-button-default.uk-margin-right 編集
+            button.uk-button.uk-button-danger 削除
 
-        article.uk-article
-          .heading.uk-background-muted.uk-padding-small
-            h1.uk-article-title Railsのプロジェクト
-            tag[label="Rails"]
-            tag[label="Ruby"]
-            tag[label="MySQL"]
+          article.uk-article
+            .heading.uk-background-muted.uk-padding-small
+              h1.uk-article-title
+                = draft.title
 
-          p.uk-padding-small
-            | どうしても上手いこと書けません。
-            br
-            | どうしたら綺麗に教えてください。お願いします。
+              - draft.tags.each do |tag|
+                tag[label=tag.name]
 
-          code-area[
-            :no=1
-            code='def test; puts "test"; end'
-            :code-id=1
-            is-login=user_signed_in?
-            posted-user-icon=current_user.icon_url
-            :current-user-id=current_user.id
-            :disabled="true"
-          ]
+            p.uk-padding-small
+              = draft.description
+
+            - draft.codes.each do |code|
+              code-area[
+                :no=1
+                code=code.code
+                :code-id=code.id
+                is-login=user_signed_in?
+                posted-user-icon=current_user.icon_url
+                :current-user-id=current_user.id
+                :disabled="true"
+              ]

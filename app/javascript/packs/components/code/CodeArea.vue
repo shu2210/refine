@@ -94,6 +94,9 @@ export default {
       $(`#code${this.no}-${line}`).after(instance.$el);
     },
     fetchReview() {
+      if(this.disabled) {
+        return;
+      }
       var vm = this;
 
       axios.get(`/reviews/${this.codeId}`).then((response) => {
