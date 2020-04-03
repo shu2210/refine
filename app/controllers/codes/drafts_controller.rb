@@ -12,7 +12,7 @@ class Codes::DraftsController < ApplicationController
     @code.codes = codes
     @code.user = current_user
     if @code.draft(params[:tags])
-      redirect_to action: :index, success: '下書き保存が完了しました'
+      redirect_to action: :index
     else
       render 'codes/new'
     end

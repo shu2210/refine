@@ -12,7 +12,8 @@ RSpec.describe UserCode, type: :model do
 
   describe 'title' do
     let(:code) { build(:user_code, title: title) }
-    before { code.valid? }
+
+    before { code.valid?(:post) }
 
     context '空白の場合' do
       let(:title) { '' }
@@ -29,7 +30,7 @@ RSpec.describe UserCode, type: :model do
 
   describe 'description' do
     let(:code) { build(:user_code, description: description) }
-    before { code.valid? }
+    before { code.valid?(:post) }
 
     context '空白の場合' do
       let(:description) { '' }
@@ -45,15 +46,74 @@ RSpec.describe UserCode, type: :model do
   end
 
   describe 'draft' do
-    it '下書き保存ができること' do
-      code = UserCode.new(title: 'test')
-      expect { code.draft }.to change(UserCode, :count).by(1)
+    let!(:user) { build(:user) }
+    let!(:tags) { %i[tag1 tag2] }
+
+    context '成功した場合' do
+      let!(:code) { build(:user_code, title: :test, description: :test, user: user) }
+
+      it '下書き保存ができること' do
+        expect { code.draft(tags) }.to change(UserCode, :count).by(1)
+      end
+
+      it 'statusがdraftになること' do
+        code.draft(tags)
+        expect(code.status).to eq(:draft)
+      end
+
+      it 'trueが返る' do
+        expect(code.draft(tags)).to be_truthy
+      end
     end
 
-    it 'statusがdraftになること' do
-      code = UserCode.new(title: 'test')
-      code.draft
-      expect(code.status).to eq('draft')
+    context '失敗した場合' do
+      let!(:code) { build(:user_code, title: :test, description: nil, user: user) }
+
+      it 'レコードは保存されない' do
+        expect { code.draft(tags) }.not_to change(UserCode, :count)
+        expect { code.draft(tags) }.not_to change(UserCodeTag, :count)
+        expect { code.draft(tags) }.not_to change(Tag, :count)
+      end
+
+      it 'falseが返る' do
+        expect(code.draft(tags)).to be_falsy
+      end
+    end
+  end
+
+  describe 'post' do
+    let!(:user) { build(:user) }
+    let!(:tags) { %i[tag1 tag2] }
+
+    context '成功した場合' do
+      let!(:code) { build(:user_code, title: :test, description: :test, user: user) }
+
+      it 'レコードが追加される' do
+        expect { code.post(tags) }.to change(UserCode, :count).by(1)
+      end
+
+      it 'statusがpublishedになること' do
+        code.post(tags)
+        expect(code.status).to eq(:published)
+      end
+
+      it 'trueが返る' do
+        expect(code.post(tags)).to be_truthy
+      end
+    end
+
+    context '失敗した場合' do
+      let!(:code) { build(:user_code, title: :test, description: nil, user: user) }
+
+      it 'レコードは保存されない' do
+        expect { code.post(tags) }.not_to change(UserCode, :count)
+        expect { code.post(tags) }.not_to change(UserCodeTag, :count)
+        expect { code.post(tags) }.not_to change(Tag, :count)
+      end
+
+      it 'falseが返る' do
+        expect(code.post(tags)).to be_falsy
+      end
     end
   end
 

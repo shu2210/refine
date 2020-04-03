@@ -31,21 +31,37 @@ RSpec.describe Codes::DraftsController, type: :controller do
 
     context 'ログインしている場合' do
       let!(:language) { Language.first }
-      let!(:params) { { user_code: { title: 'test', description: 'test' }, code: [{ language_id: language.id, code: 'test' }] } }
 
       before { sign_in_user }
 
-      it 'user_codeが作成されること' do
-        expect { post :create, params: params }.to change(UserCode, :count).by(1)
+      context '成功した場合' do
+        let!(:params) { { user_code: { title: 'test', description: 'test' }, code: [{ language_id: language.id, code: 'test' }] } }
+
+        it 'user_codeが作成されること' do
+          expect { post :create, params: params }.to change(UserCode, :count).by(1)
+        end
+
+        it 'codeが作成されること' do
+          expect { post :create, params: params }.to change(Code, :count).by(1)
+        end
+
+        it '下書き一覧にリダイレクトする' do
+          post :create, params: params
+          expect(response).to redirect_to(codes_drafts_path)
+        end
       end
 
-      it 'codeが作成されること' do
-        expect { post :create, params: params }.to change(Code, :count).by(1)
-      end
+      context '失敗した場合' do
+        let!(:params) { { user_code: { title: '', description: 'test' }, code: [{ language_id: language.id, code: 'test' }] } }
 
-      it 'root_pathにリダイレクトする' do
-        post :create, params: params
-        expect(response).to redirect_to(root_path)
+        it 'レコードは作成されない' do
+          expect { post :create, params: params }.not_to change(UserCode, :count)
+        end
+
+        it 'コード投稿画面をrenderする' do
+          post :create, params: params
+          expect(response).to render_template('codes/new')
+        end
       end
     end
   end
