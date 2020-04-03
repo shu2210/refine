@@ -11,8 +11,8 @@ class UserCode < ApplicationRecord
   has_many :user_code_likes
   has_many :user_code_dislikes
 
-  validates :title, presence: true, length: { maximum: 200 }
-  validates :description, presence: true, length: { maximum: 300 }
+  validates :title, presence: true, length: { maximum: 200 }, on: %i[post draft]
+  validates :description, presence: true, length: { maximum: 300 }, on: %i[post draft]
 
   enumerize :status, in: %i[draft published closed]
 
@@ -52,18 +52,24 @@ class UserCode < ApplicationRecord
     transaction do
       self.status = :draft
       create_tags(tag_names)
-      save(validate: false)
+      save!(context: :draft)
     end
+    true
+  rescue StandardError => e
+    logger.error e
+    false
   end
 
   def post(tag_names)
     transaction do
       self.status = :published
       create_tags(tag_names)
-      raise ActiveRecord::Rollback if invalid?
-
-      save
+      save!(context: :post)
     end
+    true
+  rescue StandardError => e
+    logger.error e
+    false
   end
 
   private
@@ -72,7 +78,7 @@ class UserCode < ApplicationRecord
     return if tag_names.blank?
 
     tag_names.each do |name|
-      tag = Tag.find_or_create_by(name: name)
+      tag = Tag.find_or_create_by!(name: name)
       tags.push(tag)
     end
   end

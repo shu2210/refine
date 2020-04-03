@@ -11,8 +11,11 @@ class Codes::DraftsController < ApplicationController
     @code = UserCode.new(code_params)
     @code.codes = codes
     @code.user = current_user
-    @code.draft(params[:tags])
-    redirect_to root_path, success: '下書き保存が完了しました'
+    if @code.draft(params[:tags])
+      redirect_to action: :index, success: '下書き保存が完了しました'
+    else
+      render 'codes/new'
+    end
   end
 
   private
