@@ -5,11 +5,12 @@ class UserCode < ApplicationRecord
 
   belongs_to :user
 
-  has_many :codes
+  # NOTE: codesを一番上に持っていくと下書きをした時にtagが保存されない(unlessでvalidtionをスキップさせているせいか)
   has_many :user_code_tags
   has_many :tags, through: :user_code_tags
   has_many :user_code_likes
   has_many :user_code_dislikes
+  has_many :codes
 
   validates :title, presence: true, length: { maximum: 200 }, on: %i[post draft]
   validates :description, presence: true, length: { maximum: 300 }, on: %i[post draft]
