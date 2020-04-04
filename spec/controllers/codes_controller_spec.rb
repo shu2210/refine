@@ -10,6 +10,15 @@ RSpec.describe CodesController, type: :controller do
     it { is_expected.to render_template(:index) }
   end
 
+  describe 'GET #show' do
+    let(:user_code) { create(:user_code) }
+
+    subject { get :show, params: { id: user_code.id } }
+
+    it { is_expected.to have_http_status(:ok) }
+    it { is_expected.to render_template(:show) }
+  end
+
   describe 'GET #new' do
     context 'ログインしていない場合' do
       subject { get :new }
@@ -53,14 +62,5 @@ RSpec.describe CodesController, type: :controller do
         expect(response).to render_template(:new)
       end
     end
-  end
-
-  describe 'GET #show' do
-    let(:user_code) { create(:user_code) }
-
-    subject { get :show, params: { id: user_code.id } }
-
-    it { is_expected.to have_http_status(:ok) }
-    it { is_expected.to render_template(:show) }
   end
 end

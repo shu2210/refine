@@ -65,4 +65,36 @@ RSpec.describe Codes::DraftsController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    context 'ログインしていない場合' do
+      subject { delete :destroy, params: { id: 1 } }
+
+      it { is_expected.to have_http_status(:redirect) }
+      it { is_expected.to redirect_to('/users/sign_in') }
+    end
+
+    context 'ログインしている場合' do
+      let!(:user) { create(:user) }
+
+      before { sign_in user }
+
+      context 'curret_user != 作成者' do
+        let!(:coder) { build(:user) }
+        let!(:user_code) { create(:user_code, user: coder) }
+
+        it 'レコードは削除されない' do
+          expect { delete :destroy, params: { id: user_code.id } }.not_to change(UserCode, :count)
+        end
+      end
+
+      context 'current_user == 作成者' do
+        let!(:user_code) { create(:user_code, user: user) }
+
+        it 'user_codeが削除される' do
+          expect { delete :destroy, params: { id: user_code.id } }.to change(UserCode, :count).by(-1)
+        end
+      end
+    end
+  end
 end

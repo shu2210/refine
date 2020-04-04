@@ -18,6 +18,19 @@ class Codes::DraftsController < ApplicationController
     end
   end
 
+  def destroy
+    @code = UserCode.find(params[:id])
+    if current_user != @code.user
+      render :index
+    elsif @code.destroy
+      flash[:success] = t('deleted')
+      redirect_to action: :index
+    else
+      flash.now[:alert] = t('errors.invalid')
+      render :index
+    end
+  end
+
   private
 
   def code_params

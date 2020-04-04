@@ -8,6 +8,10 @@ class CodesController < ApplicationController
     @popular = UserCode.popular
   end
 
+  def show
+    @code = UserCode.includes(:codes, :user).find(params[:id])
+  end
+
   def new
     @code = UserCode.new
     @code.codes.push(Code.new)
@@ -23,10 +27,6 @@ class CodesController < ApplicationController
       flash.now[:alert] = '入力内容に誤りがあります'
       render :new
     end
-  end
-
-  def show
-    @code = UserCode.includes(:codes, :user).find(params[:id])
   end
 
   private
