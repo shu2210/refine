@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
+require_relative 'concerns/flash_validatable'
+
 class UserCode < ApplicationRecord
+  include FlashValidatable
   extend Enumerize
+
+  DRAFT_LIMIT = 15
 
   belongs_to :user
 
@@ -16,6 +21,8 @@ class UserCode < ApplicationRecord
   validates :description, presence: true, length: { maximum: 300 }, on: %i[post draft]
 
   validate :draft_count, on: %i[draft]
+
+  flash_validation :base
 
   enumerize :status, in: %i[draft published closed]
 
@@ -88,6 +95,6 @@ class UserCode < ApplicationRecord
 
   def draft_count
     count = UserCode.where(user_id: user_id, status: :draft).count
-    errors.add(:base, :over_drafts_limit) if count > 15
+    errors.add(:base, :over_drafts_limit) if count > DRAFT_LIMIT
   end
 end

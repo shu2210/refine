@@ -1,5 +1,5 @@
 #code.uk-container.uk-margin
-  = render partial: 'shared/flash_messages'
+  = display_flash_messages(@code)
 
   = form_with model: @code, url: codes_path, id: 'code-form', local: true, builder: RefineFormBuilder, html: { '@submit': 'addTags' } do |f|
     .title.uk-margin
@@ -17,12 +17,17 @@
       :default-tags=tag_hash(@code&.tags&.map(&:name)).to_json
     ]
 
-    code-form[
+    code-form.uk-margin[
       new-code=Code.new.to_json
       codes=@code.codes.to_json
       :langs=languages.to_json
       :errors=@code.codes.map(&:errors).map(&:full_messages).to_json
     ]
+
+    .uk-alert-warning[uk-alert]
+      a.uk-alert-close[uk-close]
+      p
+        = "下書きは#{UserCode::DRAFT_LIMIT}件まで登録できます"
 
     .submit-btn.uk-text-center.uk-margin
       a.uk-button.uk-button-primary[href="#confirm" uk-toggle] 投稿

@@ -38,6 +38,10 @@ ja:
               taken: が登録されています
             password_confirmation:
               confirmation: が異なります
+        user_code:
+          attributes:
+            base:
+              over_drafts_limit: 下書きの上限に達しています
   enumerize:
     user_code:
       status:

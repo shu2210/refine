@@ -12,7 +12,8 @@ module ApplicationHelper
   private
 
   def model_error(model)
-    column = model.flash_columns.first
+    column = model.flash_columns&.first
+    return if column.blank?
 
     if model.errors[column].any?
       build_flash_html :danger, model.errors.full_messages_for(column).first
