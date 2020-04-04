@@ -1,7 +1,7 @@
 #code.uk-container.uk-margin
   = display_flash_messages(@code)
 
-  = form_with model: @code, url: codes_path, id: 'code-form', local: true, builder: RefineFormBuilder, html: { '@submit': 'addTags' } do |f|
+  = form_with model: @code, url: codes_path, id: 'code-form', local: true, builder: RefineFormBuilder do |f|
     .title.uk-margin
       = f.label :title, class: 'uk-text-small uk-margin-small-right'
       required-badge

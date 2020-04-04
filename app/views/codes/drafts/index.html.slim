@@ -14,7 +14,7 @@
         li
           .edit-buttons.uk-margin.uk-text-right
             button.uk-button.uk-button-default.uk-margin-right 編集
-            button.uk-button.uk-button-danger 削除
+            a.uk-button.uk-button-danger[href="#confirm" uk-toggle] 削除
 
           article.uk-article
             .heading.uk-background-muted.uk-padding-small
@@ -36,3 +36,13 @@
                 :current-user-id=current_user.id
                 :disabled="true"
               ]
+
+          #modal
+            modal[id="confirm"]
+              p.uk-text-center
+                | 削除すると元に戻せません。
+                br
+                | よろしいですか？
+              .uk-text-center
+                button.uk-button.uk-button-primary.uk-button-small[type="submit" form="code-form"] 削除
+                button.uk-button.uk-button-default.uk-margin-left.uk-button-small.uk-modal-close[type="submit"] キャンセル
