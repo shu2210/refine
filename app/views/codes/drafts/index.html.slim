@@ -14,7 +14,7 @@
         li
           .edit-buttons.uk-margin.uk-text-right
             button.uk-button.uk-button-default.uk-margin-right 編集
-            a.uk-button.uk-button-danger[href="#confirm" uk-toggle] 削除
+            a.uk-button.uk-button-danger[href="#confirm#{draft.id}" uk-toggle] 削除
 
           article.uk-article
             .heading.uk-background-muted.uk-padding-small
@@ -37,12 +37,12 @@
                 :disabled="true"
               ]
 
-          #modal
-            modal[id="confirm"]
-              p.uk-text-center
-                | 削除すると元に戻せません。
-                br
-                | よろしいですか？
-              .uk-text-center
-                button.uk-button.uk-button-primary.uk-button-small[type="submit" form="code-form"] 削除
-                button.uk-button.uk-button-default.uk-margin-left.uk-button-small.uk-modal-close[type="submit"] キャンセル
+        #modal
+          modal[id="confirm#{draft.id}"]
+            p.uk-text-center
+              | 削除すると元に戻せません。
+              br
+              | よろしいですか？
+            .uk-text-center
+              = link_to '削除', "/codes/drafts/#{draft.id}", class: 'uk-button uk-button-primary uk-button-small', method: :delete
+              button.uk-button.uk-button-default.uk-margin-left.uk-button-small.uk-modal-close[type="submit"] キャンセル
