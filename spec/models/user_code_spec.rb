@@ -48,35 +48,95 @@ RSpec.describe UserCode, type: :model do
   describe 'draft' do
     let!(:user) { build(:user) }
     let!(:tags) { %i[tag1 tag2] }
+    let!(:code) { build(:code) }
 
-    context '成功した場合' do
-      let!(:code) { build(:user_code, title: :test, description: :test, user: user) }
+    context '全て指定した場合' do
+      let!(:user_code) { build(:user_code, title: :test, description: :test, codes: [code], user: user) }
 
       it '下書き保存ができること' do
-        expect { code.draft(tags) }.to change(UserCode, :count).by(1)
+        expect { user_code.draft(tags) }.to change(UserCode, :count).by(1)
       end
 
       it 'statusがdraftになること' do
-        code.draft(tags)
-        expect(code.status).to eq(:draft)
+        user_code.draft(tags)
+        expect(user_code.status).to eq(:draft)
       end
 
       it 'trueが返る' do
-        expect(code.draft(tags)).to be_truthy
+        expect(user_code.draft(tags)).to be_truthy
+      end
+
+      it 'タグが保存される' do
+        expect { user_code.draft(tags) }.to change(Tag, :count).by(2)
+      end
+
+      it 'コードが保存される' do
+        expect { user_code.draft(tags) }.to change(Code, :count).by(1)
       end
     end
 
-    context '失敗した場合' do
-      let!(:code) { build(:user_code, title: :test, description: nil, user: user) }
+    context 'タグだけ指定しない場合' do
+      let!(:user_code) { build(:user_code, title: :test, description: :test, codes: [code], user: user) }
+
+      it 'タグなしで下書き保存される' do
+        expect { user_code.draft([]) }.to change(UserCode, :count).by(1).and change(Code, :count).by(1)
+      end
+
+      it 'trueが返る' do
+        expect(user_code.draft([])).to be_truthy
+      end
+    end
+
+    context 'コードだけ指定しない場合' do
+      let!(:user_code) { build(:user_code, title: :test, description: :test, user: user) }
+      let!(:user_code) { build(:user_code, title: :test, description: :test, user: user) }
+
+      it 'コードなしで下書き保存される' do
+        expect { user_code.draft(tags) }.to change(UserCode, :count).by(1).and change(Tag, :count).by(2)
+      end
+
+      it 'trueが返る' do
+        expect(user_code.draft(tags)).to be_truthy
+      end
+    end
+
+    context 'コード・タグを指定しない場合' do
+      let!(:user_code) { build(:user_code, title: :test, description: :test, user: user) }
+
+      it '下書きが保存される' do
+        expect { user_code.draft([]) }.to change(UserCode, :count).by(1)
+      end
+
+      it 'trueが返る' do
+        expect(user_code.draft([])).to be_truthy
+      end
+    end
+
+    context 'titleがない場合' do
+      let!(:user_code) { build(:user_code, title: nil, description: :test, user: user) }
 
       it 'レコードは保存されない' do
-        expect { code.draft(tags) }.not_to change(UserCode, :count)
-        expect { code.draft(tags) }.not_to change(UserCodeTag, :count)
-        expect { code.draft(tags) }.not_to change(Tag, :count)
+        expect { user_code.draft(tags) }.not_to change(UserCode, :count)
+        expect { user_code.draft(tags) }.not_to change(UserCodeTag, :count)
+        expect { user_code.draft(tags) }.not_to change(Tag, :count)
       end
 
       it 'falseが返る' do
-        expect(code.draft(tags)).to be_falsy
+        expect(user_code.draft(tags)).to be_falsy
+      end
+    end
+
+    context 'descriptionがない場合' do
+      let!(:user_code) { build(:user_code, title: :test, description: nil, user: user) }
+
+      it 'レコードは保存されない' do
+        expect { user_code.draft(tags) }.not_to change(UserCode, :count)
+        expect { user_code.draft(tags) }.not_to change(UserCodeTag, :count)
+        expect { user_code.draft(tags) }.not_to change(Tag, :count)
+      end
+
+      it 'falseが返る' do
+        expect(user_code.draft(tags)).to be_falsy
       end
     end
   end
