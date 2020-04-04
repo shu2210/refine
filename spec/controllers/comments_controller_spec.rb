@@ -38,8 +38,7 @@ RSpec.describe CommentsController, type: :controller do
 
         it 'status = errorが返る' do
           post :create, params: params
-          status = JSON.parse(response.body)['status']
-          expect(status).to eq('error')
+          expect(response).to be_json_error
         end
 
         it 'commentsのレコードは作成されない' do
@@ -52,8 +51,7 @@ RSpec.describe CommentsController, type: :controller do
 
         it 'status = successが返る' do
           post :create, params: params
-          status = JSON.parse(response.body)['status']
-          expect(status).to eq('success')
+          expect(response).to be_json_success
         end
 
         it 'commentsのレコードを作成する' do
@@ -81,8 +79,7 @@ RSpec.describe CommentsController, type: :controller do
 
         it 'エラーが返る' do
           put :update, params: { id: comment.id }
-          res = JSON.parse(response.body)
-          expect(res['status']).to eq('error')
+          expect(response).to be_json_error
         end
       end
 
@@ -92,8 +89,7 @@ RSpec.describe CommentsController, type: :controller do
         context 'commentが空の場合' do
           it 'エラーが返る' do
             put :update, params: { id: comment.id, comment: '' }
-            res = JSON.parse(response.body)
-            expect(res['status']).to eq('error')
+            expect(response).to be_json_error
           end
         end
 
@@ -130,8 +126,7 @@ RSpec.describe CommentsController, type: :controller do
       context '存在しないidが渡された場合' do
         it 'errorが返る' do
           delete :destroy, params: { id: comment.id + 1 }
-          res = JSON.parse(response.body)
-          expect(res['status']).to eq('error')
+          expect(response).to be_json_error
         end
       end
     end

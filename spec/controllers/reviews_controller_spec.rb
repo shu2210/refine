@@ -46,8 +46,7 @@ RSpec.describe ReviewsController, type: :controller do
 
         it 'status errorが返ってくる' do
           post :create, params: params
-          body = JSON.parse(response.body)
-          expect(body['status']).to eq('error')
+          expect(response).to be_json_error
         end
       end
 
@@ -60,8 +59,7 @@ RSpec.describe ReviewsController, type: :controller do
 
         it 'status successが返ってくる' do
           post :create, params: params
-          body = JSON.parse(response.body)
-          expect(body['status']).to eq('success')
+          expect(response).to be_json_success
         end
       end
     end
@@ -96,7 +94,7 @@ RSpec.describe ReviewsController, type: :controller do
 
         it 'エラーになる' do
           put :update, params: { id: review.id }
-          expect(JSON.parse(response.body)['status']).to eq('error')
+          expect(response).to be_json_error
         end
       end
     end
@@ -120,7 +118,7 @@ RSpec.describe ReviewsController, type: :controller do
 
         it 'エラーになる' do
           delete :destroy, params: { id: review.id }
-          expect(JSON.parse(response.body)['status']).to eq('error')
+          expect(response).to be_json_error
         end
       end
 
@@ -134,7 +132,7 @@ RSpec.describe ReviewsController, type: :controller do
         context 'review.idが見つからない場合' do
           it 'エラーになる' do
             delete :destroy, params: { id: 1 }
-            expect(JSON.parse(response.body)['status']).to eq('error')
+            expect(response).to be_json_error
           end
         end
       end

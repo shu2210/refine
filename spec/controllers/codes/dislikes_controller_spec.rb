@@ -25,8 +25,7 @@ RSpec.describe Codes::DislikesController, type: :controller do
 
         it 'status => success' do
           post :create, params: params
-          body = JSON.parse(response.body)
-          expect(body['status']).to eq('success')
+          expect(response).to be_json_success
         end
       end
 
@@ -35,8 +34,7 @@ RSpec.describe Codes::DislikesController, type: :controller do
 
         it 'status => error' do
           post :create, params: params
-          body = JSON.parse(response.body)
-          expect(body['status']).to eq('error')
+          expect(response).to be_json_error
         end
       end
     end
@@ -68,8 +66,7 @@ RSpec.describe Codes::DislikesController, type: :controller do
 
         it 'status => success' do
           delete :destroy, params: params
-          body = JSON.parse(response.body)
-          expect(body['status']).to eq('success')
+          expect(response).to be_json_success
         end
       end
 
@@ -78,8 +75,7 @@ RSpec.describe Codes::DislikesController, type: :controller do
 
         it 'status => error' do
           delete :destroy, params: params
-          body = JSON.parse(response.body)
-          expect(body['status']).to eq('error')
+          expect(response).to be_json_error
         end
       end
     end
