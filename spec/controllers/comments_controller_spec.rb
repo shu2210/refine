@@ -72,7 +72,7 @@ RSpec.describe CommentsController, type: :controller do
     context 'ログインしている場合' do
       include_context :login
 
-      let(:comment) { create(:comment, user: commenter) }
+      let!(:comment) { create(:comment, user: commenter) }
 
       context 'commentの作成者 != 更新者の場合' do
         let!(:commenter) { build(:user) }
