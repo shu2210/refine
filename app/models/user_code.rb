@@ -15,6 +15,8 @@ class UserCode < ApplicationRecord
   validates :title, presence: true, length: { maximum: 200 }, on: %i[post draft]
   validates :description, presence: true, length: { maximum: 300 }, on: %i[post draft]
 
+  validate :draft_count, on: %i[draft]
+
   enumerize :status, in: %i[draft published closed]
 
   scope :latest, lambda {
@@ -82,5 +84,10 @@ class UserCode < ApplicationRecord
       tag = Tag.find_or_create_by!(name: name)
       tags.push(tag)
     end
+  end
+
+  def draft_count
+    count = UserCode.where(user_id: user_id, status: :draft).count
+    errors.add(:base, :over_drafts_limit) if count > 15
   end
 end

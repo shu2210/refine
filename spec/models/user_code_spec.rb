@@ -113,7 +113,7 @@ RSpec.describe UserCode, type: :model do
     end
 
     context 'titleがない場合' do
-      let!(:user_code) { build(:user_code, title: nil, description: :test, user: user) }
+      let!(:user_code) { build(:user_code, title: nil, user: user) }
 
       it 'レコードは保存されない' do
         expect { user_code.draft(tags) }.not_to change(UserCode, :count)
@@ -127,12 +127,30 @@ RSpec.describe UserCode, type: :model do
     end
 
     context 'descriptionがない場合' do
-      let!(:user_code) { build(:user_code, title: :test, description: nil, user: user) }
+      let!(:user_code) { build(:user_code, description: nil, user: user) }
 
       it 'レコードは保存されない' do
         expect { user_code.draft(tags) }.not_to change(UserCode, :count)
         expect { user_code.draft(tags) }.not_to change(UserCodeTag, :count)
         expect { user_code.draft(tags) }.not_to change(Tag, :count)
+      end
+
+      it 'falseが返る' do
+        expect(user_code.draft(tags)).to be_falsy
+      end
+    end
+
+    context '下書きの数が上限に達している場合' do
+      let!(:limit) { 15 }
+      let!(:user_code) { build(:user_code, user_id: user.id) }
+
+      before do
+        drafts = build_list(:user_code, limit, status: :draft)
+        UserCode.import drafts
+      end
+
+      it 'レコードは保存されない' do
+        expect { user_code.draft(tags) }.not_to change(UserCode, :count)
       end
 
       it 'falseが返る' do
