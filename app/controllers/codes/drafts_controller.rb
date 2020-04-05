@@ -18,6 +18,11 @@ class Codes::DraftsController < ApplicationController
     end
   end
 
+  def edit
+    @code = UserCode.find(params[:id])
+    raise Forbidden unless current_user == @code.user
+  end
+
   def destroy
     @code = UserCode.find(params[:id])
     if current_user != @code.user
