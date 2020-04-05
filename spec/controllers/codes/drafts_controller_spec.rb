@@ -3,24 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe Codes::DraftsController, type: :controller do
-  describe 'GET #index' do
-    context 'ログインしていない場合' do
-      subject { get :index }
-
-      it { is_expected.to have_http_status(:redirect) }
-      it { is_expected.to redirect_to('/users/sign_in') }
-    end
-
-    context 'ログインしている場合' do
-      before { sign_in_user }
-
-      subject { get :index }
-
-      it { is_expected.to have_http_status(:ok) }
-      it { is_expected.to render_template(:index) }
-    end
-  end
-
   describe 'POST #create' do
     context 'ログインしていない場合' do
       subject { post :create }
