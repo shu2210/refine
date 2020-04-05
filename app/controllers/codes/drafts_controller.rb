@@ -19,8 +19,10 @@ class Codes::DraftsController < ApplicationController
   end
 
   def edit
-    @code = UserCode.find(params[:id])
+    @code = UserCode.includes(:codes).find(params[:id])
     raise Forbidden unless current_user == @code.user
+
+    @code.codes.build if @code.codes.empty?
   end
 
   def destroy
