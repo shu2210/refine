@@ -25,6 +25,8 @@ class Codes::DraftsController < ApplicationController
     @code.codes.build if @code.codes.empty?
   end
 
+  def update; end
+
   def destroy
     @code = UserCode.find(params[:id])
     if current_user != @code.user

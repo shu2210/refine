@@ -100,6 +100,31 @@ RSpec.describe Codes::DraftsController, type: :controller do
     end
   end
 
+  describe 'PUT #update' do
+    context 'ログインしていない場合' do
+      subject { put :update, params: { id: 1 } }
+
+      it { is_expected.to have_http_status(:redirect) }
+      it { is_expected.to redirect_to('/users/sign_in') }
+    end
+
+    context 'ログインしている場合' do
+      context 'current_user != 作成者' do
+        it 'Forbiddenになる'
+      end
+
+      context 'current_user == 作成者' do
+        context 'エラーがある場合' do
+          it 'レコードが追加されない'
+        end
+
+        context '正常の場合' do
+          it 'レコードが追加される'
+        end
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     context 'ログインしていない場合' do
       subject { delete :destroy, params: { id: 1 } }
