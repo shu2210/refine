@@ -8,7 +8,7 @@ class Codes::DraftsController < ApplicationController
     @code.codes = codes
     @code.user = current_user
     if @code.draft(params[:tags])
-      redirect_to action: :index
+      redirect_to root_path
     else
       render 'codes/new'
     end

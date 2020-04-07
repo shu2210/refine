@@ -61,6 +61,7 @@ class UserCode < ApplicationRecord
   def draft(tag_names)
     transaction do
       self.status = :draft
+      self.version = 1
       create_tags(tag_names)
       save!(context: :draft)
     end
@@ -73,6 +74,7 @@ class UserCode < ApplicationRecord
   def post(tag_names)
     transaction do
       self.status = :published
+      self.version = 1
       create_tags(tag_names)
       save!(context: :post)
     end
