@@ -29,7 +29,7 @@ RSpec.describe Codes::DraftsController, type: :controller do
 
         it '下書き一覧にリダイレクトする' do
           post :create, params: params
-          expect(response).to redirect_to(codes_drafts_path)
+          expect(response).to redirect_to(root_path)
         end
       end
 
