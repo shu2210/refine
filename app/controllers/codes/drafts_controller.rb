@@ -3,6 +3,10 @@
 class Codes::DraftsController < ApplicationController
   before_action :authenticate_user!
 
+  def index
+    @drafts = UserCode.includes(:codes, :tags).where(status: :draft).order(updated_at: :desc)
+  end
+
   def create
     @code = UserCode.new(code_params)
     @code.codes = codes
@@ -23,17 +27,16 @@ class Codes::DraftsController < ApplicationController
 
   def update; end
 
-  # TODO: render先を変える
   def destroy
     @code = UserCode.find(params[:id])
     if current_user != @code.user
-      render :edit
+      render :index
     elsif @code.destroy
       flash[:success] = t('deleted')
       redirect_to action: :index
     else
       flash.now[:alert] = t('errors.invalid')
-      render :edit
+      render :index
     end
   end
 

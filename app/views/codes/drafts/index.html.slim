@@ -1,0 +1,48 @@
+.uk-container
+  .drafts.uk-margin-top
+    ul.uk-tab-right.uk-width-1-4.uk-inline-block.uk-tab[uk-switcher="" uk-tab=""]
+      - @drafts.each do |draft|
+        li
+          a[href="#" aria-expanded="true"]
+            .uk-text-emphasis.no-text-transform
+              = draft.title
+            .uk-text-small.uk-text-muted.uk-text-light
+              = l(draft.updated_at)
+
+    ul.uk-switcher.uk-inline-block.uk-width-3-4.vertical-top
+      - @drafts.each do |draft|
+        li
+          .edit-buttons.uk-margin.uk-text-right
+            = link_to '編集', edit_codes_draft_path(id: draft.id), class: 'uk-button uk-button-default uk-margin-right'
+            a.uk-button.uk-button-danger[href="#confirm#{draft.id}" uk-toggle] 削除
+
+          article.uk-article
+            .heading.uk-background-muted.uk-padding-small
+              h1.uk-article-title
+                = draft.title
+
+              - draft.tags.each do |tag|
+                tag[label=tag.name]
+
+            p.uk-padding-small
+              = draft.description
+
+            - draft.codes.each do |code|
+              code-area[
+                code=code.code
+                :code-id=code.id
+                is-login=user_signed_in?
+                posted-user-icon=current_user.icon_url
+                :current-user-id=current_user.id
+                :disabled="true"
+              ]
+
+        #modal
+          modal[id="confirm#{draft.id}"]
+            p.uk-text-center
+              | 削除すると元に戻せません。
+              br
+              | よろしいですか？
+            .uk-text-center
+              = link_to '削除', "/codes/drafts/#{draft.id}", class: 'uk-button uk-button-primary uk-button-small', method: :delete
+              button.uk-button.uk-button-default.uk-margin-left.uk-button-small.uk-modal-close[type="submit"] キャンセル
