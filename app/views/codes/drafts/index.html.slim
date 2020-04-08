@@ -13,6 +13,7 @@
       - @drafts.each do |draft|
         li
           .edit-buttons.uk-margin.uk-text-right
+            = link_to '履歴', codes_history_path(draft.id), class: 'uk-button uk-button-default uk-margin-right'
             = link_to '編集', edit_codes_draft_path(id: draft.id), class: 'uk-button uk-button-default uk-margin-right'
             a.uk-button.uk-button-danger[href="#confirm#{draft.id}" uk-toggle] 削除
 
