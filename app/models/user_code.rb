@@ -64,8 +64,8 @@ class UserCode < ApplicationRecord
       self.version = 1
       create_tags(tag_names)
       save!(context: :draft)
+      self
     end
-    true
   rescue StandardError => e
     logger.error e
     false
@@ -77,8 +77,8 @@ class UserCode < ApplicationRecord
       self.version = 1
       create_tags(tag_names)
       save!(context: :post)
+      self
     end
-    true
   rescue StandardError => e
     logger.error e
     false
