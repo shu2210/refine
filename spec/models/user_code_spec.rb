@@ -209,19 +209,17 @@ RSpec.describe UserCode, type: :model do
       end
 
       it '渡したstatusにステータスが変更されること' do
-        user_code.update_version(tags, :draft)
-        user_code.reload
-        expect(user_code.status).to eq(:draft)
+        new_code = user_code.update_version(tags, :draft)
+        expect(new_code.status).to eq(:draft)
       end
 
       it 'trueが返る' do
         expect(user_code.update_version(tags, :published)).to be_truthy
       end
 
-      it 'versionが1つ上がる' do
-        user_code.update_version(tags, :draft)
-        user_code.reload
-        expect(user_code.version).to eq(2)
+      it 'versionが1つ上がる test' do
+        new_code = user_code.update_version(tags, :draft)
+        expect(new_code.version).to eq(2)
       end
     end
 

@@ -86,12 +86,14 @@ class UserCode < ApplicationRecord
 
   def update_version(tag_names, new_status)
     transaction do
-      self.status = new_status
-      self.version = version + 1
       create_tags(tag_names)
-      save!(context: new_context(new_status))
+      new_code = dup
+      new_code.status = new_status
+      new_code.version = version + 1
+      new_code.user = user
+      new_code.save!(context: new_context(new_status))
+      new_code
     end
-    true
   rescue StandardError => e
     logger.error e
     false
