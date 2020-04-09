@@ -195,6 +195,51 @@ RSpec.describe UserCode, type: :model do
     end
   end
 
+  describe 'update_version' do
+    let!(:user) { build(:user) }
+    let!(:tags) { %i[tag1 tag2] }
+
+    context '成功した場合' do
+      let!(:user_code) { build(:user_code, title: :test, description: :test, version: 1, user: user) }
+
+      it 'レコードが追加される' do
+        expect do
+          user_code.update_version(tags, :published)
+        end.to change(UserCode, :count).by(1)
+      end
+
+      it '渡したstatusにステータスが変更されること' do
+        user_code.update_version(tags, :draft)
+        user_code.reload
+        expect(user_code.status).to eq(:draft)
+      end
+
+      it 'trueが返る' do
+        expect(user_code.update_version(tags, :published)).to be_truthy
+      end
+
+      it 'versionが1つ上がる' do
+        user_code.update_version(tags, :draft)
+        user_code.reload
+        expect(user_code.version).to eq(2)
+      end
+    end
+
+    context '失敗した場合' do
+      let!(:user_code) { build(:user_code, title: :test, description: nil, user: user) }
+
+      it 'レコードは保存されない' do
+        expect { user_code.update_version(tags, :published) }.not_to change(UserCode, :count)
+        expect { user_code.update_version(tags, :published) }.not_to change(UserCodeTag, :count)
+        expect { user_code.update_version(tags, :published) }.not_to change(Tag, :count)
+      end
+
+      it 'falseが返る' do
+        expect(user_code.update_version(tags, :published)).to be_falsy
+      end
+    end
+  end
+
   describe 'likes' do
     let(:code) { create(:user_code) }
 

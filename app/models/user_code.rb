@@ -84,6 +84,19 @@ class UserCode < ApplicationRecord
     false
   end
 
+  def update_version(tag_names, new_status)
+    transaction do
+      self.status = new_status
+      self.version = version + 1
+      create_tags(tag_names)
+      save!(context: new_context(new_status))
+    end
+    true
+  rescue StandardError => e
+    logger.error e
+    false
+  end
+
   private
 
   def create_tags(tag_names)
@@ -98,5 +111,13 @@ class UserCode < ApplicationRecord
   def draft_count
     count = UserCode.where(user_id: user_id, status: :draft).count
     errors.add(:base, :over_drafts_limit) if count > DRAFT_LIMIT
+  end
+
+  def new_context(status)
+    if status == :published
+      :post
+    else
+      :draft
+    end
   end
 end
