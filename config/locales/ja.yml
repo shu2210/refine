@@ -47,7 +47,7 @@ ja:
     user_code:
       status:
         draft: 下書き
-        published: 受付中
+        post: 受付中
         closed: 受付終了
 
   date:

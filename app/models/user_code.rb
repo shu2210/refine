@@ -24,18 +24,18 @@ class UserCode < ApplicationRecord
 
   flash_validation :base
 
-  enumerize :status, in: %i[draft published closed]
+  enumerize :status, in: %i[draft post closed]
 
   scope :latest, lambda {
     includes([{ codes: :language }, :tags, :user])
-      .where(status: %i[published closed])
+      .where(status: %i[post closed])
       .order(created_at: :desc)
       .limit(10)
   }
   # TODO: レビュー機能実装後作成
   scope :popular, lambda {
     includes([{ codes: :language }, :tags, :user])
-      .where(status: %i[published closed])
+      .where(status: %i[post closed])
       .order(created_at: :desc)
       .limit(10)
   }
@@ -73,7 +73,7 @@ class UserCode < ApplicationRecord
 
   def post(tag_names)
     transaction do
-      self.status = :published
+      self.status = :post
       self.version = 1
       create_tags(tag_names)
       save!(context: :post)
@@ -91,7 +91,7 @@ class UserCode < ApplicationRecord
       new_code.status = new_status
       new_code.version = version + 1
       new_code.user = user
-      new_code.save!(context: new_context(new_status))
+      new_code.save!(context: new_status)
       new_code
     end
   rescue StandardError => e
@@ -113,13 +113,5 @@ class UserCode < ApplicationRecord
   def draft_count
     count = UserCode.where(user_id: user_id, status: :draft).count
     errors.add(:base, :over_drafts_limit) if count > DRAFT_LIMIT
-  end
-
-  def new_context(status)
-    if status == :published
-      :post
-    else
-      :draft
-    end
   end
 end

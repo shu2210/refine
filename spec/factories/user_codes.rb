@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :user_code do
     user { build(:user) }
-    status { :published }
+    status { :post }
     title { 'test' }
     description { 'description' }
     version { 1 }

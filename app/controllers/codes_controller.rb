@@ -40,7 +40,7 @@ class CodesController < ApplicationController
     @code = UserCode.find(params[:id])
     raise Forbidden unless current_user == @code.user
 
-    if @code.update_version(params[:tag], :published)
+    if @code.update_version(params[:tag], :post)
       # TODO: リダイレクト先を投稿一覧に変える
       redirect_to codes_path
     else

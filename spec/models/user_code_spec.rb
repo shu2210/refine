@@ -170,9 +170,9 @@ RSpec.describe UserCode, type: :model do
         expect { code.post(tags) }.to change(UserCode, :count).by(1)
       end
 
-      it 'statusがpublishedになること' do
+      it 'statusがpostになること' do
         code.post(tags)
-        expect(code.status).to eq(:published)
+        expect(code.status).to eq(:post)
       end
 
       it 'trueが返る' do
@@ -204,7 +204,7 @@ RSpec.describe UserCode, type: :model do
 
       it 'レコードが追加される' do
         expect do
-          user_code.update_version(tags, :published)
+          user_code.update_version(tags, :post)
         end.to change(UserCode, :count).by(1)
       end
 
@@ -214,7 +214,7 @@ RSpec.describe UserCode, type: :model do
       end
 
       it 'trueが返る' do
-        expect(user_code.update_version(tags, :published)).to be_truthy
+        expect(user_code.update_version(tags, :post)).to be_truthy
       end
 
       it 'versionが1つ上がる test' do
@@ -227,13 +227,13 @@ RSpec.describe UserCode, type: :model do
       let!(:user_code) { build(:user_code, title: :test, description: nil, user: user) }
 
       it 'レコードは保存されない' do
-        expect { user_code.update_version(tags, :published) }.not_to change(UserCode, :count)
-        expect { user_code.update_version(tags, :published) }.not_to change(UserCodeTag, :count)
-        expect { user_code.update_version(tags, :published) }.not_to change(Tag, :count)
+        expect { user_code.update_version(tags, :post) }.not_to change(UserCode, :count)
+        expect { user_code.update_version(tags, :post) }.not_to change(UserCodeTag, :count)
+        expect { user_code.update_version(tags, :post) }.not_to change(Tag, :count)
       end
 
       it 'falseが返る' do
-        expect(user_code.update_version(tags, :published)).to be_falsy
+        expect(user_code.update_version(tags, :post)).to be_falsy
       end
     end
   end
