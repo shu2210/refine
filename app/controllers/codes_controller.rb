@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CodesController < ApplicationController
-  before_action :authenticate_user!, only: %i[new create]
+  before_action :authenticate_user!, except: %i[index show]
 
   def index
     @latest = UserCode.latest
@@ -26,6 +26,25 @@ class CodesController < ApplicationController
     else
       flash.now[:alert] = '入力内容に誤りがあります'
       render :new
+    end
+  end
+
+  def edit
+    @code = UserCode.includes(:codes).find(params[:id])
+    raise Forbidden unless current_user == @code.user
+
+    @code.codes.build if @code.codes.empty?
+  end
+
+  def update
+    @code = UserCode.find(params[:id])
+    raise Forbidden unless current_user == @code.user
+
+    if @code.update_version(params[:tag], :published)
+      # TODO: リダイレクト先を投稿一覧に変える
+      redirect_to codes_path
+    else
+      render :edit
     end
   end
 

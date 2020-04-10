@@ -66,40 +66,6 @@ RSpec.describe Codes::DraftsController, type: :controller do
     end
   end
 
-  describe 'GET #edit' do
-    context 'ログインしていない場合' do
-      subject { get :edit, params: { id: 1 } }
-
-      it { is_expected.to have_http_status(:redirect) }
-      it { is_expected.to redirect_to('/users/sign_in') }
-    end
-
-    context 'ログインしている場合' do
-      let!(:user) { create(:user) }
-
-      before { sign_in user }
-
-      context 'current_user != 作成者' do
-        let!(:user_code) { create(:user_code, user: build(:user)) }
-
-        it 'Forbiddenになる' do
-          expect do
-            get :edit, params: { id: user_code.id }
-          end.to raise_error(Forbidden)
-        end
-      end
-
-      context 'current_user == 作成者' do
-        let!(:user_code) { create(:user_code, user: user) }
-
-        subject { get :edit, params: { id: user_code.id } }
-
-        it { is_expected.to have_http_status(:ok) }
-        it { is_expected.to render_template(:edit) }
-      end
-    end
-  end
-
   describe 'PUT #update' do
     context 'ログインしていない場合' do
       subject { put :update, params: { id: 1 } }

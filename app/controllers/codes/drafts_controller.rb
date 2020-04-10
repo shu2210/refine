@@ -18,13 +18,6 @@ class Codes::DraftsController < ApplicationController
     end
   end
 
-  def edit
-    @code = UserCode.includes(:codes).find(params[:id])
-    raise Forbidden unless current_user == @code.user
-
-    @code.codes.build if @code.codes.empty?
-  end
-
   def update
     @code = UserCode.find(params[:id])
     raise Forbidden unless current_user == @code.user
@@ -32,7 +25,7 @@ class Codes::DraftsController < ApplicationController
     if @code.update_version(params[:tag], :draft)
       redirect_to action: :index
     else
-      render :edit
+      render 'codes/edit'
     end
   end
 
