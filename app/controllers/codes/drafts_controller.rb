@@ -25,7 +25,16 @@ class Codes::DraftsController < ApplicationController
     @code.codes.build if @code.codes.empty?
   end
 
-  def update; end
+  def update
+    @code = UserCode.find(params[:id])
+    raise Forbidden unless current_user == @code.user
+
+    if @code.update_version(params[:tag], :draft)
+      redirect_to action: :index
+    else
+      render :edit
+    end
+  end
 
   def destroy
     @code = UserCode.find(params[:id])

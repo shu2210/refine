@@ -6,5 +6,6 @@ FactoryBot.define do
     status { :published }
     title { 'test' }
     description { 'description' }
+    version { 1 }
   end
 end

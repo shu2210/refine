@@ -109,17 +109,48 @@ RSpec.describe Codes::DraftsController, type: :controller do
     end
 
     context 'ログインしている場合' do
+      let!(:user) { create(:user) }
+
+      before { sign_in user }
+
       context 'current_user != 作成者' do
-        it 'Forbiddenになる'
+        let!(:coder) { build(:user) }
+        let!(:user_code) { create(:user_code, user: coder) }
+
+        it 'Forbiddenになる' do
+          expect { put :update, params: { id: user_code.id } }.to raise_error(Forbidden)
+        end
       end
 
       context 'current_user == 作成者' do
+        let!(:language) { Language.first }
+
         context 'エラーがある場合' do
-          it 'レコードが追加されない'
+          let!(:user_code) { create(:user_code, title: '', user: user) }
+          let!(:params) { { id: user_code.id } }
+
+          it 'レコードが追加されない' do
+            expect { put :update, params: params }.not_to change(UserCode, :count)
+          end
+
+          it 'editがrenderされる' do
+            put :update, params: params
+            expect(response).to render_template(:edit)
+          end
         end
 
         context '正常の場合' do
-          it 'レコードが追加される'
+          let!(:user_code) { create(:user_code, user: user) }
+          let!(:params) { { id: user_code.id, tags: %w[tag1 tag2] } }
+
+          it 'レコードが追加される' do
+            expect { put :update, params: params }.to change(UserCode, :count).by(1)
+          end
+
+          it 'indexにリダイレクトされる' do
+            put :update, params: params
+            expect(response).to redirect_to(codes_drafts_path)
+          end
         end
       end
     end
