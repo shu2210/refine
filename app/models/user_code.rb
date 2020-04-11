@@ -88,7 +88,9 @@ class UserCode < ApplicationRecord
     transaction do
       create_tags(tag_names)
       new_code = dup
+      new_code.codes = new_codes(new_code)
       new_code.status = new_status
+      new_code.parent_id = parent_id
       new_code.version = version + 1
       new_code.user = user
       new_code.save!(context: new_status)
@@ -113,5 +115,12 @@ class UserCode < ApplicationRecord
   def draft_count
     count = UserCode.where(user_id: user_id, status: :draft).count
     errors.add(:base, :over_drafts_limit) if count > DRAFT_LIMIT
+  end
+
+  def new_codes(new_user_code)
+    codes.map do |code|
+      code.user_code_id = new_user_code.id
+      code
+    end
   end
 end
