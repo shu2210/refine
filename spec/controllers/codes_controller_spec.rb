@@ -125,7 +125,7 @@ RSpec.describe CodesController, type: :controller do
 
         context 'エラーがある場合' do
           let!(:user_code) { create(:user_code, title: '', user: user) }
-          let!(:params) { { id: user_code.id } }
+          let!(:params) { { id: user_code.id, code: [{ language_id: language.id, code: 'test' }] } }
 
           it 'レコードが追加されない' do
             expect { put :update, params: params }.not_to change(UserCode, :count)
@@ -140,7 +140,7 @@ RSpec.describe CodesController, type: :controller do
         context '正常の場合test' do
           let!(:code) { build(:code) }
           let!(:user_code) { create(:user_code, codes: [code], user: user) }
-          let!(:params) { { id: user_code.id, tags: %w[tag1 tag2] } }
+          let!(:params) { { id: user_code.id, tags: %w[tag1 tag2], code: [{ language_id: language.id, code: 'test' }] } }
 
           it 'レコードが追加される' do
             expect { put :update, params: params }.to change(UserCode, :count).by(1)
