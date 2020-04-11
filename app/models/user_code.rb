@@ -40,6 +40,15 @@ class UserCode < ApplicationRecord
       .limit(10)
   }
 
+  def self.drafts(user_id)
+    where(
+      id: UserCode.where(user_id: user_id)
+                  .group(:parent_id)
+                  .select('max(id)'),
+      status: :draft
+    ).order(id: :desc)
+  end
+
   def likes
     user_code_likes.length
   end

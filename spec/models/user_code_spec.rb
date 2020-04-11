@@ -159,6 +159,18 @@ RSpec.describe UserCode, type: :model do
     end
   end
 
+  describe 'drafts' do
+    let!(:user) { create(:user) }
+    let!(:old_code) { create(:user_code, status: :draft, version: 1, user: user) }
+    let!(:user_code) { create(:user_code, status: :draft, parent_id: old_code.id, version: 2, user: user) }
+    let!(:user_code2) { create(:user_code, status: :post, user: user) }
+
+    it '最新のバージョンの下書きを取得する' do
+      drafts = UserCode.drafts(user.id)
+      expect(drafts.first.id).to eq(user_code.id)
+    end
+  end
+
   describe 'post' do
     let!(:user) { build(:user) }
     let!(:tags) { %i[tag1 tag2] }
@@ -217,7 +229,7 @@ RSpec.describe UserCode, type: :model do
         expect(user_code.update_version(tags, :post)).to be_truthy
       end
 
-      it 'versionが1つ上がる test' do
+      it 'versionが1つ上がる' do
         new_code = user_code.update_version(tags, :draft)
         expect(new_code.version).to eq(2)
       end
