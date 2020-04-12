@@ -43,7 +43,7 @@ class UserCode < ApplicationRecord
   def self.drafts(user_id)
     where(
       id: UserCode.where(user_id: user_id)
-                  .group(:parent_id)
+                  .group(:code_group_id)
                   .select('max(id)'),
       status: :draft
     ).order(id: :desc)
@@ -99,7 +99,7 @@ class UserCode < ApplicationRecord
       new_code = dup
       new_code.codes = new_codes(new_code)
       new_code.status = new_status
-      new_code.parent_id = parent_id
+      new_code.code_group_id = code_group_id
       new_code.version = version + 1
       new_code.user = user
       new_code.save!(context: new_status)

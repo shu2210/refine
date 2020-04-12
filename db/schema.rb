@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_06_105506) do
+ActiveRecord::Schema.define(version: 2020_04_12_104722) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(version: 2020_04_06_105506) do
 
   create_table "user_codes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id", comment: "ユーザーID"
-    t.integer "parent_id"
+    t.integer "code_group_id"
     t.integer "version"
     t.string "status", comment: "ステータス"
     t.string "title", comment: "タイトル"

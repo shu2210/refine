@@ -159,11 +159,10 @@ RSpec.describe UserCode, type: :model do
     end
   end
 
-  describe 'drafts' do
+  describe 'drafts test' do
     let!(:user) { create(:user) }
-    let!(:old_code) { create(:user_code, status: :draft, version: 1, user: user) }
-    let!(:user_code) { create(:user_code, status: :draft, parent_id: old_code.id, version: 2, user: user) }
-    let!(:user_code2) { create(:user_code, status: :post, user: user) }
+    let!(:old_code) { create(:user_code, status: :draft, code_group_id: 1, version: 1, user: user) }
+    let!(:user_code) { create(:user_code, status: :draft, code_group_id: 1, version: 2, user: user) }
 
     it '最新のバージョンの下書きを取得する' do
       drafts = UserCode.drafts(user.id)
