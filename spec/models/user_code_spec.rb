@@ -159,7 +159,7 @@ RSpec.describe UserCode, type: :model do
     end
   end
 
-  describe 'drafts test' do
+  describe 'drafts' do
     let!(:user) { create(:user) }
     let!(:old_code) { create(:user_code, status: :draft, code_group_id: 1, version: 1, user: user) }
     let!(:user_code) { create(:user_code, status: :draft, code_group_id: 1, version: 2, user: user) }
@@ -171,7 +171,7 @@ RSpec.describe UserCode, type: :model do
   end
 
   describe 'post' do
-    let!(:user) { build(:user) }
+    let!(:user) { create(:user) }
     let!(:tags) { %i[tag1 tag2] }
 
     context '成功した場合' do
@@ -188,6 +188,24 @@ RSpec.describe UserCode, type: :model do
 
       it 'trueが返る' do
         expect(code.post(tags)).to be_truthy
+      end
+
+      context '初投稿の場合' do
+        it 'group_idが1になる' do
+          code.post(tags)
+          code.reload
+          expect(code.code_group_id).to eq(1)
+        end
+      end
+
+      context '投稿がある場合' do
+        before { create(:user_code, user: user, code_group_id: 1) }
+
+        it '最新のgroup_id + 1になる' do
+          code.post(tags)
+          code.reload
+          expect(code.code_group_id).to eq(2)
+        end
       end
     end
 

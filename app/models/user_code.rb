@@ -71,6 +71,7 @@ class UserCode < ApplicationRecord
     transaction do
       self.status = :draft
       self.version = 1
+      self.code_group_id = next_group_id
       create_tags(tag_names)
       save!(context: :draft)
       self
@@ -84,6 +85,7 @@ class UserCode < ApplicationRecord
     transaction do
       self.status = :post
       self.version = 1
+      self.code_group_id = next_group_id
       create_tags(tag_names)
       save!(context: :post)
       self
@@ -99,7 +101,6 @@ class UserCode < ApplicationRecord
       new_code = dup
       new_code.codes = new_codes(new_code)
       new_code.status = new_status
-      new_code.code_group_id = code_group_id
       new_code.version = version + 1
       new_code.user = user
       new_code.save!(context: new_status)
@@ -131,5 +132,10 @@ class UserCode < ApplicationRecord
       code.user_code_id = new_user_code.id
       code
     end
+  end
+
+  def next_group_id
+    group_id = UserCode.where(user_id: user_id).maximum(:code_group_id)
+    group_id.to_i + 1
   end
 end

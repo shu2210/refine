@@ -110,3 +110,7 @@ Style/AsciiComments:
 Metrics/AbcSize:
   Exclude:
     - 'db/migrate/*'
+
+Metrics/ClassLength:
+  Exclude:
+    - 'app/models/**/*'
