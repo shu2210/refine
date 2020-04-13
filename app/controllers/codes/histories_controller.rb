@@ -3,5 +3,8 @@
 class Codes::HistoriesController < ApplicationController
   before_action :authenticate_user!
 
-  def show; end
+  def show
+    # TODO: codeに変更
+    @drafts = UserCode.includes(:codes, :tags).drafts(current_user.id)
+  end
 end
