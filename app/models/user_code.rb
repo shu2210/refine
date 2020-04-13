@@ -46,7 +46,7 @@ class UserCode < ApplicationRecord
                   .group(:code_group_id)
                   .select('max(id)'),
       status: :draft
-    ).order(id: :desc)
+    ).order(updated_at: :desc, id: :desc)
   end
 
   def likes

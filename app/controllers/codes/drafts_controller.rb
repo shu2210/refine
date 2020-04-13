@@ -4,7 +4,7 @@ class Codes::DraftsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @drafts = UserCode.includes(:codes, :tags).where(status: :draft).order(updated_at: :desc)
+    @drafts = UserCode.includes(:codes, :tags).drafts(current_user.id)
   end
 
   def create

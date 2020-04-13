@@ -38,12 +38,12 @@
                 :disabled="true"
               ]
 
-        #modal
-          modal[id="confirm#{draft.id}"]
-            p.uk-text-center
-              | 削除すると元に戻せません。
-              br
-              | よろしいですか？
-            .uk-text-center
-              = link_to '削除', "/codes/drafts/#{draft.id}", class: 'uk-button uk-button-primary uk-button-small', method: :delete
-              button.uk-button.uk-button-default.uk-margin-left.uk-button-small.uk-modal-close[type="submit"] キャンセル
+          #modal
+            modal[id="confirm#{draft.id}"]
+              p.uk-text-center
+                | 削除すると元に戻せません。
+                br
+                | よろしいですか？
+              .uk-text-center
+                = link_to '削除', "/codes/drafts/#{draft.id}", class: 'uk-button uk-button-primary uk-button-small', method: :delete
+                button.uk-button.uk-button-default.uk-margin-left.uk-button-small.uk-modal-close[type="submit"] キャンセル
