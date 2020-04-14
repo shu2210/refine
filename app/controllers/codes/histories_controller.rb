@@ -5,6 +5,6 @@ class Codes::HistoriesController < ApplicationController
 
   def show
     # TODO: codeに変更
-    @drafts = UserCode.includes(:codes, :tags).drafts(current_user.id)
+    @histories = UserCode.histories(params[:id])
   end
 end

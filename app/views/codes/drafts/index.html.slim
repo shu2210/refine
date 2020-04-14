@@ -45,5 +45,5 @@
                 br
                 | よろしいですか？
               .uk-text-center
-                = link_to '削除', "/codes/drafts/#{draft.id}", class: 'uk-button uk-button-primary uk-button-small', method: :delete
+                = link_to '削除', codes_draft_path(draft.id), class: 'uk-button uk-button-primary uk-button-small', method: :delete
                 button.uk-button.uk-button-default.uk-margin-left.uk-button-small.uk-modal-close[type="submit"] キャンセル
