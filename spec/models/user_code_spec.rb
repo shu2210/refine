@@ -344,4 +344,24 @@ RSpec.describe UserCode, type: :model do
       end
     end
   end
+
+  describe 'histories' do
+    let!(:code1) { create(:user_code, code_group_id: 1) }
+    let!(:code2) { create(:user_code, code_group_id: 1) }
+    let!(:code3) { create(:user_code, code_group_id: 2) }
+
+    context 'code1のidを渡した場合' do
+      it 'code1, code2を取得する' do
+        codes = UserCode.histories(code1.id)
+        expect(codes).to eq([code1, code2])
+      end
+    end
+
+    context 'code3のidを渡した場合' do
+      it 'code3を取得する' do
+        codes = UserCode.histories(code3.id)
+        expect(codes).to eq([code3])
+      end
+    end
+  end
 end

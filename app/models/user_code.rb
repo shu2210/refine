@@ -49,6 +49,10 @@ class UserCode < ApplicationRecord
     ).order(updated_at: :desc, id: :desc)
   end
 
+  def self.histories(id)
+    where(code_group_id: find(id).code_group_id)
+  end
+
   def likes
     user_code_likes.length
   end
