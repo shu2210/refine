@@ -38,11 +38,9 @@ class CodesController < ApplicationController
 
   def update
     @code = UserCode.find(params[:id])
-    raise Forbidden unless current_user == @code.user
-
-    @code.assign_attributes(user_codes_params)
-    @code.codes = codes
-    if @code.update_version(params[:tag], :post)
+    code = UserCode.new(user_codes_params)
+    code.codes = codes
+    if code.update_version(params[:id], params[:tags], :post)
       # TODO: リダイレクト先を投稿一覧に変える
       redirect_to action: :index
     else

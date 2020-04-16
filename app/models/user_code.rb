@@ -99,16 +99,16 @@ class UserCode < ApplicationRecord
     false
   end
 
-  def update_version(tag_names, new_status)
+  def update_version(id, tag_names, new_status)
+    old_code = self.class.find(id)
     transaction do
+      self.user = old_code.user
+      self.status = new_status
+      self.version = old_code.version + 1
+      self.code_group_id = old_code.code_group_id
       create_tags(tag_names)
-      new_code = dup
-      new_code.codes = new_codes(new_code)
-      new_code.status = new_status
-      new_code.version = version + 1
-      new_code.user = user
-      new_code.save!(context: new_status)
-      new_code
+      save!(context: new_status)
+      self
     end
   rescue StandardError => e
     logger.error e

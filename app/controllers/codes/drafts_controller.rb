@@ -20,11 +20,9 @@ class Codes::DraftsController < ApplicationController
 
   def update
     @code = UserCode.find(params[:id])
-    raise Forbidden unless current_user == @code.user
-
-    @code.assign_attributes(code_params)
-    @code.codes = codes
-    if @code.update_version(params[:tag], :draft)
+    code = UserCode.new(code_params)
+    code.codes = codes
+    if code.update_version(params[:id], params[:tags], :draft)
       redirect_to action: :index
     else
       render 'codes/edit'
