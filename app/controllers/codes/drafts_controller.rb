@@ -8,7 +8,7 @@ class Codes::DraftsController < ApplicationController
   end
 
   def create
-    @code = UserCode.new(code_params)
+    @code = UserCode.new(user_codes_params)
     @code.codes = codes
     @code.user = current_user
     if @code.draft(params[:tags])
@@ -19,10 +19,9 @@ class Codes::DraftsController < ApplicationController
   end
 
   def update
-    @code = UserCode.find(params[:id])
-    code = UserCode.new(code_params)
-    code.codes = codes
-    if code.update_version(params[:id], params[:tags], :draft)
+    @code = UserCode.new(user_codes_params)
+    @code.codes = codes
+    if @code.update_version(params[:id], params[:tags], :draft)
       redirect_to action: :index
     else
       render 'codes/edit'
@@ -44,7 +43,7 @@ class Codes::DraftsController < ApplicationController
 
   private
 
-  def code_params
+  def user_codes_params
     params.require(:user_code).permit(
       :title, :description
     )

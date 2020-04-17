@@ -37,10 +37,9 @@ class CodesController < ApplicationController
   end
 
   def update
-    @code = UserCode.find(params[:id])
-    code = UserCode.new(user_codes_params)
-    code.codes = codes
-    if code.update_version(params[:id], params[:tags], :post)
+    @code = UserCode.new(user_codes_params)
+    @code.codes = codes
+    if @code.update_version(params[:id], params[:tags], :post)
       # TODO: リダイレクト先を投稿一覧に変える
       redirect_to action: :index
     else
