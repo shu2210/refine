@@ -229,40 +229,42 @@ RSpec.describe UserCode, type: :model do
     let!(:tags) { %i[tag1 tag2] }
 
     context '成功した場合' do
+      let!(:old_code) { create(:user_code, user: user) }
       let!(:user_code) { build(:user_code, title: :test, description: :test, user: user) }
 
       it 'レコードが追加される' do
         expect do
-          user_code.update_version(tags, :post)
+          user_code.update_version(old_code.id, tags, :post)
         end.to change(UserCode, :count).by(1)
       end
 
       it '渡したstatusにステータスが変更されること' do
-        new_code = user_code.update_version(tags, :draft)
+        new_code = user_code.update_version(old_code.id, tags, :draft)
         expect(new_code.status).to eq(:draft)
       end
 
       it 'trueが返る' do
-        expect(user_code.update_version(tags, :post)).to be_truthy
+        expect(user_code.update_version(old_code.id, tags, :post)).to be_truthy
       end
 
       it 'versionが1つ上がる' do
-        new_code = user_code.update_version(tags, :draft)
+        new_code = user_code.update_version(old_code.id, tags, :draft)
         expect(new_code.version).to eq(2)
       end
     end
 
     context '失敗した場合' do
+      let!(:old_code) { create(:user_code, user: user) }
       let!(:user_code) { build(:user_code, title: :test, description: nil, user: user) }
 
       it 'レコードは保存されない' do
-        expect { user_code.update_version(tags, :post) }.not_to change(UserCode, :count)
-        expect { user_code.update_version(tags, :post) }.not_to change(UserCodeTag, :count)
-        expect { user_code.update_version(tags, :post) }.not_to change(Tag, :count)
+        expect { user_code.update_version(old_code.id, tags, :post) }.not_to change(UserCode, :count)
+        expect { user_code.update_version(old_code.id, tags, :post) }.not_to change(UserCodeTag, :count)
+        expect { user_code.update_version(old_code.id, tags, :post) }.not_to change(Tag, :count)
       end
 
       it 'falseが返る' do
-        expect(user_code.update_version(tags, :post)).to be_falsy
+        expect(user_code.update_version(old_code.id, tags, :post)).to be_falsy
       end
     end
   end

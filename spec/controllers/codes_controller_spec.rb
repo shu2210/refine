@@ -125,7 +125,17 @@ RSpec.describe CodesController, type: :controller do
 
         context 'エラーがある場合' do
           let!(:user_code) { create(:user_code, title: '', user: user) }
-          let!(:params) { { id: user_code.id, code: [{ language_id: language.id, code: 'test' }] } }
+          let!(:params) do
+            {
+              id: user_code.id,
+              user_code: {
+                title: :test,
+                description: nil
+              },
+              code: [{ language_id: language.id, code: :test }],
+              tags: %w[tag1 tag2]
+            }
+          end
 
           it 'レコードが追加されない' do
             expect { put :update, params: params }.not_to change(UserCode, :count)
@@ -137,10 +147,20 @@ RSpec.describe CodesController, type: :controller do
           end
         end
 
-        context '正常の場合test' do
+        context '正常の場合' do
           let!(:code) { build(:code) }
           let!(:user_code) { create(:user_code, codes: [code], user: user) }
-          let!(:params) { { id: user_code.id, tags: %w[tag1 tag2], code: [{ language_id: language.id, code: 'test' }] } }
+          let!(:params) do
+            {
+              id: user_code.id,
+              user_code: {
+                title: :test,
+                description: :test
+              },
+              code: [{ language_id: language.id, code: :test }],
+              tags: %w[tag1 tag2]
+            }
+          end
 
           it 'レコードが追加される' do
             expect { put :update, params: params }.to change(UserCode, :count).by(1)
@@ -148,7 +168,7 @@ RSpec.describe CodesController, type: :controller do
 
           it 'indexにリダイレクトされる' do
             put :update, params: params
-            expect(response).to redirect_to(codes_path)
+            expect(response).to redirect_to(root_path)
           end
         end
       end

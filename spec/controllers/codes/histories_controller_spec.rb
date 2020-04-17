@@ -4,7 +4,9 @@ require 'rails_helper'
 
 RSpec.describe Codes::HistoriesController, type: :controller do
   describe 'GET #show' do
-    subject { get :show, params: { id: 1 } }
+    let!(:user_code) { create(:user_code) }
+
+    subject { get :show, params: { id: user_code.id } }
 
     context 'ログインしていない場合' do
       it { is_expected.to have_http_status(:redirect) }
