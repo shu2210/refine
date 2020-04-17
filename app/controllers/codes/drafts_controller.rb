@@ -2,6 +2,7 @@
 
 class Codes::DraftsController < ApplicationController
   before_action :authenticate_user!
+  before_action :verify_valid_user, only: %i[update]
 
   def index
     @drafts = UserCode.includes(:codes, :tags).drafts(current_user.id)

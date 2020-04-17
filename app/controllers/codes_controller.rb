@@ -2,6 +2,7 @@
 
 class CodesController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
+  before_action :verify_valid_user, only: %i[update]
 
   def index
     @latest = UserCode.latest
