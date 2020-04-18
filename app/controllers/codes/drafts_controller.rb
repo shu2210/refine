@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
+require_relative '../concerns/code_permittable'
+
 class Codes::DraftsController < ApplicationController
+  include CodePermittable
+
   before_action :authenticate_user!
   before_action :verify_valid_user, only: %i[update]
 
@@ -48,13 +52,5 @@ class Codes::DraftsController < ApplicationController
     params.require(:user_code).permit(
       :title, :description
     )
-  end
-
-  # TODO: codes_controllerとの重複解消
-  def codes
-    params[:code].each(&:permit!)
-    params[:code].map do |code|
-      Code.new(code)
-    end
   end
 end

@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
+require_relative './concerns/code_permittable'
+
 class CodesController < ApplicationController
+  include CodePermittable
+
   before_action :authenticate_user!, except: %i[index show]
   before_action :verify_valid_user, only: %i[update]
 
@@ -55,14 +59,5 @@ class CodesController < ApplicationController
     params.require(:user_code).permit(
       :title, :description, :user_id
     )
-  end
-
-  def codes
-    params[:code].each(&:permit!)
-    params[:code].map do |code|
-      code = Code.new(code)
-      code.valid?
-      code
-    end
   end
 end
