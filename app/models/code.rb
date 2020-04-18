@@ -6,5 +6,5 @@ class Code < ApplicationRecord
   belongs_to :language
   belongs_to :user_code
 
-  validates :code, presence: true
+  validates :code, presence: true, unless: -> { validation_context == :draft }
 end

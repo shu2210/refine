@@ -14,32 +14,40 @@
  *= require_tree .
  *= require_self
  */
- @import "uikit/uikit.min";
- @import "tagsinput/jquery.tagsinput.min";
+@import "uikit/uikit.min";
+@import "tagsinput/jquery.tagsinput.min";
 
- ::selection {
-   background: #87cefa;
- }
- ::-moz-selection {
-   background: #87cefa;
- }
+::selection {
+  background: #87cefa;
+}
+::-moz-selection {
+  background: #87cefa;
+}
 
- ul {
-   padding: 0;
+ul {
+  padding: 0;
 
-   li {
-     list-style-type: none;
-   }
- }
+  li {
+    list-style-type: none;
+  }
+}
 
- #nav-bar {
-   background-color: #4169e1 !important;
- }
+#nav-bar {
+  background-color: #4169e1 !important;
+}
 
- .uk-offcanvas-bar {
-   background: #fff;
+.uk-offcanvas-bar {
+  background: #fff;
 
-   * {
-     color: #000 !important;
-   }
- }
+  * {
+    color: #000 !important;
+  }
+}
+
+.no-text-transform {
+  text-transform: none !important;
+}
+
+.vertical-top {
+  vertical-align: top !important;
+}

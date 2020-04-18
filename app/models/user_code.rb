@@ -1,34 +1,57 @@
 # frozen_string_literal: true
 
+require_relative 'concerns/flash_validatable'
+
 class UserCode < ApplicationRecord
+  include FlashValidatable
   extend Enumerize
+
+  DRAFT_LIMIT = 15
 
   belongs_to :user
 
-  has_many :codes
-  has_many :user_code_tags
+  # NOTE: codesを一番上に持っていくと下書きをした時にtagが保存されない(unlessでvalidtionをスキップさせているせいか)
+  has_many :user_code_tags, dependent: :destroy
   has_many :tags, through: :user_code_tags
-  has_many :user_code_likes
-  has_many :user_code_dislikes
+  has_many :user_code_likes, dependent: :destroy
+  has_many :user_code_dislikes, dependent: :destroy
+  has_many :codes, dependent: :destroy
 
-  validates :title, presence: true, length: { maximum: 200 }
-  validates :description, presence: true, length: { maximum: 300 }
+  validates :title, presence: true, length: { maximum: 200 }, on: %i[post draft]
+  validates :description, presence: true, length: { maximum: 300 }, on: %i[post draft]
 
-  enumerize :status, in: %i[draft published closed]
+  validate :draft_count, on: %i[draft]
+
+  flash_validation :base
+
+  enumerize :status, in: %i[draft post closed]
 
   scope :latest, lambda {
     includes([{ codes: :language }, :tags, :user])
-      .where(status: %i[published closed])
+      .where(status: %i[post closed])
       .order(created_at: :desc)
       .limit(10)
   }
   # TODO: レビュー機能実装後作成
   scope :popular, lambda {
     includes([{ codes: :language }, :tags, :user])
-      .where(status: %i[published closed])
+      .where(status: %i[post closed])
       .order(created_at: :desc)
       .limit(10)
   }
+
+  def self.drafts(user_id)
+    where(
+      id: UserCode.where(user_id: user_id)
+                  .group(:code_group_id)
+                  .select('max(id)'),
+      status: :draft
+    ).order(updated_at: :desc, id: :desc)
+  end
+
+  def self.histories(id)
+    where(code_group_id: find(id).code_group_id)
+  end
 
   def likes
     user_code_likes.length
@@ -48,19 +71,45 @@ class UserCode < ApplicationRecord
     code_dislike.present?
   end
 
-  def draft
-    self.status = :draft
-    save(validate: false)
+  def draft(tag_names)
+    transaction do
+      self.status = :draft
+      self.code_group_id = next_group_id
+      create_tags(tag_names)
+      save!(context: :draft)
+      self
+    end
+  rescue StandardError => e
+    logger.error e
+    false
   end
 
   def post(tag_names)
     transaction do
-      self.status = :published
+      self.status = :post
+      self.code_group_id = next_group_id
       create_tags(tag_names)
-      raise ActiveRecord::Rollback if invalid?
-
-      save
+      save!(context: :post)
+      self
     end
+  rescue StandardError => e
+    logger.error e
+    false
+  end
+
+  def update_version(id, tag_names, new_status)
+    old_code = self.class.find(id)
+    transaction do
+      self.user = old_code.user
+      self.status = new_status
+      self.code_group_id = old_code.code_group_id
+      create_tags(tag_names)
+      save!(context: new_status)
+      self
+    end
+  rescue StandardError => e
+    logger.error e
+    false
   end
 
   private
@@ -69,8 +118,25 @@ class UserCode < ApplicationRecord
     return if tag_names.blank?
 
     tag_names.each do |name|
-      tag = Tag.find_or_create_by(name: name)
+      tag = Tag.find_or_create_by!(name: name)
       tags.push(tag)
     end
+  end
+
+  def draft_count
+    count = UserCode.where(user_id: user_id, status: :draft).count
+    errors.add(:base, :over_drafts_limit) if count > DRAFT_LIMIT
+  end
+
+  def new_codes(new_user_code)
+    codes.map do |code|
+      code.user_code_id = new_user_code.id
+      code
+    end
+  end
+
+  def next_group_id
+    group_id = UserCode.where(user_id: user_id).maximum(:code_group_id)
+    group_id.to_i + 1
   end
 end

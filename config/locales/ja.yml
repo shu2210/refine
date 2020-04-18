@@ -6,6 +6,7 @@ ja:
   password_notification: パスワードは%{minimum_password_length}文字以上にしてください
   register: 会員登録
   saved: 保存に成功しました
+  deleted: 削除に成功しました
   errors:
     invalid: 入力項目に誤りがあります
   activerecord:
@@ -38,9 +39,24 @@ ja:
               taken: が登録されています
             password_confirmation:
               confirmation: が異なります
+        user_code:
+          attributes:
+            base:
+              over_drafts_limit: 下書きの上限に達しています
   enumerize:
     user_code:
       status:
         draft: 下書き
-        published: 受付中
+        post: 受付中
         closed: 受付終了
+
+  date:
+    formats:
+      default: "%Y/%m/%d"
+      long: "%Y年%m月%d日(%a)"
+      short: "%m/%d"
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M:%S"
+      long: "%Y年%m月%d日(%a) %H時%M分%S秒 %z"
+      short: "%y-%m-%d %H:%M"

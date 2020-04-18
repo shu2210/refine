@@ -37,13 +37,5 @@ new Vue({
     return {
       tags: []
     }
-  },
-  methods: {
-    addTags() {
-      var keywords = $('#tag').siblings('.tagsinput').children('.tag');
-      for (var i = keywords.length; i--;) {
-        this.tags.push($(keywords[i]).text().substring(0, $(keywords[i]).text().length -  1).trim());
-      }
-    }
   }
 })

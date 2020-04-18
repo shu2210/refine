@@ -1,11 +1,20 @@
 # frozen_string_literal: true
 
+require_relative './concerns/code_permittable'
+
 class CodesController < ApplicationController
-  before_action :authenticate_user!, only: %i[new create]
+  include CodePermittable
+
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :verify_valid_user, only: %i[update]
 
   def index
     @latest = UserCode.latest
     @popular = UserCode.popular
+  end
+
+  def show
+    @code = UserCode.includes(:codes, :user).find(params[:id])
   end
 
   def new
@@ -25,8 +34,22 @@ class CodesController < ApplicationController
     end
   end
 
-  def show
-    @code = UserCode.includes(:codes, :user).find(params[:id])
+  def edit
+    @code = UserCode.includes(:codes).find(params[:id])
+    raise Forbidden unless current_user == @code.user
+
+    @code.codes.build if @code.codes.empty?
+  end
+
+  def update
+    @code = UserCode.new(user_codes_params)
+    @code.codes = codes
+    if @code.update_version(params[:id], params[:tags], :post)
+      # TODO: リダイレクト先を投稿一覧に変える
+      redirect_to action: :index
+    else
+      render :edit
+    end
   end
 
   private
@@ -36,14 +59,5 @@ class CodesController < ApplicationController
     params.require(:user_code).permit(
       :title, :description, :user_id
     )
-  end
-
-  def codes
-    params[:code].each(&:permit!)
-    params[:code].map do |code|
-      code = Code.new(code)
-      code.valid?
-      code
-    end
   end
 end

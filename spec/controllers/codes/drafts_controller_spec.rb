@@ -3,6 +3,24 @@
 require 'rails_helper'
 
 RSpec.describe Codes::DraftsController, type: :controller do
+  describe 'GET #index' do
+    context 'ログインしていない場合' do
+      subject { get :index }
+
+      it { is_expected.to have_http_status(:redirect) }
+      it { is_expected.to redirect_to('/users/sign_in') }
+    end
+
+    context 'ログインしている場合' do
+      before { sign_in_user }
+
+      subject { get :index }
+
+      it { is_expected.to have_http_status(:ok) }
+      it { is_expected.to render_template(:index) }
+    end
+  end
+
   describe 'POST #create' do
     context 'ログインしていない場合' do
       subject { post :create }
@@ -13,21 +31,145 @@ RSpec.describe Codes::DraftsController, type: :controller do
 
     context 'ログインしている場合' do
       let!(:language) { Language.first }
-      let!(:params) { { user_code: { title: 'test', description: 'test' }, code: [{ language_id: language.id, code: 'test' }] } }
 
       before { sign_in_user }
 
-      it 'user_codeが作成されること' do
-        expect { post :create, params: params }.to change(UserCode, :count).by(1)
+      context '成功した場合' do
+        let!(:params) { { user_code: { title: 'test', description: 'test' }, code: [{ language_id: language.id, code: 'test' }] } }
+
+        it 'user_codeが作成されること' do
+          expect { post :create, params: params }.to change(UserCode, :count).by(1)
+        end
+
+        it 'codeが作成されること' do
+          expect { post :create, params: params }.to change(Code, :count).by(1)
+        end
+
+        it '下書き一覧にリダイレクトする' do
+          post :create, params: params
+          expect(response).to redirect_to(root_path)
+        end
       end
 
-      it 'codeが作成されること' do
-        expect { post :create, params: params }.to change(Code, :count).by(1)
+      context '失敗した場合' do
+        let!(:params) { { user_code: { title: '', description: 'test' }, code: [{ language_id: language.id, code: 'test' }] } }
+
+        it 'レコードは作成されない' do
+          expect { post :create, params: params }.not_to change(UserCode, :count)
+        end
+
+        it 'コード投稿画面をrenderする' do
+          post :create, params: params
+          expect(response).to render_template('codes/new')
+        end
+      end
+    end
+  end
+
+  describe 'PUT #update' do
+    context 'ログインしていない場合' do
+      subject { put :update, params: { id: 1 } }
+
+      it { is_expected.to have_http_status(:redirect) }
+      it { is_expected.to redirect_to('/users/sign_in') }
+    end
+
+    context 'ログインしている場合' do
+      let!(:user) { create(:user) }
+
+      before { sign_in user }
+
+      context 'current_user != 作成者' do
+        let!(:coder) { build(:user) }
+        let!(:user_code) { create(:user_code, user: coder) }
+
+        it 'Forbiddenになる' do
+          expect { put :update, params: { id: user_code.id } }.to raise_error(Forbidden)
+        end
       end
 
-      it 'root_pathにリダイレクトする' do
-        post :create, params: params
-        expect(response).to redirect_to(root_path)
+      context 'current_user == 作成者' do
+        let!(:language) { Language.first }
+
+        context 'エラーがある場合' do
+          let!(:user_code) { create(:user_code, title: '', user: user) }
+          let!(:params) do
+            {
+              id: user_code.id,
+              user_code: {
+                title: nil,
+                description: :test
+              },
+              code: [{ language_id: language.id, code: 'test' }],
+              tags: %w[tag1 tag2]
+            }
+          end
+
+          it 'レコードが追加されない' do
+            expect { put :update, params: params }.not_to change(UserCode, :count)
+          end
+
+          it 'editがrenderされる' do
+            put :update, params: params
+            expect(response).to render_template(:edit)
+          end
+        end
+
+        context '正常の場合' do
+          let!(:user_code) { create(:user_code, user: user) }
+          let!(:params) do
+            {
+              id: user_code.id,
+              user_code: {
+                title: :test,
+                description: :test
+              },
+              code: [{ language_id: language.id, code: 'test' }],
+              tags: %w[tag1 tag2]
+            }
+          end
+
+          it 'レコードが追加される' do
+            expect { put :update, params: params }.to change(UserCode, :count).by(1)
+          end
+
+          it 'indexにリダイレクトされる' do
+            put :update, params: params
+            expect(response).to redirect_to(codes_drafts_path)
+          end
+        end
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    context 'ログインしていない場合' do
+      subject { delete :destroy, params: { id: 1 } }
+
+      it { is_expected.to have_http_status(:redirect) }
+      it { is_expected.to redirect_to('/users/sign_in') }
+    end
+
+    context 'ログインしている場合' do
+      let!(:user) { create(:user) }
+
+      before { sign_in user }
+
+      context 'curret_user != 作成者' do
+        let!(:coder) { build(:user) }
+        let!(:user_code) { create(:user_code, user: coder) }
+
+        it 'レコードは削除されない' do
+          expect { delete :destroy, params: { id: user_code.id } }.not_to change(UserCode, :count)
+        end
+      end
+
+      context 'current_user == 作成者' do
+        let!(:user_code) { create(:user_code, user: user) }
+
+        it 'user_codeが削除される' do
+          expect { delete :destroy, params: { id: user_code.id } }.to change(UserCode, :count).by(-1)
+        end
       end
     end
   end
