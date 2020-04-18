@@ -6,6 +6,5 @@ FactoryBot.define do
     status { :post }
     title { 'test' }
     description { 'description' }
-    version { 1 }
   end
 end

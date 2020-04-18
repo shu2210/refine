@@ -161,8 +161,8 @@ RSpec.describe UserCode, type: :model do
 
   describe 'drafts' do
     let!(:user) { create(:user) }
-    let!(:old_code) { create(:user_code, status: :draft, code_group_id: 1, version: 1, user: user) }
-    let!(:user_code) { create(:user_code, status: :draft, code_group_id: 1, version: 2, user: user) }
+    let!(:old_code) { create(:user_code, status: :draft, code_group_id: 1, user: user) }
+    let!(:user_code) { create(:user_code, status: :draft, code_group_id: 1, user: user) }
 
     it '最新のバージョンの下書きを取得する' do
       drafts = UserCode.drafts(user.id)
@@ -245,11 +245,6 @@ RSpec.describe UserCode, type: :model do
 
       it 'trueが返る' do
         expect(user_code.update_version(old_code.id, tags, :post)).to be_truthy
-      end
-
-      it 'versionが1つ上がる' do
-        new_code = user_code.update_version(old_code.id, tags, :draft)
-        expect(new_code.version).to eq(2)
       end
     end
 

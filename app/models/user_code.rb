@@ -74,7 +74,6 @@ class UserCode < ApplicationRecord
   def draft(tag_names)
     transaction do
       self.status = :draft
-      self.version = 1
       self.code_group_id = next_group_id
       create_tags(tag_names)
       save!(context: :draft)
@@ -88,7 +87,6 @@ class UserCode < ApplicationRecord
   def post(tag_names)
     transaction do
       self.status = :post
-      self.version = 1
       self.code_group_id = next_group_id
       create_tags(tag_names)
       save!(context: :post)
@@ -104,7 +102,6 @@ class UserCode < ApplicationRecord
     transaction do
       self.user = old_code.user
       self.status = new_status
-      self.version = old_code.version + 1
       self.code_group_id = old_code.code_group_id
       create_tags(tag_names)
       save!(context: new_status)
