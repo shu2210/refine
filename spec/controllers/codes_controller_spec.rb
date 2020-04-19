@@ -81,9 +81,8 @@ RSpec.describe CodesController, type: :controller do
         let!(:user_code) { create(:user_code, user: build(:user)) }
 
         it 'Forbiddenになる' do
-          expect do
-            get :edit, params: { id: user_code.id }
-          end.to raise_error(Forbidden)
+          get :edit, params: { id: user_code.id }
+          expect(response).to render_template('errors/forbidden')
         end
       end
 
@@ -116,7 +115,8 @@ RSpec.describe CodesController, type: :controller do
         let!(:user_code) { create(:user_code, user: coder) }
 
         it 'Forbiddenになる' do
-          expect { put :update, params: { id: user_code.id } }.to raise_error(Forbidden)
+          put :update, params: { id: user_code.id }
+          expect(response).to render_template('errors/forbidden')
         end
       end
 

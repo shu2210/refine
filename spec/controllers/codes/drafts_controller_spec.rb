@@ -84,7 +84,8 @@ RSpec.describe Codes::DraftsController, type: :controller do
         let!(:user_code) { create(:user_code, user: coder) }
 
         it 'Forbiddenになる' do
-          expect { put :update, params: { id: user_code.id } }.to raise_error(Forbidden)
+          put :update, params: { id: user_code.id }
+          expect(response).to render_template('errors/forbidden')
         end
       end
 
