@@ -52,9 +52,6 @@ export default {
     isLogin: {
       type: Boolean
     },
-    postedUserIcon: {
-      type: String
-    },
     currentUserId: {
       type: Number
     },
@@ -98,13 +95,12 @@ export default {
 
       axios.get(`/reviews/${this.codeId}`).then((response) => {
         response.data.review.forEach(function(review) {
-          var userName = vm.getUserName(response.data.users, review['user_id']);
           vm.appendPostedReview({
             id: review['id'],
             line: review['line'],
-            userName: userName,
+            userName: review['user']['name'],
             review: review['review'],
-            icon: vm.postedUserIcon,
+            icon: review['user']['icon_url'],
             canEdit: (review['user_id'] == vm.currentUserId),
             createdAt: vm.parseDate(review['created_at'])
           });
@@ -116,13 +112,6 @@ export default {
       }, (error) => {
         console.log(error);
       });
-    },
-    getUserName(users, userId) {
-      for(var i = 0; i < users.length; i++) {
-        if(userId == users[i]['id']) {
-          return users[i]['name'];
-        }
-      }
     },
     // 投稿された後の処理
     switchReview(component, response) {

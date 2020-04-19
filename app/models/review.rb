@@ -19,6 +19,7 @@ class Review < ApplicationRecord
     reviews.map do |review|
       hash = review.attributes
       hash['comments'] = review.comments.map(&:attributes)
+      hash['user'] = review.user.attributes
       hash
     end
   end
