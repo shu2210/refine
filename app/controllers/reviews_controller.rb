@@ -5,9 +5,8 @@ class ReviewsController < ApplicationController
   before_action :authenticate_user!, except: %i[show]
 
   def show
-    reviews = Review.includes(:user).where(code_id: params[:id])
-    users = reviews.map(&:user)
-    render json: { review: reviews.array_with_comments, users: users }
+    reviews = Review.includes(:user).where(code_id: params[:id]).order(:created_at)
+    render json: { review: reviews.array_with(:comments, :user) }
   end
 
   def create

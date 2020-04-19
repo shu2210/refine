@@ -12,18 +12,31 @@ module ArrayParsable
         record.array_with_one(model)
       end
     end
+
+    def array_with(*associations)
+      records = includes(associations)
+      records.map do |record|
+        hash = record.attributes
+        associations.each do |association|
+          hash[association] = record.attributes_with(association)
+        end
+        hash.with_indifferent_access
+      end
+    end
   end
 
   def array_with_one(model)
-    hash_with_user = attributes_with(model.to_sym)
-    hash_with_user
+    hash = attributes_with(model.to_sym)
+    hash
   end
 
   private
 
-  def attributes_with(model)
-    attributes = self.attributes
-    attributes[model] = send(model).attributes
-    attributes.with_indifferent_access
+  def attributes_with(association)
+    if associations.to_s == association.to_s.pluralize
+      send(association).map(&:attributes)
+    else
+      send(association).attributes
+    end
   end
 end
