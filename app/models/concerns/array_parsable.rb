@@ -25,15 +25,21 @@ module ArrayParsable
     end
   end
 
+  def array_with(*associations)
+    hash = attributes
+    associations.each do |association|
+      hash[association] = attributes_with(association)
+    end
+    hash.with_indifferent_access
+  end
+
   def array_with_one(model)
     hash = attributes_with(model.to_sym)
     hash
   end
 
-  private
-
   def attributes_with(association)
-    if associations.to_s == association.to_s.pluralize
+    if association.to_s == association.to_s.pluralize
       send(association).map(&:attributes)
     else
       send(association).attributes
