@@ -33,7 +33,7 @@ RSpec.describe Comment, type: :model do
     end
   end
 
-  describe 'array_with' do
+  describe 'hash_with' do
     let!(:user) { build(:user) }
     let!(:comment) { create(:comment, user: user) }
 
@@ -42,7 +42,7 @@ RSpec.describe Comment, type: :model do
       let!(:comment) { build(:comment, user: user) }
 
       it 'userを含むhashを返す' do
-        hash = comment.array_with(:user)
+        hash = comment.hash_with(:user)
         expect(hash['user']).to eq(user.attributes)
         expect(hash[:user]).to eq(user.attributes)
       end
@@ -53,7 +53,7 @@ RSpec.describe Comment, type: :model do
       let!(:comment) { build(:comment, review: review) }
 
       it 'reviewを含むhashを返す' do
-        hash = comment.array_with(:review)
+        hash = comment.hash_with(:review)
         expect(hash['review']).to eq(review.attributes)
         expect(hash[:review]).to eq(review.attributes)
       end
@@ -64,7 +64,7 @@ RSpec.describe Comment, type: :model do
       let!(:comment) { build(:comment, review: review) }
 
       it '引数に渡したモデルを含むhashを返す' do
-        hash = comment.array_with('review')
+        hash = comment.hash_with('review')
         expect(hash['review']).to eq(review.attributes)
         expect(hash[:review]).to eq(review.attributes)
       end
@@ -74,7 +74,7 @@ RSpec.describe Comment, type: :model do
       let!(:comment) { build(:comment) }
 
       it 'エラーになる' do
-        expect { comment.array_with(:test) }.to raise_error(StandardError)
+        expect { comment.hash_with(:test) }.to raise_error(StandardError)
       end
     end
   end

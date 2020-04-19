@@ -18,7 +18,7 @@ module ArrayParsable
     end
   end
 
-  def array_with(*associations)
+  def hash_with(*associations)
     hash = attributes
     associations.each do |association|
       hash[association] = attributes_with(association)
