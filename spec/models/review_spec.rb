@@ -25,15 +25,28 @@ RSpec.describe Review, type: :model do
     end
   end
 
-  describe 'array_with_comments' do
+  describe 'array_with' do
     let!(:comment) { build(:comment) }
     let!(:review) { create(:review, comments: [comment]) }
 
-    it 'commentを含めた配列を返す' do
-      reviews = Review.where(id: review.id)
-      array = reviews.array_with_comments
-      array.each do |comment|
-        expect(comment['comments']).to be_any
+    context 'commentsを渡した場合' do
+      it 'commentを含めた配列を返す' do
+        reviews = Review.where(id: review.id)
+        array = reviews.array_with(:comments)
+        array.each do |comment|
+          expect(comment['comments']).to be_any
+        end
+      end
+    end
+
+    context 'user, commentsを渡した場合' do
+      it 'user, commentsを含めた配列を返す' do
+        reviews = Review.where(id: review.id)
+        array = reviews.array_with(:comments, :user)
+        array.each do |comment|
+          expect(comment['comments']).to be_any
+          expect(comment['user']).to be_any
+        end
       end
     end
   end

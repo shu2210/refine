@@ -13,13 +13,4 @@ class Review < ApplicationRecord
   has_many :comments, dependent: :destroy
 
   validates :review, presence: true, length: { maximum: 500 }
-
-  def self.array_with_comments
-    reviews = includes(:comments).order(:created_at)
-    reviews.map do |review|
-      hash = review.attributes
-      hash['comments'] = review.comments.map(&:attributes)
-      hash
-    end
-  end
 end

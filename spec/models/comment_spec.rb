@@ -17,21 +17,23 @@ RSpec.describe Comment, type: :model do
     end
   end
 
-  describe 'self.array_with_one' do
+  describe 'self.array_with' do
     let!(:user) { build(:user) }
     let!(:comment1) { create(:comment, user: user) }
     let!(:comment2) { create(:comment, user: user) }
 
-    it 'userを含めた配列を返す' do
-      comments = Comment.where(user_id: user.id)
-      array = comments.array_with_one(:user)
-      array.each do |comment|
-        expect(comment['user']).to be_any
+    context 'userを渡した場合' do
+      it 'userを含むarrayが返る' do
+        comments = Comment.where(id: [comment1.id, comment2.id])
+        hash = comments.array_with(:user)
+        hash.each do |record|
+          expect(record['user']).to be_any
+        end
       end
     end
   end
 
-  describe 'array_with_one' do
+  describe 'hash_with' do
     let!(:user) { build(:user) }
     let!(:comment) { create(:comment, user: user) }
 
@@ -40,7 +42,7 @@ RSpec.describe Comment, type: :model do
       let!(:comment) { build(:comment, user: user) }
 
       it 'userを含むhashを返す' do
-        hash = comment.array_with_one(:user)
+        hash = comment.hash_with(:user)
         expect(hash['user']).to eq(user.attributes)
         expect(hash[:user]).to eq(user.attributes)
       end
@@ -51,7 +53,7 @@ RSpec.describe Comment, type: :model do
       let!(:comment) { build(:comment, review: review) }
 
       it 'reviewを含むhashを返す' do
-        hash = comment.array_with_one(:review)
+        hash = comment.hash_with(:review)
         expect(hash['review']).to eq(review.attributes)
         expect(hash[:review]).to eq(review.attributes)
       end
@@ -62,7 +64,7 @@ RSpec.describe Comment, type: :model do
       let!(:comment) { build(:comment, review: review) }
 
       it '引数に渡したモデルを含むhashを返す' do
-        hash = comment.array_with_one('review')
+        hash = comment.hash_with('review')
         expect(hash['review']).to eq(review.attributes)
         expect(hash[:review]).to eq(review.attributes)
       end
@@ -72,7 +74,7 @@ RSpec.describe Comment, type: :model do
       let!(:comment) { build(:comment) }
 
       it 'エラーになる' do
-        expect { comment.array_with_one(:test) }.to raise_error(StandardError)
+        expect { comment.hash_with(:test) }.to raise_error(StandardError)
       end
     end
   end

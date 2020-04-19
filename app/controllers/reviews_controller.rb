@@ -5,16 +5,15 @@ class ReviewsController < ApplicationController
   before_action :authenticate_user!, except: %i[show]
 
   def show
-    reviews = Review.includes(:user).where(code_id: params[:id])
-    users = reviews.map(&:user)
-    render json: { review: reviews.array_with_comments, users: users }
+    reviews = Review.includes(:user).where(code_id: params[:id]).order(:created_at)
+    render json: { review: reviews.array_with(:comments, :user) }
   end
 
   def create
     review = Review.new(review_params)
     review.user = current_user
     if review.save
-      render json: { status: :success, review: review.array_with_one(:user) }
+      render json: { status: :success, review: review.hash_with(:user) }
     else
       render json: { status: :error, message: review.errors.full_messages }
     end

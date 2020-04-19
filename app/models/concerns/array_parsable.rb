@@ -6,24 +6,31 @@ module ArrayParsable
   extend ActiveSupport::Concern
 
   class_methods do
-    def array_with_one(model)
-      records = includes(model).order(created_at: :desc)
+    def array_with(*associations)
+      records = includes(associations)
       records.map do |record|
-        record.array_with_one(model)
+        hash = record.attributes
+        associations.each do |association|
+          hash[association] = record.attributes_with(association)
+        end
+        hash.with_indifferent_access
       end
     end
   end
 
-  def array_with_one(model)
-    hash_with_user = attributes_with(model.to_sym)
-    hash_with_user
+  def hash_with(*associations)
+    hash = attributes
+    associations.each do |association|
+      hash[association] = attributes_with(association)
+    end
+    hash.with_indifferent_access
   end
 
-  private
-
-  def attributes_with(model)
-    attributes = self.attributes
-    attributes[model] = send(model).attributes
-    attributes.with_indifferent_access
+  def attributes_with(association)
+    if association.to_s == association.to_s.pluralize
+      send(association).map(&:attributes)
+    else
+      send(association).attributes
+    end
   end
 end
