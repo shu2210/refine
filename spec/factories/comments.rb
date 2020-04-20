@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :comment do
-    user { build(:user) }
-    review { build(:review) }
     comment { Faker::Lorem.characters(number: 10) }
+    association :user
+    association :review
   end
 end

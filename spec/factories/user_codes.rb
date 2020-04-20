@@ -2,9 +2,9 @@
 
 FactoryBot.define do
   factory :user_code do
-    user { build(:user) }
     status { :post }
     title { 'test' }
     description { 'description' }
+    association :user
   end
 end

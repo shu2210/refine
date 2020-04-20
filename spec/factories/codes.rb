@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :code do
-    user_code { build(:user_code) }
     code { 'test' }
-    language { build(:language) }
+    association :user_code
+    association :language
   end
 end
