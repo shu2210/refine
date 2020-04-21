@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :code do
-    code { 'test' }
+    code { Faker::Lorem.characters }
     association :user_code
     association :language
   end

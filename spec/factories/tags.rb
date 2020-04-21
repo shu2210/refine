@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :tag do
-    name { 'Ruby' }
+    name { Faker::ProgrammingLanguage.name }
   end
 end

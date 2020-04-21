@@ -3,8 +3,8 @@
 FactoryBot.define do
   factory :user_code do
     status { :post }
-    title { 'test' }
-    description { 'description' }
+    title { Faker::Lorem.characters }
+    description { Faker::Lorem.characters }
     association :user
   end
 end
