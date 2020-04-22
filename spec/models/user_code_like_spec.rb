@@ -11,7 +11,7 @@ RSpec.describe UserCodeLike, type: :model do
     it 'エラーになる' do
       like = UserCodeLike.new(user: user, user_code: code)
       like.valid?
-      expect(like.errors).not_to be_empty
+      expect(like.errors[:user_id]).not_to be_empty
     end
   end
 end

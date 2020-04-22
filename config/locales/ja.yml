@@ -32,6 +32,7 @@ ja:
         required: が必要です
         too_short: が短すぎます
         too_long: が長すぎます
+        taken: はすでに登録されています
       models:
         user:
           attributes:
@@ -43,6 +44,10 @@ ja:
           attributes:
             base:
               over_drafts_limit: 下書きの上限に達しています
+        user_code_dislike:
+          attributes:
+            user_id:
+              taken: すでに登録されています
   enumerize:
     user_code:
       status:

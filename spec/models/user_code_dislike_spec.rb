@@ -11,7 +11,7 @@ RSpec.describe UserCodeDislike, type: :model do
     it 'エラーになる' do
       dislike = UserCodeDislike.new(user: user, user_code: code)
       dislike.valid?
-      expect(dislike.errors).not_to be_empty
+      expect(dislike.errors[:user_id]).not_to be_empty
     end
   end
 end
