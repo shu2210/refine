@@ -10,6 +10,12 @@ RSpec.describe UserCode, type: :model do
     end
   end
 
+  describe 'latest' do
+  end
+
+  describe 'popular' do
+  end
+
   describe 'title' do
     let(:code) { build(:user_code, title: title) }
 
