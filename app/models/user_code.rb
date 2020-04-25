@@ -42,9 +42,8 @@ class UserCode < ApplicationRecord
 
   def self.drafts(user_id)
     where(
-      id: UserCode.where(user_id: user_id)
-                  .group(:code_group_id)
-                  .select('max(id)'),
+      active: true,
+      user_id: user_id,
       status: :draft
     ).order(updated_at: :desc, id: :desc)
   end

@@ -169,8 +169,8 @@ RSpec.describe UserCode, type: :model do
 
   describe 'drafts' do
     let!(:user) { create(:user) }
-    let!(:old_code) { create(:user_code, status: :draft, code_group_id: 1, user: user) }
-    let!(:user_code) { create(:user_code, status: :draft, code_group_id: 1, user: user) }
+    let!(:old_code) { create(:user_code, status: :draft, code_group_id: 1, active: false, user: user) }
+    let!(:user_code) { create(:user_code, status: :draft, code_group_id: 1, active: true, user: user) }
 
     it '最新のバージョンの下書きを取得する' do
       drafts = UserCode.drafts(user.id)
