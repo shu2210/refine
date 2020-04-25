@@ -24,7 +24,17 @@ RSpec.describe UserCode, type: :model do
   end
 
   describe 'popular' do
-    it 'reviewが投稿された数が多いコードが取得できる'
+    let!(:latest) { create(:user_code, created_at: Time.now + 1.second) }
+
+    before do
+      code_with_review = create(:code, reviews: [build(:review)])
+      create_list(:user_code, 5, codes: [code_with_review], created_at: Time.now)
+    end
+
+    it 'reviewが投稿された数が多いコードが5件まで取得できる' do
+      codes = UserCode.popular
+      expect(codes).not_to include(latest)
+    end
   end
 
   describe 'title' do

@@ -32,12 +32,14 @@ class UserCode < ApplicationRecord
       .order(created_at: :desc)
       .limit(10)
   }
-  # TODO: レビュー機能実装後作成
+
   scope :popular, lambda {
-    includes([{ codes: :language }, :tags, :user])
-      .where(status: %i[post closed])
-      .order(created_at: :desc)
-      .limit(10)
+    joins(codes: :reviews)
+      .where(status: %i[post closed], active: true)
+      .group('user_codes.id')
+      .order('count DESC')
+      .select('user_codes.id', 'COUNT(*) AS count')
+      .limit(5)
   }
 
   def self.drafts(user_id)
