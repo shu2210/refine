@@ -242,7 +242,7 @@ RSpec.describe UserCode, type: :model do
     let!(:tags) { %i[tag1 tag2] }
 
     context '成功した場合' do
-      let!(:old_code) { create(:user_code, user: user) }
+      let!(:old_code) { create(:user_code, active: true, user: user) }
       let!(:user_code) { build(:user_code, title: :test, description: :test, user: user) }
 
       it 'レコードが追加される' do
@@ -258,6 +258,17 @@ RSpec.describe UserCode, type: :model do
 
       it 'trueが返る' do
         expect(user_code.update_version(old_code.id, tags, :post)).to be_truthy
+      end
+
+      it '過去のコードのactiveが0になること' do
+        user_code.update_version(old_code.id, tags, :draft)
+        old_code.reload
+        expect(old_code.active).to eq(false)
+      end
+
+      it '投稿されたコードのactiveになること' do
+        new_code = user_code.update_version(old_code.id, tags, :draft)
+        expect(new_code.active).to eq(true)
       end
     end
 
@@ -372,6 +383,16 @@ RSpec.describe UserCode, type: :model do
         codes = UserCode.histories(code3.id)
         expect(codes).to eq([code3])
       end
+    end
+  end
+
+  describe 'deactivate' do
+    let!(:user_code) { create(:user_code, active: true) }
+
+    it 'activeをfalseにする' do
+      user_code.deactivate
+      user_code.reload
+      expect(user_code.active).to eq(false)
     end
   end
 end

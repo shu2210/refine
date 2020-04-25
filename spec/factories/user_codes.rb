@@ -5,6 +5,7 @@ FactoryBot.define do
     status { :post }
     title { Faker::Lorem.characters }
     description { Faker::Lorem.characters }
+    active { false }
     association :user
   end
 end

@@ -96,9 +96,11 @@ class UserCode < ApplicationRecord
   def update_version(id, tag_names, new_status)
     old_code = self.class.find(id)
     transaction do
+      old_code.deactivate
       self.user = old_code.user
       self.status = new_status
       self.code_group_id = old_code.code_group_id
+      self.active = true
       create_tags(tag_names)
       save!(context: new_status)
       self
@@ -106,6 +108,10 @@ class UserCode < ApplicationRecord
   rescue StandardError => e
     logger.error e
     false
+  end
+
+  def deactivate
+    update!(active: false)
   end
 
   private
