@@ -34,12 +34,15 @@ class UserCode < ApplicationRecord
   }
 
   scope :popular, lambda {
-    joins(codes: :reviews)
-      .where(status: %i[post closed], active: true)
-      .group('user_codes.id')
-      .order('count DESC')
-      .select('user_codes.id', 'COUNT(*) AS count')
-      .limit(5)
+    where(
+      id: joins(codes: :reviews)
+        .where(status: %i[post closed], active: true)
+        .group('user_codes.id')
+        .order(
+          Arel.sql('COUNT(*) DESC')
+        )
+        .select('user_codes.id')
+    ).limit(5)
   }
 
   def self.drafts(user_id)
