@@ -130,7 +130,7 @@ RSpec.describe UserCode, type: :model do
       end
 
       it 'falseが返る' do
-        expect(user_code.draft(tags)).to be_falsy
+        expect(user_code.draft(tags)).to eq(false)
       end
     end
 
@@ -144,7 +144,7 @@ RSpec.describe UserCode, type: :model do
       end
 
       it 'falseが返る' do
-        expect(user_code.draft(tags)).to be_falsy
+        expect(user_code.draft(tags)).to eq(false)
       end
     end
 
@@ -162,7 +162,7 @@ RSpec.describe UserCode, type: :model do
       end
 
       it 'falseが返る' do
-        expect(user_code.draft(tags)).to be_falsy
+        expect(user_code.draft(tags)).to eq(false)
       end
     end
   end
@@ -232,7 +232,7 @@ RSpec.describe UserCode, type: :model do
       end
 
       it 'falseが返る' do
-        expect(code.post(tags)).to be_falsy
+        expect(code.post(tags)).to eq(false)
       end
     end
   end
@@ -283,7 +283,7 @@ RSpec.describe UserCode, type: :model do
       end
 
       it 'falseが返る' do
-        expect(user_code.update_version(old_code.id, tags, :post)).to be_falsy
+        expect(user_code.update_version(old_code.id, tags, :post)).to eq(false)
       end
     end
   end
@@ -316,13 +316,13 @@ RSpec.describe UserCode, type: :model do
       let(:like) { create(:user_code_like, user_code_id: code.id) }
 
       it 'trueを返す' do
-        expect(code.liked?(like.user_id)).to be_truthy
+        expect(code.liked?(like.user_id)).to eq(true)
       end
     end
 
     context 'likeがない場合' do
       it 'falseを返す' do
-        expect(code.liked?(0)).to be_falsy
+        expect(code.liked?(0)).to eq(false)
       end
     end
   end
@@ -355,13 +355,13 @@ RSpec.describe UserCode, type: :model do
       let(:dislike) { create(:user_code_dislike, user_code_id: code.id) }
 
       it 'trueを返す' do
-        expect(code.disliked?(dislike.user_id)).to be_truthy
+        expect(code.disliked?(dislike.user_id)).to eq(true)
       end
     end
 
     context 'dislikeがない場合' do
       it 'falseを返す' do
-        expect(code.disliked?(0)).to be_falsy
+        expect(code.disliked?(0)).to eq(false)
       end
     end
   end
