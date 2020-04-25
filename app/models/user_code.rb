@@ -28,7 +28,7 @@ class UserCode < ApplicationRecord
 
   scope :latest, lambda {
     includes([{ codes: :language }, :tags, :user])
-      .where(status: %i[post closed])
+      .where(status: %i[post closed], active: true)
       .order(created_at: :desc)
       .limit(10)
   }

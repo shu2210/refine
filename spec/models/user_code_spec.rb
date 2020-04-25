@@ -11,7 +11,16 @@ RSpec.describe UserCode, type: :model do
   end
 
   describe 'latest' do
-    it '最近投稿されたコードが取得できる'
+    let!(:old) { create(:user_code, active: true, created_at: Time.now) }
+
+    before do
+      create_list(:user_code, 10, active: true, created_at: Time.now + 1.second)
+    end
+
+    it '最近投稿されたコードが取得できる' do
+      codes = UserCode.latest
+      expect(codes).not_to include(old)
+    end
   end
 
   describe 'popular' do
