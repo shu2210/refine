@@ -11,9 +11,11 @@ RSpec.describe UserCode, type: :model do
   end
 
   describe 'latest' do
+    it '最近投稿されたコードが取得できる'
   end
 
   describe 'popular' do
+    it 'reviewが投稿された数が多いコードが取得できる'
   end
 
   describe 'title' do
@@ -194,6 +196,11 @@ RSpec.describe UserCode, type: :model do
 
       it 'trueが返る' do
         expect(code.post(tags)).to be_truthy
+      end
+
+      it 'activeがtrueになる' do
+        code.post(tags)
+        expect(code.active).to eq(true)
       end
 
       context '初投稿の場合' do

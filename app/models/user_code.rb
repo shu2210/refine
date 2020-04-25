@@ -73,10 +73,8 @@ class UserCode < ApplicationRecord
 
   def draft(tag_names)
     transaction do
-      self.status = :draft
-      self.code_group_id = next_group_id
       create_tags(tag_names)
-      save!(context: :draft)
+      create_code(:draft)
       self
     end
   rescue StandardError => e
@@ -86,10 +84,8 @@ class UserCode < ApplicationRecord
 
   def post(tag_names)
     transaction do
-      self.status = :post
-      self.code_group_id = next_group_id
       create_tags(tag_names)
-      save!(context: :post)
+      create_code(:post)
       self
     end
   rescue StandardError => e
@@ -138,5 +134,12 @@ class UserCode < ApplicationRecord
   def next_group_id
     group_id = UserCode.where(user_id: user_id).maximum(:code_group_id)
     group_id.to_i + 1
+  end
+
+  def create_code(status)
+    self.status = status
+    self.code_group_id = next_group_id
+    self.active = true
+    save!(context: status)
   end
 end
