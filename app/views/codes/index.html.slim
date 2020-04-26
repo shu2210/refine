@@ -69,3 +69,15 @@
                 span.uk-margin-left.uk-text-bold
                   = "#{tag.count} post"
             hr.uk-margin-small
+
+      span 人気のコード
+      ul.tag-list
+        - @popular.each do |code|
+          li
+            .uk-flex.uk-flex-center.uk-flex-middle
+              .uk-width-1-2.uk-text-center
+                = link_to code.title, code_path(code.id)
+              .uk-width-1-2
+                span.uk-margin-left.uk-text-bold
+                  = "#{code.codes.review_count} review"
+            hr.uk-margin-small
