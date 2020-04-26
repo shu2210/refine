@@ -7,7 +7,6 @@ import CodeArea from './components/code/CodeArea.vue';
 import CodeForm from './components/code/CodeForm.vue';
 import TagInput from './components/code/TagInput.vue';
 import SocialLoginButton from './components/sns/SocialLoginButton.vue';
-import PopularTags from './components/home/PopularTags.vue';
 import Jumbotron from './components/home/Jumbotron.vue';
 import Modal from './components/common/Modal.vue';
 import RequiredBadge from './components/badge/RequiredBadge.vue';
@@ -29,7 +28,6 @@ new Vue({
     ReviewInfo,
     IconUploader,
     Jumbotron,
-    PopularTags,
     SocialLoginButton,
     Modal
   },
