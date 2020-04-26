@@ -10,30 +10,32 @@ RSpec.describe UserCode, type: :model do
     end
   end
 
-  describe 'latest' do
-    let!(:old) { create(:user_code, active: true, created_at: Time.now) }
+  describe 'scope' do
+    describe 'latest' do
+      let!(:old) { create(:user_code, active: true, created_at: Time.now) }
 
-    before do
-      create_list(:user_code, 10, active: true, created_at: Time.now + 1.second)
+      before do
+        create_list(:user_code, 10, active: true, created_at: Time.now + 1.second)
+      end
+
+      it '最近投稿されたコードが取得できる' do
+        codes = UserCode.latest
+        expect(codes).not_to include(old)
+      end
     end
 
-    it '最近投稿されたコードが取得できる' do
-      codes = UserCode.latest
-      expect(codes).not_to include(old)
-    end
-  end
+    describe 'popular' do
+      let!(:latest) { create(:user_code, created_at: Time.now + 1.second) }
 
-  describe 'popular' do
-    let!(:latest) { create(:user_code, created_at: Time.now + 1.second) }
+      before do
+        code_with_review = create(:code, reviews: [build(:review)])
+        create_list(:user_code, 5, codes: [code_with_review], created_at: Time.now)
+      end
 
-    before do
-      code_with_review = create(:code, reviews: [build(:review)])
-      create_list(:user_code, 5, codes: [code_with_review], created_at: Time.now)
-    end
-
-    it 'reviewが投稿された数が多いコードが5件まで取得できる' do
-      codes = UserCode.popular
-      expect(codes).not_to include(latest)
+      it 'reviewが投稿された数が多いコードが5件まで取得できる' do
+        codes = UserCode.popular
+        expect(codes).not_to include(latest)
+      end
     end
   end
 
