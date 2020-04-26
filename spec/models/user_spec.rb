@@ -20,7 +20,7 @@ RSpec.describe User, type: :model do
     context 'profileのupdateの場合で空の場合' do
       it 'エラーになる' do
         user.name = ''
-        expect(user.valid?(:profile)).to be_falsy
+        expect(user.valid?(:profile)).to eq(false)
       end
     end
   end
@@ -78,7 +78,7 @@ RSpec.describe User, type: :model do
     context '長すぎる場合' do
       it 'エラーになる' do
         user.description = Faker::Lorem.characters(number: 256)
-        expect(user.valid?(:profile)).to be_falsy
+        expect(user.valid?(:profile)).to eq(false)
       end
     end
   end
@@ -148,14 +148,14 @@ RSpec.describe User, type: :model do
     context 'snsで登録していた場合' do
       it 'trueが返る' do
         user = build(:user, provider: 'google')
-        expect(user.sns_registration?).to be_truthy
+        expect(user.sns_registration?).to eq(true)
       end
     end
 
     context 'メールアドレスで登録していた場合' do
       it 'falseが返る' do
         user = build(:user, provider: nil)
-        expect(user.sns_registration?).to be_falsy
+        expect(user.sns_registration?).to eq(false)
       end
     end
   end

@@ -24,4 +24,29 @@ RSpec.describe Tag, type: :model do
       it { expect(tag.errors[:name]).not_to be_empty }
     end
   end
+
+  describe 'scope' do
+    describe 'popular' do
+      let!(:rails) { create(:tag, name: 'Rails') }
+      let!(:ruby) { create(:tag, name: 'Ruby') }
+      let!(:python) { create(:tag, name: 'Python') }
+      let!(:js) { create(:tag, name: 'js') }
+      let!(:go) { create(:tag, name: 'Go') }
+      let!(:rust) { create(:tag, name: 'Rust') }
+
+      before do
+        create_list(:user_code, 2, active: true, tags: [python])
+        create(:user_code, active: true, tags: [rails])
+        create(:user_code, active: true, tags: [ruby])
+        create(:user_code, active: true, tags: [js])
+        create(:user_code, active: true, tags: [go])
+      end
+
+      it '紐づくuser_codeの数が多いタグが5件まで取得できる' do
+        tags = Tag.popular
+        expect(tags).not_to include(rust)
+        expect(tags.first.name).to eq(python.name)
+      end
+    end
+  end
 end

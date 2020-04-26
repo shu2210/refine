@@ -10,6 +10,35 @@ RSpec.describe UserCode, type: :model do
     end
   end
 
+  describe 'scope' do
+    describe 'latest' do
+      let!(:old) { create(:user_code, active: true, created_at: Time.now) }
+
+      before do
+        create_list(:user_code, 10, active: true, created_at: Time.now + 1.second)
+      end
+
+      it '最近投稿されたコードが取得できる' do
+        codes = UserCode.latest
+        expect(codes).not_to include(old)
+      end
+    end
+
+    describe 'popular' do
+      let!(:latest) { create(:user_code, created_at: Time.now + 1.second) }
+
+      before do
+        code_with_review = create(:code, reviews: [build(:review)])
+        create_list(:user_code, 5, codes: [code_with_review], created_at: Time.now)
+      end
+
+      it 'reviewが投稿された数が多いコードが5件まで取得できる' do
+        codes = UserCode.popular
+        expect(codes).not_to include(latest)
+      end
+    end
+  end
+
   describe 'title' do
     let(:code) { build(:user_code, title: title) }
 
@@ -122,7 +151,7 @@ RSpec.describe UserCode, type: :model do
       end
 
       it 'falseが返る' do
-        expect(user_code.draft(tags)).to be_falsy
+        expect(user_code.draft(tags)).to eq(false)
       end
     end
 
@@ -136,7 +165,7 @@ RSpec.describe UserCode, type: :model do
       end
 
       it 'falseが返る' do
-        expect(user_code.draft(tags)).to be_falsy
+        expect(user_code.draft(tags)).to eq(false)
       end
     end
 
@@ -154,15 +183,15 @@ RSpec.describe UserCode, type: :model do
       end
 
       it 'falseが返る' do
-        expect(user_code.draft(tags)).to be_falsy
+        expect(user_code.draft(tags)).to eq(false)
       end
     end
   end
 
   describe 'drafts' do
     let!(:user) { create(:user) }
-    let!(:old_code) { create(:user_code, status: :draft, code_group_id: 1, user: user) }
-    let!(:user_code) { create(:user_code, status: :draft, code_group_id: 1, user: user) }
+    let!(:old_code) { create(:user_code, status: :draft, code_group_id: 1, active: false, user: user) }
+    let!(:user_code) { create(:user_code, status: :draft, code_group_id: 1, active: true, user: user) }
 
     it '最新のバージョンの下書きを取得する' do
       drafts = UserCode.drafts(user.id)
@@ -188,6 +217,11 @@ RSpec.describe UserCode, type: :model do
 
       it 'trueが返る' do
         expect(code.post(tags)).to be_truthy
+      end
+
+      it 'activeがtrueになる' do
+        code.post(tags)
+        expect(code.active).to eq(true)
       end
 
       context '初投稿の場合' do
@@ -219,7 +253,7 @@ RSpec.describe UserCode, type: :model do
       end
 
       it 'falseが返る' do
-        expect(code.post(tags)).to be_falsy
+        expect(code.post(tags)).to eq(false)
       end
     end
   end
@@ -229,7 +263,7 @@ RSpec.describe UserCode, type: :model do
     let!(:tags) { %i[tag1 tag2] }
 
     context '成功した場合' do
-      let!(:old_code) { create(:user_code, user: user) }
+      let!(:old_code) { create(:user_code, active: true, user: user) }
       let!(:user_code) { build(:user_code, title: :test, description: :test, user: user) }
 
       it 'レコードが追加される' do
@@ -246,6 +280,17 @@ RSpec.describe UserCode, type: :model do
       it 'trueが返る' do
         expect(user_code.update_version(old_code.id, tags, :post)).to be_truthy
       end
+
+      it '過去のコードのactiveが0になること' do
+        user_code.update_version(old_code.id, tags, :draft)
+        old_code.reload
+        expect(old_code.active).to eq(false)
+      end
+
+      it '投稿されたコードのactiveになること' do
+        new_code = user_code.update_version(old_code.id, tags, :draft)
+        expect(new_code.active).to eq(true)
+      end
     end
 
     context '失敗した場合' do
@@ -259,7 +304,7 @@ RSpec.describe UserCode, type: :model do
       end
 
       it 'falseが返る' do
-        expect(user_code.update_version(old_code.id, tags, :post)).to be_falsy
+        expect(user_code.update_version(old_code.id, tags, :post)).to eq(false)
       end
     end
   end
@@ -292,13 +337,13 @@ RSpec.describe UserCode, type: :model do
       let(:like) { create(:user_code_like, user_code_id: code.id) }
 
       it 'trueを返す' do
-        expect(code.liked?(like.user_id)).to be_truthy
+        expect(code.liked?(like.user_id)).to eq(true)
       end
     end
 
     context 'likeがない場合' do
       it 'falseを返す' do
-        expect(code.liked?(0)).to be_falsy
+        expect(code.liked?(0)).to eq(false)
       end
     end
   end
@@ -331,13 +376,13 @@ RSpec.describe UserCode, type: :model do
       let(:dislike) { create(:user_code_dislike, user_code_id: code.id) }
 
       it 'trueを返す' do
-        expect(code.disliked?(dislike.user_id)).to be_truthy
+        expect(code.disliked?(dislike.user_id)).to eq(true)
       end
     end
 
     context 'dislikeがない場合' do
       it 'falseを返す' do
-        expect(code.disliked?(0)).to be_falsy
+        expect(code.disliked?(0)).to eq(false)
       end
     end
   end
@@ -359,6 +404,16 @@ RSpec.describe UserCode, type: :model do
         codes = UserCode.histories(code3.id)
         expect(codes).to eq([code3])
       end
+    end
+  end
+
+  describe 'deactivate' do
+    let!(:user_code) { create(:user_code, active: true) }
+
+    it 'activeをfalseにする' do
+      user_code.deactivate
+      user_code.reload
+      expect(user_code.active).to eq(false)
     end
   end
 end

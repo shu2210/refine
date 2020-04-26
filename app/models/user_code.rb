@@ -28,23 +28,27 @@ class UserCode < ApplicationRecord
 
   scope :latest, lambda {
     includes([{ codes: :language }, :tags, :user])
-      .where(status: %i[post closed])
-      .order(created_at: :desc)
-      .limit(10)
-  }
-  # TODO: レビュー機能実装後作成
-  scope :popular, lambda {
-    includes([{ codes: :language }, :tags, :user])
-      .where(status: %i[post closed])
+      .where(status: %i[post closed], active: true)
       .order(created_at: :desc)
       .limit(10)
   }
 
+  scope :popular, lambda {
+    where(
+      id: joins(codes: :reviews)
+        .where(status: %i[post closed], active: true)
+        .group('user_codes.id')
+        .order(
+          Arel.sql('COUNT(*) DESC')
+        )
+        .select('user_codes.id')
+    ).limit(5)
+  }
+
   def self.drafts(user_id)
     where(
-      id: UserCode.where(user_id: user_id)
-                  .group(:code_group_id)
-                  .select('max(id)'),
+      active: true,
+      user_id: user_id,
       status: :draft
     ).order(updated_at: :desc, id: :desc)
   end
@@ -73,10 +77,8 @@ class UserCode < ApplicationRecord
 
   def draft(tag_names)
     transaction do
-      self.status = :draft
-      self.code_group_id = next_group_id
       create_tags(tag_names)
-      save!(context: :draft)
+      create_code(:draft)
       self
     end
   rescue StandardError => e
@@ -86,10 +88,8 @@ class UserCode < ApplicationRecord
 
   def post(tag_names)
     transaction do
-      self.status = :post
-      self.code_group_id = next_group_id
       create_tags(tag_names)
-      save!(context: :post)
+      create_code(:post)
       self
     end
   rescue StandardError => e
@@ -100,9 +100,11 @@ class UserCode < ApplicationRecord
   def update_version(id, tag_names, new_status)
     old_code = self.class.find(id)
     transaction do
+      old_code.deactivate
       self.user = old_code.user
       self.status = new_status
       self.code_group_id = old_code.code_group_id
+      self.active = true
       create_tags(tag_names)
       save!(context: new_status)
       self
@@ -110,6 +112,10 @@ class UserCode < ApplicationRecord
   rescue StandardError => e
     logger.error e
     false
+  end
+
+  def deactivate
+    update!(active: false)
   end
 
   private
@@ -138,5 +144,12 @@ class UserCode < ApplicationRecord
   def next_group_id
     group_id = UserCode.where(user_id: user_id).maximum(:code_group_id)
     group_id.to_i + 1
+  end
+
+  def create_code(status)
+    self.status = status
+    self.code_group_id = next_group_id
+    self.active = true
+    save!(context: status)
   end
 end

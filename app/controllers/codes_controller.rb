@@ -11,6 +11,7 @@ class CodesController < ApplicationController
   def index
     @latest = UserCode.latest
     @popular = UserCode.popular
+    @popular_tags = Tag.popular
   end
 
   def show
