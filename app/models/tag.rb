@@ -8,6 +8,7 @@ class Tag < ApplicationRecord
 
   scope :popular, lambda {
     joins(:user_codes)
+      .where('user_codes.active': true)
       .group('tags.name')
       .select('tags.name', 'COUNT(*) AS count')
       .order(

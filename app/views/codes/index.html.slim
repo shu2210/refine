@@ -55,4 +55,6 @@
               hr
 
     section.uk-margin-large-left.popular-tags.uk-width-2-5
-      popular-tags
+      popular-tags[
+        :tags=@popular_tags.to_json
+      ]

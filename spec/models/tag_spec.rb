@@ -35,11 +35,11 @@ RSpec.describe Tag, type: :model do
       let!(:rust) { create(:tag, name: 'Rust') }
 
       before do
-        create_list(:user_code, 2, tags: [python])
-        create(:user_code, tags: [rails])
-        create(:user_code, tags: [ruby])
-        create(:user_code, tags: [js])
-        create(:user_code, tags: [go])
+        create_list(:user_code, 2, active: true, tags: [python])
+        create(:user_code, active: true, tags: [rails])
+        create(:user_code, active: true, tags: [ruby])
+        create(:user_code, active: true, tags: [js])
+        create(:user_code, active: true, tags: [go])
       end
 
       it '紐づくuser_codeの数が多いタグが5件まで取得できる' do
