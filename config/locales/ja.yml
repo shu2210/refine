@@ -7,6 +7,14 @@ ja:
   register: 会員登録
   saved: 保存に成功しました
   deleted: 削除に成功しました
+  delete: 削除
+  history: 履歴
+  edit: 編集
+  cancel: キャンセル
+
+  messages:
+    confirm_before_delete: 削除すると元に戻せません。<br />よろしいですか？
+
   errors:
     invalid: 入力項目に誤りがあります
   activerecord:
