@@ -13,6 +13,10 @@ ja:
   cancel: キャンセル
   post: 投稿
   draft: 下書き保存
+  new: 新着
+  popular: 人気
+  popular_tag: 人気のタグ
+  popular_code: 人気のコード
 
   messages:
     confirm_before_delete: 削除すると元に戻せません。<br />よろしいですか？
@@ -21,6 +25,7 @@ ja:
       title: 例）Rubyのfizz_buzzプログラムです
       description: 例）Rubyで作ったfizz_buzzのプログラムです。もう少し簡潔で綺麗な書き方があるかと思うのですが、なかなか思いつきません。どうかご教授いただきたいです。
     draft_limit: 下書きは%{maximum}件まで登録できます
+    registration: 会員登録はこちらから
 
   errors:
     invalid: 入力項目に誤りがあります

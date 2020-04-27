@@ -3,7 +3,7 @@
     jumbotron
       .conversion.uk-width-2-5.uk-text-center
         - unless user_signed_in?
-          = link_to '会員登録はこちらから', new_user_registration_path, class: 'uk-button uk-button-primary uk-margin uk-width-1-2'
+          = link_to t('messages.registration'), new_user_registration_path, class: 'uk-button uk-button-primary uk-margin uk-width-1-2'
           .github
             social-login-button[url=user_google_omniauth_authorize_path provider='google' width="1-2" background-color="white"]
           .google
@@ -13,9 +13,9 @@
     section.code-section.uk-width-3-5
       ul.uk-tab[uk-switcher]
         li.uk-active
-          a 新着
+          a = t('new')
         li
-          a 人気
+          a = t('popular')
       ul.uk-switcher.uk-margin
         li.latest
           ul.code-list
@@ -55,7 +55,7 @@
               hr
 
     section.uk-margin-large-left.popular-tags.uk-width-2-5
-      span 人気のタグ
+      span = t('popular_tag')
       ul.tag-list
         - @popular_tags.each do |tag|
           li
@@ -70,7 +70,7 @@
                   = "#{tag.count} post"
             hr.uk-margin-small
 
-      span 人気のコード
+      span = t('popular_code')
       ul.tag-list
         - @popular.each do |code|
           li
