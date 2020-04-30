@@ -18,6 +18,7 @@ ja:
   popular: 人気
   popular_tag: 人気のタグ
   popular_code: 人気のコード
+  search: 検索
 
   messages:
     confirm_before_delete: 削除すると元に戻せません。<br />よろしいですか？
