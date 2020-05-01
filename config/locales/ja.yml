@@ -1,6 +1,7 @@
 ja:
   title: Refine
   login: ログイン
+  logout: ログアウト
   email: メールアドレス
   password: パスワード
   password_confirmation: パスワード（確認用）
@@ -19,6 +20,10 @@ ja:
   popular_tag: 人気のタグ
   popular_code: 人気のコード
   search: 検索
+  profile: プロフィール
+  posted_codes: 投稿一覧
+  drafts: 下書き一覧
+  post_code: コードを投稿する
 
   messages:
     confirm_before_delete: 削除すると元に戻せません。<br />よろしいですか？
