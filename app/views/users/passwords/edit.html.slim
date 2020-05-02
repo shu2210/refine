@@ -2,7 +2,8 @@
   .uk-margin.uk-width-large.uk-margin-auto.uk-card.uk-card-default.uk-card-body.uk-box-shadow-large
     = display_flash_messages(resource)
 
-    h3.uk-card-title.uk-text-center パスワード変更
+    h3.uk-card-title.uk-text-center
+      = t('change_password')
     = form_for resource, as: resource_name, url: password_path(resource_name), html: { method: :put }, builder: RefineFormBuilder do |f|
       = f.hidden_field :reset_password_token
       = f.password_field_with_icon :password, class: 'uk-input', autocomplete: 'current-password', placeholder: t('password')
@@ -11,6 +12,6 @@
       - if @minimum_password_length
         span.uk-margin.uk-text-meta = t('password_notification', minimum_password_length: @minimum_password_length)
 
-      = f.submit 'パスワードを変更する', class: 'uk-button uk-button-default uk-width-1-1'
+      = f.submit t('change_password'), class: 'uk-button uk-button-default uk-width-1-1'
 
     = render 'users/shared/links'

@@ -25,6 +25,7 @@ ja:
   drafts: 下書き一覧
   post_code: コードを投稿する
   resend_confirmation: 認証メール再送信
+  change_password: パスワード変更
 
   messages:
     confirm_before_delete: 削除すると元に戻せません。<br />よろしいですか？
