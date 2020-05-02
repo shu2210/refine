@@ -27,6 +27,7 @@ ja:
   drafts: 下書き一覧
   post_code: コードを投稿する
   resend_confirmation: 認証メール再送信
+  resend_unlock: ロック解除メール再送信
   password:
     change: パスワード変更
     reset: パスワード再設定
@@ -50,6 +51,9 @@ ja:
     draft_limit: 下書きは%{maximum}件まで登録できます
     registration: 会員登録はこちらから
     confirming_email: 現在メールアドレスの確認中です
+    forgot_password: パスワードをお忘れですか？
+    not_receive_confirmation: 認証メールが届いていませんか？
+    not_receive_unlock: ロック解除メールが届いていませんか？
 
   errors:
     invalid: 入力項目に誤りがあります
