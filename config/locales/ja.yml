@@ -31,6 +31,11 @@ ja:
     reset: パスワード再設定
     send_reset_mail: パスワードリセットメール送信
   new_email: 新しいメールアドレス
+  tag:
+    following: フォロー中のタグ
+  edit_profile: プロフィールを編集する
+  good: いいね
+  review: レビュー
 
   messages:
     confirm_before_delete: 削除すると元に戻せません。<br />よろしいですか？
