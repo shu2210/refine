@@ -3,11 +3,11 @@
 
     - if @user.pending_reconfirmation?
       .uk-alert-primary.uk-margin[uk-alert]
-        | 現在メールアドレスの確認中です
+        = t('messages.confirming_email')
 
     .new-email
-      = f.label '新しいメールアドレス', for: :user_email
+      = f.label t('new_email'), for: :user_email
       = f.email_field_with_icon :email, class: 'uk-input'
 
     .uk-submit.uk-text-center.uk-margin
-      = f.submit '保存', class: 'uk-button uk-button-primary'
+      = f.submit t('save'), class: 'uk-button uk-button-primary'

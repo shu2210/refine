@@ -7,6 +7,7 @@ ja:
   password_confirmation: パスワード（確認用）
   password_notification: パスワードは%{minimum_password_length}文字以上にしてください
   register: 会員登録
+  save: 保存
   saved: 保存に成功しました
   deleted: 削除に成功しました
   delete: 削除
@@ -29,6 +30,7 @@ ja:
     change: パスワード変更
     reset: パスワード再設定
     send_reset_mail: パスワードリセットメール送信
+  new_email: 新しいメールアドレス
 
   messages:
     confirm_before_delete: 削除すると元に戻せません。<br />よろしいですか？
@@ -38,6 +40,7 @@ ja:
       description: 例）Rubyで作ったfizz_buzzのプログラムです。もう少し簡潔で綺麗な書き方があるかと思うのですが、なかなか思いつきません。どうかご教授いただきたいです。
     draft_limit: 下書きは%{maximum}件まで登録できます
     registration: 会員登録はこちらから
+    confirming_email: 現在メールアドレスの確認中です
 
   errors:
     invalid: 入力項目に誤りがあります
