@@ -2,9 +2,10 @@
   .uk-margin.uk-width-large.uk-margin-auto.uk-card.uk-card-default.uk-card-body.uk-box-shadow-large
     = display_flash_messages(resource)
 
-    h3.uk-card-title.uk-text-center 認証メール再送信
+    h3.uk-card-title.uk-text-center
+      = t('resend_confirmation')
     = form_for resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }, builder: RefineFormBuilder do |f|
-      = f.email_field_with_icon :email, class: 'uk-input', autofocus: true, placeholder: 'メールアドレス', autocomplete: 'email', value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)
+      = f.email_field_with_icon :email, class: 'uk-input', autofocus: true, placeholder: t('email'), autocomplete: 'email', value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)
 
-      = f.submit '認証メール再送信', class: 'uk-button uk-button-default uk-width-1-1'
+      = f.submit t('resend_confirmation'), class: 'uk-button uk-margin uk-button-default uk-width-1-1'
     = render 'users/shared/links'
