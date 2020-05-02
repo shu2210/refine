@@ -17,6 +17,7 @@ ja:
   post: 投稿
   draft: 下書き保存
   new: 新着
+  update: 更新
   popular: 人気
   popular_tag: 人気のタグ
   popular_code: 人気のコード
@@ -36,8 +37,11 @@ ja:
   edit_profile: プロフィールを編集する
   good: いいね
   review: レビュー
+  cancel_account: 退会
+  back: 戻る
 
   messages:
+    confirm: 本当によろしいですか？
     confirm_before_delete: 削除すると元に戻せません。<br />よろしいですか？
     confirm_before_post: この内容で投稿します。<br />よろしいですか？
     examples:

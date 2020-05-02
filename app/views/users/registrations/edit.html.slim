@@ -33,10 +33,10 @@ h2
     br
     = f.password_field :current_password, autocomplete: 'current-password'
   .actions
-    = f.submit '更新'
+    = f.submit t('update')
 h3
   | Cancel my account
 p
   | Unhappy?
-  = button_to '退会する', registration_path(resource_name), data: { confirm: '本当によろしいですか?' }, method: :delete
-= link_to '戻る', :back
+  = button_to t('cancel_account'), registration_path(resource_name), data: { confirm: t('confirm') }, method: :delete
+= link_to t('back'), :back
