@@ -2,14 +2,14 @@ nav.uk-light#nav-bar[uk-navbar]
   .uk-navbar-left.uk-margin-left
     ul.uk-navbar-nav
       li.uk-active
-        = link_to 'Refine', root_path
+        = link_to t('title'), root_path
 
   .uk-navbar-right.uk-margin-right
     .search-form.uk-hidden-touch
       a.uk-navbar-toggle[uk-search-icon]
       .uk-drop[uk-drop="mode: click; pos: left-center; offset: 0"]
         form.uk-search.uk-search-navbar.uk-width-1-1
-          = search_field_tag :search, '', autofocus: true, class: 'uk-search-input', placeholder: 'Search...'
+          = search_field_tag :search, '', autofocus: true, class: 'uk-search-input', placeholder: t('search')
 
     .uk-navbar-nav
       .uk-navbar-item
@@ -19,5 +19,5 @@ nav.uk-light#nav-bar[uk-navbar]
           = render partial: 'shared/side_nav'
 
         - else
-          = link_to '会員登録', new_user_registration_path, class: 'uk-button uk-button-primary uk-button-small'
-          = link_to 'ログイン', new_user_session_path, class: 'uk-button uk-button-default uk-button-small uk-margin-left'
+          = link_to t('register'), new_user_registration_path, class: 'uk-button uk-button-primary uk-button-small'
+          = link_to t('login'), new_user_session_path, class: 'uk-button uk-button-default uk-button-small uk-margin-left'

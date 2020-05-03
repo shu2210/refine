@@ -5,12 +5,12 @@
     .title.uk-margin
       = f.label :title, class: 'uk-text-small uk-margin-small-right'
       required-badge
-      = f.text_field :title, class: 'uk-input', placeholder: '例）Rubyのfizz_buzzプログラムです'
+      = f.text_field :title, class: 'uk-input', placeholder: t('messages.examples.title')
 
     .description.uk-margin
       = f.label :description, class: 'uk-text-small uk-margin-small-right'
       required-badge
-      = f.text_area :description, class: 'uk-textarea', rows: 5, placeholder: '例）Rubyで作ったfizz_buzzのプログラムです。もう少し簡潔で綺麗な書き方があるかと思うのですが、なかなか思いつきません。どうかご教授いただきたいです。'
+      = f.text_area :description, class: 'uk-textarea', rows: 5, placeholder: t('messages.examples.description')
 
     tag-input[
       :autocomplete-tags=tag_hash(@tags).to_json
@@ -27,18 +27,20 @@
     .uk-alert-warning[uk-alert]
       a.uk-alert-close[uk-close]
       p
-        = "下書きは#{UserCode::DRAFT_LIMIT}件まで登録できます"
+        = t('messages.draft_limit', maximum: UserCode::DRAFT_LIMIT)
 
     .submit-btn.uk-text-center.uk-margin
-      a.uk-button.uk-button-primary[href="#confirm" uk-toggle] 投稿
-      button.uk-button.uk-button-default.uk-margin-left[formaction=codes_drafts_path] 下書き保存
+      a.uk-button.uk-button-primary[href="#confirm" uk-toggle]
+        = t('post')
+      button.uk-button.uk-button-default.uk-margin-left[formaction=codes_drafts_path]
+        = t('draft')
 
 #modal
   modal[id="confirm"]
     p.uk-text-center
-      | この内容を投稿します。
-      br
-      | よろしいですか？
+      = t('messages.confirm_before_post').html_safe
     .uk-text-center
-      button.uk-button.uk-button-primary.uk-button-small[type="submit" form="code-form"] 投稿
-      button.uk-button.uk-button-default.uk-margin-left.uk-button-small.uk-modal-close[type="submit"] キャンセル
+      button.uk-button.uk-button-primary.uk-button-small[type="submit" form="code-form"]
+        = t('post')
+      button.uk-button.uk-button-default.uk-margin-left.uk-button-small.uk-modal-close[type="submit"]
+        = t('cancel')

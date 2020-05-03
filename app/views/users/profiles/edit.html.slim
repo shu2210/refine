@@ -4,12 +4,12 @@
 
     ul.uk-tab-right.uk-width-1-4.uk-inline-block.vertical-top[uk-tab uk-switcher]
       li.uk-active
-        = link_to 'プロフィール', '#'
+        = link_to t('profile'), '#'
       li
-        = link_to 'メールアドレス', '#'
+        = link_to t('email'), '#'
       - unless @user.sns_registration?
         li
-          = link_to 'パスワード', '#'
+          = link_to t('password'), '#'
 
     ul.uk-switcher.uk-width-3-4.uk-inline-block
       li

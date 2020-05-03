@@ -10,7 +10,7 @@
         p
           = @user.description
       .following-tags.uk-margin
-        span フォロー中のタグ
+        span = t('tag.following')
         .tags.uk-margin-small-top
           tag[label="Rails"]
           tag[label="Ruby"]
@@ -20,7 +20,7 @@
           tag[label="Rust"]
 
       .edit-profile
-        = link_to 'プロフィールを編集する', edit_users_profile_path
+        = link_to t('edit_profile'), edit_users_profile_path
 
     .activity.uk-width-3-4
       .graph.uk-text-center.uk-margin.uk-margin-top
@@ -28,11 +28,11 @@
       .tabs
         ul.uk-child-width-expand[uk-tab uk-switcher]
           li.uk-active
-            a 投稿
+            a = t('post')
           li
-            a いいね
+            a = t('good')
           li
-            a レビュー
+            a = t('review')
 
         ul.uk-switcher.uk-margin
           li.posted

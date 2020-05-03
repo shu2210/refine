@@ -13,8 +13,8 @@
       - @histories.each do |history|
         li
           .edit-buttons.uk-margin.uk-text-right
-            = link_to '編集', edit_code_path(id: history.id), class: 'uk-button uk-button-default uk-margin-right'
-            a.uk-button.uk-button-danger[href="#confirm#{history.id}" uk-toggle] 削除
+            = link_to t('edit'), edit_code_path(id: history.id), class: 'uk-button uk-button-default uk-margin-right'
+            a.uk-button.uk-button-danger[href="#confirm#{history.id}" uk-toggle] = t('delete')
 
           article.uk-article
             .heading.uk-background-muted.uk-padding-small
@@ -40,9 +40,8 @@
           #modal
             modal[id="confirm#{history.id}"]
               p.uk-text-center
-                | 削除すると元に戻せません。
-                br
-                | よろしいですか？
+                = t('messages.confirm_before_delete').html_safe
               .uk-text-center
-                = link_to '削除', codes_draft_path(history.id), class: 'uk-button uk-button-primary uk-button-small', method: :delete
-                button.uk-button.uk-button-default.uk-margin-left.uk-button-small.uk-modal-close[type="submit"] キャンセル
+                = link_to t('delete'), codes_draft_path(history.id), class: 'uk-button uk-button-primary uk-button-small', method: :delete
+                button.uk-button.uk-button-default.uk-margin-left.uk-button-small.uk-modal-close[type="submit"]
+                  = t('cancel')

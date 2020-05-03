@@ -5,7 +5,7 @@ h2
   .field
     = f.label :email
     br
-    = f.email_field :email, autofocus: true, autocomplete: 'メールアドレス'
+    = f.email_field :email, autofocus: true, autocomplete: t('email')
   .actions
-    = f.submit 'ロック解除メール再送信'
+    = f.submit t('resend_unlock')
 = render 'users/shared/links'
