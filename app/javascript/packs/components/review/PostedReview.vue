@@ -20,8 +20,9 @@
           </div>
           <div class="uk-width-expand">
             <div class="control-area uk-width-1-1 uk-text-right uk-margin" v-if="canEdit">
-              <a class="uk-margin-small-right" uk-icon="pencil" @click="switchEditMode"></a>
-              <a :href="'#confirm' + id" class="uk-margin-small-right" uk-icon="trash" uk-toggle></a>
+              <a class="uk-margin-small-right uk-icon-button" uk-icon="check"></a>
+              <a class="uk-margin-small-right uk-icon-button" uk-icon="pencil" @click="switchEditMode"></a>
+              <a :href="`#confirm${id}`" class="uk-margin-small-right uk-icon-button" uk-icon="trash" uk-toggle></a>
             </div>
             <div class="review-info uk-width-1-1">
               <div class="description">
