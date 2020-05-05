@@ -25,6 +25,9 @@ Rails.application.routes.draw do
     resources :profiles
     resources :change_passwords
   end
+  namespace :reviews do
+    resources :resolutions
+  end
   resources :reviews
   namespace :comments do
     resources :resolutions
