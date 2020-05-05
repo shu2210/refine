@@ -26,5 +26,8 @@ Rails.application.routes.draw do
     resources :change_passwords
   end
   resources :reviews
+  namespace :comments do
+    resources :resolutions
+  end
   resources :comments
 end
