@@ -10,7 +10,7 @@ RSpec.describe ReviewsController, type: :controller do
 
   describe 'GET #show' do
     subject { get :show, params: { id: 1 } }
-    let!(:code) { create(:code) }
+    let(:code) { create(:code) }
     let!(:review) { create(:review, code_id: code.id) }
 
     it { is_expected.to have_http_status(:success) }
@@ -76,7 +76,7 @@ RSpec.describe ReviewsController, type: :controller do
     context 'ログインしている場合' do
       include_context :login
 
-      let!(:review) { create(:review, user: reviewer) }
+      let(:review) { create(:review, user: reviewer) }
 
       context 'ログインしているユーザー == コードの作成者' do
         let(:reviewer) { user }
