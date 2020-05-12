@@ -14,7 +14,7 @@ describe ApplicationHelper, type: :helper do
     end
 
     context 'flash_columnにエラーがある場合' do
-      let!(:error_message) { Faker::Lorem.characters }
+      let(:error_message) { Faker::Lorem.characters }
 
       it 'flash_columnのエラーが出力される' do
         user.errors.add(:reset_password_token, error_message)
@@ -25,7 +25,7 @@ describe ApplicationHelper, type: :helper do
 
     context 'flash_columnにエラーが無い場合' do
       context 'フラッシュメッセージがある場合' do
-        let!(:error_message) { Faker::Lorem.characters }
+        let(:error_message) { Faker::Lorem.characters }
 
         it 'フラッシュメッセージが出力される' do
           flash[:alert] = error_message
