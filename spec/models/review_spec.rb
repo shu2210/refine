@@ -26,8 +26,8 @@ RSpec.describe Review, type: :model do
   end
 
   describe 'array_with' do
-    let!(:comment) { build(:comment) }
-    let!(:review) { create(:review, comments: [comment]) }
+    let(:comment) { build(:comment) }
+    let(:review) { create(:review, comments: [comment]) }
 
     context 'commentsを渡した場合' do
       it 'commentを含めた配列を返す' do
