@@ -263,8 +263,8 @@ RSpec.describe UserCode, type: :model do
     let(:tags) { %i[tag1 tag2] }
 
     context '成功した場合' do
-      let(:old_code) { create(:user_code, active: true, user: user) }
-      let(:user_code) { build(:user_code, title: :test, description: :test, user: user) }
+      let!(:old_code) { create(:user_code, active: true, user: user) }
+      let!(:user_code) { build(:user_code, title: :test, description: :test, user: user) }
 
       it 'レコードが追加される' do
         expect do
