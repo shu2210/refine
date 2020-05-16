@@ -8,7 +8,7 @@ class Reviews::ResolutionsController < ApplicationController
     if current_user != review.user
       render json: { status: :error }
     else
-      review.update!(resolved: true)
+      review.update!(resolved: params[:resolve])
       render json: { status: :success, review: review }
     end
   rescue StandardError => e
