@@ -20,7 +20,7 @@
           </div>
           <div class="uk-width-expand">
             <div class="control-area uk-width-1-1 uk-text-right uk-margin" v-if="canEdit">
-              <a class="uk-margin-small-right uk-icon-button" uk-icon="check" uk-tooltip="解決済みにする"></a>
+              <a class="uk-margin-small-right uk-icon-button" :class="{ resolved: resolved }" uk-icon="check" @click="markAsResolved" :uk-tooltip="resolveToolTip"></a>
               <a class="uk-margin-small-right uk-icon-button" uk-icon="pencil" @click="switchEditMode"></a>
               <a :href="`#confirm${id}`" class="uk-margin-small-right uk-icon-button" uk-icon="trash" uk-toggle></a>
             </div>
@@ -75,6 +75,10 @@ export default {
     },
     createdAt: {
       type: Date
+    },
+    resolved: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -94,6 +98,13 @@ export default {
   computed: {
     markedReview() {
       return marked(this.review);
+    },
+    resolveToolTip() {
+      if (this.resolved) {
+        return '未解決にする';
+      }
+
+      return '解決済みにする';
     }
   },
   methods: {
@@ -129,6 +140,14 @@ export default {
       }, (error) => {
         console.log(error);
       });
+    },
+    markAsResolved() {
+      axios.put(`/reviews/resolutions/${this.id}`, { resolve: !this.resolved }).then((response) => {
+        this.resolved = !this.resolved;
+        console.log(response.status);
+      }, (error) => {
+        console.log(error);
+      });
     }
   },
   components: {
@@ -145,5 +164,9 @@ export default {
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
+}
+.resolved {
+  color: #fff;
+  background-color: #32d296 !important
 }
 </style>
