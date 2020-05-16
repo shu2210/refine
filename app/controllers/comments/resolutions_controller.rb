@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Comments::ResolutionsController < ApplicationController
+  protect_from_forgery except: %i[update]
   before_action :authenticate_user!
 
   def update

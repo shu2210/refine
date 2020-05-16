@@ -165,7 +165,8 @@ export default {
               userName: comment['user']['name'],
               userIcon: comment['user']['icon_url'],
               canEdit: (comment['user_id'] == vm.currentUserId),
-              createdAt: vm.parseDate(comment['created_at'])
+              createdAt: vm.parseDate(comment['created_at']),
+              resolved: comment['resolved']
             }
           });
           instance.$mount();
