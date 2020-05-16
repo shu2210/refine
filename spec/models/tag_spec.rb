@@ -27,12 +27,12 @@ RSpec.describe Tag, type: :model do
 
   describe 'scope' do
     describe 'popular' do
-      let!(:rails) { create(:tag, name: 'Rails') }
-      let!(:ruby) { create(:tag, name: 'Ruby') }
-      let!(:python) { create(:tag, name: 'Python') }
-      let!(:js) { create(:tag, name: 'js') }
-      let!(:go) { create(:tag, name: 'Go') }
-      let!(:rust) { create(:tag, name: 'Rust') }
+      let(:rails) { create(:tag, name: 'Rails') }
+      let(:ruby) { create(:tag, name: 'Ruby') }
+      let(:python) { create(:tag, name: 'Python') }
+      let(:js) { create(:tag, name: 'js') }
+      let(:go) { create(:tag, name: 'Go') }
+      let(:rust) { create(:tag, name: 'Rust') }
 
       before do
         create_list(:user_code, 2, active: true, tags: [python])
