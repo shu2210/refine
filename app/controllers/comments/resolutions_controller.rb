@@ -8,7 +8,7 @@ class Comments::ResolutionsController < ApplicationController
     if current_user != comment.user
       render json: { status: :error }
     else
-      comment.update!(resolved: true)
+      comment.update!(resolved: params[:resolve])
       render json: { status: :success, comment: comment }
     end
   rescue StandardError => e

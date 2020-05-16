@@ -19,10 +19,20 @@ RSpec.describe Comments::ResolutionsController, type: :controller do
       context '成功した場合' do
         let(:comment) { create(:comment, user: user) }
 
-        it 'commentのresolvedをtrueにする' do
-          put :update, params: { id: comment.id }
-          comment.reload
-          expect(comment.resolved).to eq(true)
+        context 'resolveにtrueを渡した場合' do
+          it 'reviewのresolvedをtrueにする' do
+            put :update, params: { id: comment.id, resolve: true }
+            comment.reload
+            expect(comment.resolved).to eq(true)
+          end
+        end
+
+        context 'resolveにfalseを渡した場合' do
+          it 'reviewのresolvedをfalseにする' do
+            put :update, params: { id: comment.id, resolve: false }
+            comment.reload
+            expect(comment.resolved).to eq(false)
+          end
         end
 
         it 'successが返る' do
@@ -42,9 +52,20 @@ RSpec.describe Comments::ResolutionsController, type: :controller do
       end
 
       context '失敗した場合' do
-        it 'errorが返る' do
-          put :update, params: { id: 1 }
-          expect(response).to be_json_error
+        context '存在しないidを渡した場合' do
+          it 'エラーになる' do
+            put :update, params: { id: 1 }
+            expect(response).to be_json_error
+          end
+        end
+
+        context 'resolveにtrue, false以外を渡した場合' do
+          let(:comment) { create(:comment) }
+
+          it 'エラーになる' do
+            put :update, params: { id: comment.id, resolve: 'test' }
+            expect(response).to be_json_error
+          end
         end
       end
     end
