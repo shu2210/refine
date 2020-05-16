@@ -28,8 +28,8 @@ RSpec.describe UserCode, type: :model do
   end
 
   describe 'self.review_count' do
-    let!(:code1) { create(:code, reviews: [build(:review), build(:review)]) }
-    let!(:code2) { create(:code, reviews: [build(:review)]) }
+    let(:code1) { create(:code, reviews: [build(:review), build(:review)]) }
+    let(:code2) { create(:code, reviews: [build(:review)]) }
 
     it 'reviewの数の合計を返す' do
       count = Code.where(id: [code1.id, code2.id]).review_count

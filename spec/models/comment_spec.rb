@@ -18,9 +18,9 @@ RSpec.describe Comment, type: :model do
   end
 
   describe 'self.array_with' do
-    let!(:user) { build(:user) }
-    let!(:comment1) { create(:comment, user: user) }
-    let!(:comment2) { create(:comment, user: user) }
+    let(:user) { build(:user) }
+    let(:comment1) { create(:comment, user: user) }
+    let(:comment2) { create(:comment, user: user) }
 
     context 'userを渡した場合' do
       it 'userを含むarrayが返る' do
@@ -34,12 +34,12 @@ RSpec.describe Comment, type: :model do
   end
 
   describe 'hash_with' do
-    let!(:user) { build(:user) }
-    let!(:comment) { create(:comment, user: user) }
+    let(:user) { build(:user) }
+    let(:comment) { create(:comment, user: user) }
 
     context 'userを渡した場合' do
-      let!(:user) { build(:user) }
-      let!(:comment) { build(:comment, user: user) }
+      let(:user) { build(:user) }
+      let(:comment) { build(:comment, user: user) }
 
       it 'userを含むhashを返す' do
         hash = comment.hash_with(:user)
@@ -49,8 +49,8 @@ RSpec.describe Comment, type: :model do
     end
 
     context 'reviewを渡した場合' do
-      let!(:review) { build(:review) }
-      let!(:comment) { build(:comment, review: review) }
+      let(:review) { build(:review) }
+      let(:comment) { build(:comment, review: review) }
 
       it 'reviewを含むhashを返す' do
         hash = comment.hash_with(:review)
@@ -60,8 +60,8 @@ RSpec.describe Comment, type: :model do
     end
 
     context '引数に文字列を渡した場合' do
-      let!(:review) { build(:review) }
-      let!(:comment) { build(:comment, review: review) }
+      let(:review) { build(:review) }
+      let(:comment) { build(:comment, review: review) }
 
       it '引数に渡したモデルを含むhashを返す' do
         hash = comment.hash_with('review')
@@ -71,7 +71,7 @@ RSpec.describe Comment, type: :model do
     end
 
     context 'アソシエーションがないモデルを引数に渡した場合' do
-      let!(:comment) { build(:comment) }
+      let(:comment) { build(:comment) }
 
       it 'エラーになる' do
         expect { comment.hash_with(:test) }.to raise_error(StandardError)

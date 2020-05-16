@@ -86,7 +86,7 @@ RSpec.describe User, type: :model do
   describe 'posted_codes' do
     context 'ユーザーに投稿したコードがある場合' do
       let!(:code) { create(:user_code, user_id: post_user.id) }
-      let!(:post_user) { create(:user) }
+      let(:post_user) { create(:user) }
 
       it 'ユーザーが投稿したコードを10件取得する' do
         codes = post_user.posted_codes
@@ -103,8 +103,8 @@ RSpec.describe User, type: :model do
   end
 
   describe 'liked_codes' do
-    let!(:code) { create(:user_code, user_id: post_user.id) }
-    let!(:post_user) { create(:user) }
+    let(:code) { create(:user_code, user_id: post_user.id) }
+    let(:post_user) { create(:user) }
 
     context 'いいねしたコードがあった場合' do
       let!(:code_like) { create(:user_code_like, user_code_id: code.id, user_id: post_user.id) }
@@ -124,8 +124,8 @@ RSpec.describe User, type: :model do
   end
 
   describe 'reviewed_codes' do
-    let!(:code) { create(:code) }
-    let!(:post_user) { create(:user) }
+    let(:code) { create(:code) }
+    let(:post_user) { create(:user) }
 
     context 'レビューしたコードがあった場合' do
       let!(:review) { create(:review, code_id: code.id, user_id: post_user.id) }

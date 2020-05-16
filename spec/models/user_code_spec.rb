@@ -12,7 +12,7 @@ RSpec.describe UserCode, type: :model do
 
   describe 'scope' do
     describe 'latest' do
-      let!(:old) { create(:user_code, active: true, created_at: Time.now) }
+      let(:old) { create(:user_code, active: true, created_at: Time.now) }
 
       before do
         create_list(:user_code, 10, active: true, created_at: Time.now + 1.second)
@@ -25,7 +25,7 @@ RSpec.describe UserCode, type: :model do
     end
 
     describe 'popular' do
-      let!(:latest) { create(:user_code, created_at: Time.now + 1.second) }
+      let(:latest) { create(:user_code, created_at: Time.now + 1.second) }
 
       before do
         code_with_review = create(:code, reviews: [build(:review)])
@@ -75,12 +75,12 @@ RSpec.describe UserCode, type: :model do
   end
 
   describe 'draft' do
-    let!(:user) { build(:user) }
-    let!(:tags) { %i[tag1 tag2] }
-    let!(:code) { build(:code) }
+    let(:user) { build(:user) }
+    let(:tags) { %i[tag1 tag2] }
+    let(:code) { build(:code) }
 
     context '全て指定した場合' do
-      let!(:user_code) { build(:user_code, title: :test, description: :test, codes: [code], user: user) }
+      let(:user_code) { build(:user_code, title: :test, description: :test, codes: [code], user: user) }
 
       it '下書き保存ができること' do
         expect { user_code.draft(tags) }.to change(UserCode, :count).by(1)
@@ -105,7 +105,7 @@ RSpec.describe UserCode, type: :model do
     end
 
     context 'タグだけ指定しない場合' do
-      let!(:user_code) { build(:user_code, title: :test, description: :test, codes: [code], user: user) }
+      let(:user_code) { build(:user_code, title: :test, description: :test, codes: [code], user: user) }
 
       it 'タグなしで下書き保存される' do
         expect { user_code.draft([]) }.to change(UserCode, :count).by(1).and change(Code, :count).by(1)
@@ -117,8 +117,8 @@ RSpec.describe UserCode, type: :model do
     end
 
     context 'コードだけ指定しない場合' do
-      let!(:user_code) { build(:user_code, title: :test, description: :test, user: user) }
-      let!(:user_code) { build(:user_code, title: :test, description: :test, user: user) }
+      let(:user_code) { build(:user_code, title: :test, description: :test, user: user) }
+      let(:user_code) { build(:user_code, title: :test, description: :test, user: user) }
 
       it 'コードなしで下書き保存される' do
         expect { user_code.draft(tags) }.to change(UserCode, :count).by(1).and change(Tag, :count).by(2)
@@ -130,7 +130,7 @@ RSpec.describe UserCode, type: :model do
     end
 
     context 'コード・タグを指定しない場合' do
-      let!(:user_code) { build(:user_code, title: :test, description: :test, user: user) }
+      let(:user_code) { build(:user_code, title: :test, description: :test, user: user) }
 
       it '下書きが保存される' do
         expect { user_code.draft([]) }.to change(UserCode, :count).by(1)
@@ -142,7 +142,7 @@ RSpec.describe UserCode, type: :model do
     end
 
     context 'titleがない場合' do
-      let!(:user_code) { build(:user_code, title: nil, user: user) }
+      let(:user_code) { build(:user_code, title: nil, user: user) }
 
       it 'レコードは保存されない' do
         expect { user_code.draft(tags) }.not_to change(UserCode, :count)
@@ -156,7 +156,7 @@ RSpec.describe UserCode, type: :model do
     end
 
     context 'descriptionがない場合' do
-      let!(:user_code) { build(:user_code, description: nil, user: user) }
+      let(:user_code) { build(:user_code, description: nil, user: user) }
 
       it 'レコードは保存されない' do
         expect { user_code.draft(tags) }.not_to change(UserCode, :count)
@@ -170,8 +170,8 @@ RSpec.describe UserCode, type: :model do
     end
 
     context '下書きの数が上限に達している場合' do
-      let!(:limit) { 15 }
-      let!(:user_code) { build(:user_code, user_id: user.id) }
+      let(:limit) { 15 }
+      let(:user_code) { build(:user_code, user_id: user.id) }
 
       before do
         drafts = build_list(:user_code, limit, status: :draft)
@@ -189,8 +189,8 @@ RSpec.describe UserCode, type: :model do
   end
 
   describe 'drafts' do
-    let!(:user) { create(:user) }
-    let!(:old_code) { create(:user_code, status: :draft, code_group_id: 1, active: false, user: user) }
+    let(:user) { create(:user) }
+    let(:old_code) { create(:user_code, status: :draft, code_group_id: 1, active: false, user: user) }
     let!(:user_code) { create(:user_code, status: :draft, code_group_id: 1, active: true, user: user) }
 
     it '最新のバージョンの下書きを取得する' do
@@ -200,11 +200,11 @@ RSpec.describe UserCode, type: :model do
   end
 
   describe 'post' do
-    let!(:user) { create(:user) }
-    let!(:tags) { %i[tag1 tag2] }
+    let(:user) { create(:user) }
+    let(:tags) { %i[tag1 tag2] }
 
     context '成功した場合' do
-      let!(:code) { build(:user_code, title: :test, description: :test, user: user) }
+      let(:code) { build(:user_code, title: :test, description: :test, user: user) }
 
       it 'レコードが追加される' do
         expect { code.post(tags) }.to change(UserCode, :count).by(1)
@@ -244,7 +244,7 @@ RSpec.describe UserCode, type: :model do
     end
 
     context '失敗した場合' do
-      let!(:code) { build(:user_code, title: :test, description: nil, user: user) }
+      let(:code) { build(:user_code, title: :test, description: nil, user: user) }
 
       it 'レコードは保存されない' do
         expect { code.post(tags) }.not_to change(UserCode, :count)
@@ -259,8 +259,8 @@ RSpec.describe UserCode, type: :model do
   end
 
   describe 'update_version' do
-    let!(:user) { build(:user) }
-    let!(:tags) { %i[tag1 tag2] }
+    let(:user) { build(:user) }
+    let(:tags) { %i[tag1 tag2] }
 
     context '成功した場合' do
       let!(:old_code) { create(:user_code, active: true, user: user) }
@@ -388,9 +388,9 @@ RSpec.describe UserCode, type: :model do
   end
 
   describe 'histories' do
-    let!(:code1) { create(:user_code, code_group_id: 1) }
-    let!(:code2) { create(:user_code, code_group_id: 1) }
-    let!(:code3) { create(:user_code, code_group_id: 2) }
+    let(:code1) { create(:user_code, code_group_id: 1) }
+    let(:code2) { create(:user_code, code_group_id: 1) }
+    let(:code3) { create(:user_code, code_group_id: 2) }
 
     context 'code1のidを渡した場合' do
       it 'code1, code2を取得する' do
@@ -408,7 +408,7 @@ RSpec.describe UserCode, type: :model do
   end
 
   describe 'deactivate' do
-    let!(:user_code) { create(:user_code, active: true) }
+    let(:user_code) { create(:user_code, active: true) }
 
     it 'activeをfalseにする' do
       user_code.deactivate

@@ -35,7 +35,7 @@ RSpec.describe Codes::DraftsController, type: :controller do
       before { sign_in_user }
 
       context '成功した場合' do
-        let!(:params) { { user_code: { title: 'test', description: 'test' }, code: [{ language_id: language.id, code: 'test' }] } }
+        let(:params) { { user_code: { title: 'test', description: 'test' }, code: [{ language_id: language.id, code: 'test' }] } }
 
         it 'user_codeが作成されること' do
           expect { post :create, params: params }.to change(UserCode, :count).by(1)
@@ -52,7 +52,7 @@ RSpec.describe Codes::DraftsController, type: :controller do
       end
 
       context '失敗した場合' do
-        let!(:params) { { user_code: { title: '', description: 'test' }, code: [{ language_id: language.id, code: 'test' }] } }
+        let(:params) { { user_code: { title: '', description: 'test' }, code: [{ language_id: language.id, code: 'test' }] } }
 
         it 'レコードは作成されない' do
           expect { post :create, params: params }.not_to change(UserCode, :count)
@@ -75,7 +75,7 @@ RSpec.describe Codes::DraftsController, type: :controller do
     end
 
     context 'ログインしている場合' do
-      let!(:user) { create(:user) }
+      let(:user) { create(:user) }
 
       before { sign_in user }
 
@@ -90,11 +90,11 @@ RSpec.describe Codes::DraftsController, type: :controller do
       end
 
       context 'current_user == 作成者' do
-        let!(:language) { Language.first }
+        let(:language) { Language.first }
 
         context 'エラーがある場合' do
           let!(:user_code) { create(:user_code, title: '', user: user) }
-          let!(:params) do
+          let(:params) do
             {
               id: user_code.id,
               user_code: {
@@ -118,7 +118,7 @@ RSpec.describe Codes::DraftsController, type: :controller do
 
         context '正常の場合' do
           let!(:user_code) { create(:user_code, user: user) }
-          let!(:params) do
+          let(:params) do
             {
               id: user_code.id,
               user_code: {
@@ -152,12 +152,12 @@ RSpec.describe Codes::DraftsController, type: :controller do
     end
 
     context 'ログインしている場合' do
-      let!(:user) { create(:user) }
+      let(:user) { create(:user) }
 
       before { sign_in user }
 
       context 'curret_user != 作成者' do
-        let!(:coder) { build(:user) }
+        let(:coder) { build(:user) }
         let!(:user_code) { create(:user_code, user: coder) }
 
         it 'レコードは削除されない' do

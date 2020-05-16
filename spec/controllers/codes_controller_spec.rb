@@ -41,8 +41,7 @@ RSpec.describe CodesController, type: :controller do
     before { sign_in_user }
 
     context '正常な場合' do
-      let!(:language) { Language.first }
-      let!(:params) { { user_code: { title: 'test', description: 'test' }, code: [{ language_id: language.id, code: 'test' }], tags: %w[Rails Ruby] } }
+      let!(:params) { { user_code: { title: 'test', description: 'test' }, code: [{ language_id: Language.first.id, code: 'test' }], tags: %w[Rails Ruby] } }
 
       it 'user_codeが作成される' do
         expect { post :create, params: params }.to change(UserCode, :count).by(1)
@@ -54,8 +53,7 @@ RSpec.describe CodesController, type: :controller do
     end
 
     context 'エラーの場合' do
-      let!(:language) { Language.first }
-      let!(:params) { { user_code: { description: 'test' }, code: [{ language_id: language.id, code: 'test' }], tags: %w[Rails Ruby] } }
+      let!(:params) { { user_code: { description: 'test' }, code: [{ language_id: Language.first.id, code: 'test' }], tags: %w[Rails Ruby] } }
 
       it 'newがrenderされる' do
         post :create, params: params

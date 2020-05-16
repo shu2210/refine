@@ -5,11 +5,12 @@ require 'rails_helper'
 RSpec.describe CommentsController, type: :controller do
   shared_context :login do
     let(:user) { create(:user) }
+
     before { sign_in user }
   end
 
   describe 'GET #show' do
-    let!(:review) { create(:review) }
+    let(:review) { create(:review) }
     let!(:comment) { create(:comment, review: review) }
 
     it 'reviewに紐づくcommentsのjsonが返ってくる' do
@@ -31,10 +32,10 @@ RSpec.describe CommentsController, type: :controller do
     context 'ログインしている場合' do
       include_context :login
 
-      let!(:review) { create(:review) }
+      let(:review) { create(:review) }
 
       context 'エラーがある場合' do
-        let!(:params) { { comments: { comment: '', review_id: review.id } } }
+        let(:params) { { comments: { comment: '', review_id: review.id } } }
 
         it 'status = errorが返る' do
           post :create, params: params
@@ -42,12 +43,12 @@ RSpec.describe CommentsController, type: :controller do
         end
 
         it 'commentsのレコードは作成されない' do
-          expect { post :create, params: params }.to change(Comment, :count).by(0)
+          expect { post :create, params: params }.not_to change(Comment, :count)
         end
       end
 
       context 'エラーがない場合' do
-        let!(:params) { { comments: { comment: 'test', review_id: review.id } } }
+        let(:params) { { comments: { comment: 'test', review_id: review.id } } }
 
         it 'status = successが返る' do
           post :create, params: params
@@ -72,10 +73,10 @@ RSpec.describe CommentsController, type: :controller do
     context 'ログインしている場合' do
       include_context :login
 
-      let!(:comment) { create(:comment, user: commenter) }
+      let(:comment) { create(:comment, user: commenter) }
 
       context 'commentの作成者 != 更新者の場合' do
-        let!(:commenter) { build(:user) }
+        let(:commenter) { build(:user) }
 
         it 'エラーが返る' do
           put :update, params: { id: comment.id }
@@ -84,7 +85,7 @@ RSpec.describe CommentsController, type: :controller do
       end
 
       context 'commentの作成者 == 更新者の場合' do
-        let!(:commenter) { user }
+        let(:commenter) { user }
 
         context 'commentが空の場合' do
           it 'エラーが返る' do

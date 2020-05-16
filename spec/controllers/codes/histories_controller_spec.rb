@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Codes::HistoriesController, type: :controller do
   describe 'GET #show' do
-    let!(:user_code) { create(:user_code) }
+    let(:user_code) { create(:user_code) }
 
     subject { get :show, params: { id: user_code.id } }
 

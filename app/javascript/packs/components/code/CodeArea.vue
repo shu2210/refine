@@ -102,7 +102,8 @@ export default {
             review: review['review'],
             icon: review['user']['icon_url'],
             canEdit: (review['user_id'] == vm.currentUserId),
-            createdAt: vm.parseDate(review['created_at'])
+            createdAt: vm.parseDate(review['created_at']),
+            resolved: review['resolved']
           });
           if(review['comments'].length == 0) {
             vm.appendCommentArea(review['id'], `#review-${review['id']}`);
@@ -126,7 +127,8 @@ export default {
         review: newReview['review'],
         icon: newReview['user']['icon_url'],
         canEdit: true,
-        createdAt: this.parseDate(newReview['created_at'])
+        createdAt: this.parseDate(newReview['created_at']),
+        resolved: newReview['resolved']
       });
       this.appendCommentArea(newReview['id'], `#review-${newReview['id']}`);
     },
@@ -163,7 +165,8 @@ export default {
               userName: comment['user']['name'],
               userIcon: comment['user']['icon_url'],
               canEdit: (comment['user_id'] == vm.currentUserId),
-              createdAt: vm.parseDate(comment['created_at'])
+              createdAt: vm.parseDate(comment['created_at']),
+              resolved: comment['resolved']
             }
           });
           instance.$mount();
