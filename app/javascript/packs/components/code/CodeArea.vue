@@ -8,12 +8,17 @@
         <tr v-for="(codeLine, line) in codeLines" :id="`code${codeId}-${(line + 1)}`" :key="line">
           <td class="line-num uk-table-shrink">
             <a
-              class="uk-icon-button"
+              class="uk-icon-button review-button"
               uk-icon="comment"
               uk-tooltip="レビューをする"
               @click="createReviewArea(line + 1)"
               v-if="isLogin && !disabled"
-            ></a>
+            />
+            <a
+              class="uk-icon-button folding-button"
+              uk-icon="shrink"
+              uk-tooltip="レビューを折りたたむ"
+            />
             <span>{{ line + 1 }}</span>
           </td>
           <td>
@@ -224,10 +229,17 @@ $border-color: #bbb;
       position: relative;
       background-color: $background-color;
 
-      .uk-icon-button {
+      .review-button {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
+        left: -25px;
+        visibility: hidden;
+      }
+
+      .folding-button {
+        position: absolute;
+        top: 90%;
         left: -25px;
         visibility: hidden;
       }
