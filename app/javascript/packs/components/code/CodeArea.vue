@@ -10,6 +10,7 @@
             <a
               class="uk-icon-button"
               uk-icon="comment"
+              uk-tooltip="レビューをする"
               @click="createReviewArea(line + 1)"
               v-if="isLogin && !disabled"
             ></a>
