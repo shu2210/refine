@@ -18,6 +18,7 @@
               class="uk-icon-button folding-button"
               uk-icon="shrink"
               uk-tooltip="レビューを折りたたむ"
+              @click="foldReview"
             />
             <span>{{ line + 1 }}</span>
           </td>
@@ -195,6 +196,9 @@ export default {
       });
       instance.$mount();
       $(appendId).after(instance.$el);
+    },
+    foldReview() {
+      console.log('test');
     },
     highlight(code) {
       return hljs.highlightAuto(code).value;
