@@ -18,7 +18,7 @@
               class="uk-icon-button folding-button"
               uk-icon="shrink"
               uk-tooltip="レビューを折りたたむ"
-              @click="foldReview"
+              @click="foldReview(`code${codeId}-${(line + 1)}`)"
             />
             <span>{{ line + 1 }}</span>
           </td>
@@ -197,8 +197,16 @@ export default {
       instance.$mount();
       $(appendId).after(instance.$el);
     },
-    foldReview() {
-      console.log('test');
+    foldReview(codeId) {
+      var id = $(`#${codeId}`).next().attr('id');
+      while (!id?.startsWith('code')) {
+        if (id === undefined) {
+          break;
+        } else {
+          $(`#${id}`).addClass("uk-hidden");
+        }
+        id = $(`#${id}`).next().attr('id');
+      }
     },
     highlight(code) {
       return hljs.highlightAuto(code).value;
