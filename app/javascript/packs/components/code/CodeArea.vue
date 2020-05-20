@@ -14,11 +14,8 @@
               @click="createReviewArea(line + 1)"
               v-if="isLogin && !disabled"
             />
-            <a
-              class="uk-icon-button folding-button"
-              uk-icon="shrink"
-              uk-tooltip="レビューを折りたたむ"
-              @click="foldReview(`code${codeId}-${(line + 1)}`)"
+            <folding-button
+              :code-id="`code${codeId}-${(line + 1)}`"
             />
             <span>{{ line + 1 }}</span>
           </td>
@@ -41,6 +38,7 @@ import CommentArea from '../review/CommentArea';
 import PostedReview from '../review/PostedReview';
 import PostedComment from '../review/PostedComment';
 import FoldingComment from '../review/FoldingComment';
+import FoldingButton from './FoldingButton';
 import Vue from 'vue/dist/vue.esm.js';
 import axios from 'axios';
 import hljs from 'highlight.js';
@@ -48,6 +46,9 @@ import 'highlight.js/styles/github-gist.css';
 import DateHelper from '../../helpers/date.helper.js';
 
 export default {
+  components: {
+    FoldingButton
+  },
   mixins: [DateHelper],
   props: {
     code: {
@@ -196,17 +197,6 @@ export default {
       });
       instance.$mount();
       $(appendId).after(instance.$el);
-    },
-    foldReview(codeId) {
-      var id = $(`#${codeId}`).next().attr('id');
-      while (!id?.startsWith('code')) {
-        if (id === undefined) {
-          break;
-        } else {
-          $(`#${id}`).addClass("uk-hidden");
-        }
-        id = $(`#${id}`).next().attr('id');
-      }
     },
     highlight(code) {
       return hljs.highlightAuto(code).value;
