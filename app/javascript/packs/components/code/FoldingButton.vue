@@ -3,7 +3,7 @@
     class="uk-icon-button folding-button"
     uk-icon="shrink"
     uk-tooltip="レビューを折りたたむ"
-    @click="foldReview()"
+    @click="toggleReview()"
   />
 </template>
 
@@ -16,13 +16,17 @@ export default {
     }
   },
   methods: {
-    foldReview() {
+    toggleReview() {
       var id = $(`#${this.codeId}`).next().attr('id');
       while (!id?.startsWith('code')) {
         if (id === undefined) {
           break;
         } else {
-          $(`#${id}`).addClass("uk-hidden");
+          if ($(`#${id}`).hasClass("uk-hidden")) {
+            $(`#${id}`).removeClass("uk-hidden");
+          } else {
+            $(`#${id}`).addClass("uk-hidden");
+          }
         }
         id = $(`#${id}`).next().attr('id');
       }
