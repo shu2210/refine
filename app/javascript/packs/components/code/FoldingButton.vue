@@ -29,17 +29,23 @@ export default {
           break;
         } else {
           if ($(`#${id}`).hasClass("uk-hidden")) {
-            this.icon = "shrink";
-            this.tooltip = "レビューを折りたたむ";
-            $(`#${id}`).removeClass("uk-hidden");
+            this.expandReview(id);
           } else {
-            this.icon = "expand";
-            this.tooltip = "レビューを拡げる";
-            $(`#${id}`).addClass("uk-hidden");
+            this.foldReview(id);
           }
         }
         id = $(`#${id}`).next().attr('id');
       }
+    },
+    foldReview(id) {
+      this.icon = "expand";
+      this.tooltip = "レビューを拡げる";
+      $(`#${id}`).addClass("uk-hidden");
+    },
+    expandReview(id) {
+      this.icon = "shrink";
+      this.tooltip = "レビューを折りたたむ";
+      $(`#${id}`).removeClass("uk-hidden");
     }
   }
 }
