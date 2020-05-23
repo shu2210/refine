@@ -23,18 +23,18 @@ export default {
   },
   methods: {
     toggleReview() {
-      var id = $(`#${this.codeId}`).next().attr('id');
-      while (!id?.startsWith('code')) {
-        if (id === undefined) {
+      var nextId = $(`#${this.codeId}`).next().attr('id');
+      while (!nextId?.startsWith('code')) {
+        if (nextId === undefined) {
           break;
         } else {
-          if ($(`#${id}`).hasClass("uk-hidden")) {
-            this.expandReview(id);
+          if ($(`#${nextId}`).hasClass("uk-hidden")) {
+            this.expandReview(nextId);
           } else {
-            this.foldReview(id);
+            this.foldReview(nextId);
           }
         }
-        id = $(`#${id}`).next().attr('id');
+        nextId = $(`#${nextId}`).next().attr('id');
       }
     },
     foldReview(id) {
