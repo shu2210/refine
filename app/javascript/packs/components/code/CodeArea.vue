@@ -8,11 +8,15 @@
         <tr v-for="(codeLine, line) in codeLines" :id="`code${codeId}-${(line + 1)}`" :key="line">
           <td class="line-num uk-table-shrink">
             <a
-              class="uk-icon-button"
+              class="uk-icon-button review-button"
               uk-icon="comment"
+              uk-tooltip="レビューをする"
               @click="createReviewArea(line + 1)"
               v-if="isLogin && !disabled"
-            ></a>
+            />
+            <folding-button
+              :code-id="`code${codeId}-${(line + 1)}`"
+            />
             <span>{{ line + 1 }}</span>
           </td>
           <td>
@@ -34,6 +38,7 @@ import CommentArea from '../review/CommentArea';
 import PostedReview from '../review/PostedReview';
 import PostedComment from '../review/PostedComment';
 import FoldingComment from '../review/FoldingComment';
+import FoldingButton from './FoldingButton';
 import Vue from 'vue/dist/vue.esm.js';
 import axios from 'axios';
 import hljs from 'highlight.js';
@@ -41,6 +46,9 @@ import 'highlight.js/styles/github-gist.css';
 import DateHelper from '../../helpers/date.helper.js';
 
 export default {
+  components: {
+    FoldingButton
+  },
   mixins: [DateHelper],
   props: {
     code: {
@@ -223,10 +231,17 @@ $border-color: #bbb;
       position: relative;
       background-color: $background-color;
 
-      .uk-icon-button {
+      .review-button {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
+        left: -25px;
+        visibility: hidden;
+      }
+
+      .folding-button {
+        position: absolute;
+        top: 90%;
         left: -25px;
         visibility: hidden;
       }
