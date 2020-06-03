@@ -21,4 +21,16 @@ RSpec.describe Users::FollowTagsController, type: :controller do
       it { is_expected.to render_template(:new) }
     end
   end
+
+  describe 'POST #create' do
+    context 'ログインしていない場合' do
+      subject { post :create }
+
+      it { is_expected.to have_http_status(:redirect) }
+      it { is_expected.to redirect_to('/users/sign_in') }
+    end
+
+    context 'ログインしている場合' do
+    end
+  end
 end
