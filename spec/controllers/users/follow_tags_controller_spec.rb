@@ -31,6 +31,11 @@ RSpec.describe Users::FollowTagsController, type: :controller do
     end
 
     context 'ログインしている場合' do
+      context 'エラーの場合' do
+      end
+
+      context '正常な場合' do
+      end
     end
   end
 end
