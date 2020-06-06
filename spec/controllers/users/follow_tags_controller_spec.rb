@@ -31,8 +31,14 @@ RSpec.describe Users::FollowTagsController, type: :controller do
     end
 
     context 'ログインしている場合' do
+      let(:user) { create(:user) }
+      before { sign_in user }
+
       context 'エラーの場合' do
-        it 'newをrenderする'
+        it 'newをrenderする' do
+          post :create
+          expect(response).to render_template(:new)
+        end
       end
 
       context '正常な場合' do

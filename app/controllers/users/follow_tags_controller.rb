@@ -5,5 +5,7 @@ class Users::FollowTagsController < ApplicationController
 
   def new; end
 
-  def create; end
+  def create
+    render :new
+  end
 end
