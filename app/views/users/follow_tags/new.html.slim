@@ -1,19 +1,6 @@
 .uk-container.uk-margin
   .follow-tags-input.uk-margin
     span フォローするタグを検索し選択してください
-    .search-box
-      input.uk-input[type="search" placeholder="検索"]
-
-  .popular-tags.uk-margin
-    span 人気のタグ
-    .tags
-      tag[label="Rails"]
-      tag[label="Ruby"]
-      tag[label="Perl"]
-      tag[label="Python"]
-
-  .selected-tags.uk-margin
-    span 選択されたタグ
-    .tags
-      tag[label="Rails"]
-      tag[label="Ruby"]
+    tag-input[
+      :autocomplete-tags=tag_hash(@tags).to_json
+    ]
