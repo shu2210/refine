@@ -1,6 +1,8 @@
 .uk-container.uk-margin
   .follow-tags-input.uk-margin
     span フォローするタグを検索し、選択してください
-    tag-input[
-      :autocomplete-tags=tag_hash(@tags).to_json
-    ]
+
+    = form_with url: users_follow_tags_path, method: :post, local: true do
+      tag-input[
+        :autocomplete-tags=tag_hash(@tags).to_json
+      ]
