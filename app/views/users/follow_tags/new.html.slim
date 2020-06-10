@@ -2,7 +2,9 @@
   .follow-tags-input.uk-margin
     span フォローするタグを検索し、選択してください
 
-    = form_with url: users_follow_tags_path, method: :post, local: true do
+    = form_with url: users_follow_tags_path, method: :post, local: true do |f|
       tag-input[
         :autocomplete-tags=tag_hash(@tags).to_json
       ]
+
+      = f.submit t('registration'), class: 'uk-button uk-button-primary uk-align-right'
