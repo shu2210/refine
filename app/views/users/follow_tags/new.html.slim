@@ -7,4 +7,6 @@
         :autocomplete-tags=tag_hash(@tags).to_json
       ]
 
-      = f.submit t('registration'), class: 'uk-button uk-button-primary uk-align-right'
+      .uk-button-group.uk-align-right
+        = link_to t('skip'), root_path, class: 'uk-button uk-button-default uk-margin-right'
+        = f.submit t('registration'), class: 'uk-button uk-button-primary'
