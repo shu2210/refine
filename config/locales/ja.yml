@@ -56,6 +56,7 @@ ja:
     forgot_password: パスワードをお忘れですか？
     not_receive_confirmation: 認証メールが届いていませんか？
     not_receive_unlock: ロック解除メールが届いていませんか？
+    select_following_tags: フォローするタグを検索し、選択してください
 
   errors:
     invalid: 入力項目に誤りがあります

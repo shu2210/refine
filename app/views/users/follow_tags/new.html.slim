@@ -1,6 +1,6 @@
 .uk-container.uk-margin
   .follow-tags-input.uk-margin
-    span フォローするタグを検索し、選択してください
+    span = t('messages.select_following_tags')
 
     = form_with url: users_follow_tags_path, method: :post, local: true do |f|
       tag-input[
