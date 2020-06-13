@@ -8,6 +8,9 @@ class Users::FollowTagsController < ApplicationController
   end
 
   def create
+    params[:tags].each do |tag|
+      current_user.tags.create(name: tag)
+    end
     render :new
   end
 end

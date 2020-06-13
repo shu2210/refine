@@ -34,15 +34,12 @@ RSpec.describe Users::FollowTagsController, type: :controller do
       let(:user) { create(:user) }
       before { sign_in user }
 
-      context 'エラーの場合' do
-        it 'newをrenderする' do
-          post :create
-          expect(response).to render_template(:new)
-        end
-      end
-
       context '正常な場合' do
-        it 'user_tagsが登録される'
+        let(:params) { { tags: %w[Rails Ruby] } }
+
+        it 'user_tagsが登録される' do
+          expect { post :create, params: params }.to change(UserTag, :count).by(2)
+        end
       end
     end
   end
