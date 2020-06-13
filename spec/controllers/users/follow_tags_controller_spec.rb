@@ -40,6 +40,11 @@ RSpec.describe Users::FollowTagsController, type: :controller do
         it 'user_tagsが登録される' do
           expect { post :create, params: params }.to change(UserTag, :count).by(2)
         end
+
+        it 'リダイレクトされる' do
+          post :create, params: params
+          expect(response).to redirect_to(root_path)
+        end
       end
     end
   end

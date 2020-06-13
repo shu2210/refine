@@ -11,6 +11,6 @@ class Users::FollowTagsController < ApplicationController
     params[:tags].each do |tag|
       current_user.tags.create(name: tag)
     end
-    render :new
+    redirect_to root_path
   end
 end
