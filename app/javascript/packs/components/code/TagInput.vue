@@ -8,6 +8,9 @@
       placeholder="タグを追加"
       :autocomplete-items="autocompleteItems"
     />
+    <span class="uk-text-danger" v-for="(error, index) in errors" :key="index">
+      {{ error }}
+    </span>
   </div>
 </template>
 
@@ -27,6 +30,12 @@ export default {
       default() {
         return [];
       }
+    },
+    errors: {
+      type: Array,
+      default() {
+        return [];
+      }
     }
   },
   data() {
@@ -37,8 +46,20 @@ export default {
     }
   },
   created() {
-    this.autocompleteItems = this.autocompleteTags;
-    this.tags = this.defaultTags;
+    this.autocompleteItems = this.formatTags(this.autocompleteTags);
+    this.tags = this.formatTags(this.defaultTags);
+  },
+  methods: {
+    formatTags(items) {
+      if (items === null) {
+        return [];
+      }
+
+      const tags = items.map(tag => {
+        return { text: tag.name };
+      });
+      return tags;
+    }
   },
   components: {
     VueTagsInput

@@ -30,8 +30,8 @@ RSpec.describe Tag, type: :model do
       let(:rails) { create(:tag, name: 'Rails') }
       let(:ruby) { create(:tag, name: 'Ruby') }
       let(:python) { create(:tag, name: 'Python') }
-      let(:js) { create(:tag, name: 'js') }
-      let(:go) { create(:tag, name: 'Go') }
+      let(:js) { create(:tag, name: 'Javascript') }
+      let(:go) { create(:tag, name: 'go') }
       let(:rust) { create(:tag, name: 'Rust') }
 
       before do

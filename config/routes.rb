@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   namespace :users do
     resources :profiles
     resources :change_passwords
+    resources :follow_tags
   end
   namespace :reviews do
     resources :resolutions

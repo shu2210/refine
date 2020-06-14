@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative './concerns/code_permittable'
-
 class CodesController < ApplicationController
   include CodePermittable
 
@@ -21,7 +19,7 @@ class CodesController < ApplicationController
   def new
     @code = UserCode.new
     @code.codes.push(Code.new)
-    @tags = Tag.all.pluck(:name)
+    @tags = Tag.all
   end
 
   def create
@@ -36,6 +34,7 @@ class CodesController < ApplicationController
   end
 
   def edit
+    @tags = Tag.all
     @code = UserCode.includes(:codes).find(params[:id])
     raise Forbidden unless current_user == @code.user
 

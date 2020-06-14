@@ -13,8 +13,8 @@
       = f.text_area :description, class: 'uk-textarea', rows: 5, placeholder: t('messages.examples.description')
 
     tag-input[
-      :autocomplete-tags=tag_hash(@tags).to_json
-      :default-tags=tag_hash(@code&.tags&.map(&:name)).to_json
+      :autocomplete-tags=@tags.to_json
+      :default-tags=@code&.tags&.to_json
     ]
 
     code-form.uk-margin[

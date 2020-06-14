@@ -7,6 +7,7 @@ ja:
   password_confirmation: パスワード（確認用）
   password_notification: パスワードは%{minimum_password_length}文字以上にしてください
   register: 会員登録
+  registration: 登録
   save: 保存
   saved: 保存に成功しました
   deleted: 削除に成功しました
@@ -28,7 +29,7 @@ ja:
   post_code: コードを投稿する
   resend_confirmation: 認証メール再送信
   resend_unlock: ロック解除メール再送信
-  password:
+  passwords:
     change: パスワード変更
     reset: パスワード再設定
     send_reset_mail: パスワードリセットメール送信
@@ -40,6 +41,7 @@ ja:
   review: レビュー
   cancel_account: 退会
   back: 戻る
+  skip: スキップする
 
   messages:
     confirm: 本当によろしいですか？
@@ -54,6 +56,7 @@ ja:
     forgot_password: パスワードをお忘れですか？
     not_receive_confirmation: 認証メールが届いていませんか？
     not_receive_unlock: ロック解除メールが届いていませんか？
+    select_following_tags: フォローするタグを検索し、選択してください
 
   errors:
     invalid: 入力項目に誤りがあります
@@ -67,6 +70,7 @@ ja:
         description: 説明
         new_password: 新しいパスワード
         new_password_confirmation: 新しいパスワード確認
+        tags: タグ
       user_code:
         title: タイトル
         description: 説明

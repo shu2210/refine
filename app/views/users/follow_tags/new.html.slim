@@ -1,0 +1,14 @@
+.uk-container.uk-margin
+  .follow-tags-input.uk-margin
+    span = t('messages.select_following_tags')
+
+    = form_with url: users_follow_tags_path, method: :post, local: true do |f|
+      tag-input[
+        :autocomplete-tags=@tags.to_json
+        :default-tags=current_user&.tags&.to_json
+        :errors=current_user.errors.full_messages
+      ]
+
+      .uk-button-group.uk-align-right
+        = link_to t('skip'), root_path, class: 'uk-button uk-button-default uk-margin-right'
+        = f.submit t('registration'), class: 'uk-button uk-button-primary'

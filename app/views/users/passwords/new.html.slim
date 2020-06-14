@@ -3,10 +3,10 @@
     = display_flash_messages(resource)
 
     h3.uk-card-title.uk-text-center
-      = t('password.reset')
+      = t('passwords.reset')
     = form_for resource, as: resource_name, url: password_path(resource_name), html: { method: :post }, builder: RefineFormBuilder do |f|
       = f.email_field_with_icon :email, class: 'uk-input', autofocus: true, autocomplete: 'email', placeholder: t('email')
 
-      = f.submit t('password.send_reset_mail'), class: 'uk-button uk-button-default uk-width-1-1'
+      = f.submit t('passwords.send_reset_mail'), class: 'uk-button uk-button-default uk-width-1-1'
 
     = render 'users/shared/links'

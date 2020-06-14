@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'concerns/array_parsable'
-
 class Comment < ApplicationRecord
   include ArrayParsable
 
