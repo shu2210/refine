@@ -161,8 +161,6 @@ RSpec.describe User, type: :model do
   end
 
   describe 'follow_tags' do
-    before { user.save }
-
     context 'tagが一つもない場合' do
       it 'falseが返る' do
         expect(user.follow_tags([])).to eq(false)

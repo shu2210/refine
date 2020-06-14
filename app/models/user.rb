@@ -88,9 +88,13 @@ class User < ApplicationRecord
   end
 
   def follow_tags(tag_names)
-    self.tags = tag_names.map do |name|
-      Tag.find_or_create_by(name: name)
+    transaction do
+      self.tags = tag_names.map do |name|
+        Tag.find_or_create_by(name: name)
+      end
+      save!(context: :follow_tags)
     end
-    valid?(:follow_tags)
+  rescue ActiveRecord::RecordInvalid
+    false
   end
 end
