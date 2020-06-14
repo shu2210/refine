@@ -29,6 +29,7 @@ class User < ApplicationRecord
   validates :current_password, presence: true, on: :change_password
   validates :new_password, presence: true, on: :change_password
   validates :new_password_confirmation, presence: true, on: :change_password
+  validates :tags, presence: true, on: :follow_tags
 
   before_save do
     self.name = email.match(/.*(?=@)/).to_s if new_record?
@@ -86,11 +87,9 @@ class User < ApplicationRecord
   end
 
   def follow_tags(tag_names)
-    return false if tag_names.empty?
-
-    tag_names.each do |name|
-      tag = Tag.find_or_create_by(name: name)
-      tags.push(tag)
+    self.tags = tag_names.map do |name|
+      Tag.find_or_create_by(name: name)
     end
+    valid?(:follow_tags)
   end
 end

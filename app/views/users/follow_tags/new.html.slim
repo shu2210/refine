@@ -5,6 +5,8 @@
     = form_with url: users_follow_tags_path, method: :post, local: true do |f|
       tag-input[
         :autocomplete-tags=@tags.to_json
+        :default-tags=current_user&.tags&.to_json
+        :errors=current_user.errors.full_messages
       ]
 
       .uk-button-group.uk-align-right

@@ -70,6 +70,7 @@ ja:
         description: 説明
         new_password: 新しいパスワード
         new_password_confirmation: 新しいパスワード確認
+        tags: タグ
       user_code:
         title: タイトル
         description: 説明
