@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'concerns/flash_validatable'
-
 class UserCode < ApplicationRecord
   include FlashValidatable
   extend Enumerize

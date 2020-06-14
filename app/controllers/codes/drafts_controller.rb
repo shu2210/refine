@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../concerns/code_permittable'
-
 class Codes::DraftsController < ApplicationController
   include CodePermittable
 
