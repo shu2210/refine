@@ -8,9 +8,11 @@ class Users::FollowTagsController < ApplicationController
   end
 
   def create
-    params[:tags].each do |tag|
-      current_user.tags.create(name: tag)
+    params[:tags] ||= []
+    if current_user.follow_tags(params[:tags])
+      redirect_to root_path
+    else
+      render :new
     end
-    redirect_to root_path
   end
 end

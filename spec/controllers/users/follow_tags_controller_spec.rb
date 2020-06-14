@@ -46,6 +46,15 @@ RSpec.describe Users::FollowTagsController, type: :controller do
           expect(response).to redirect_to(root_path)
         end
       end
+
+      context 'エラーの場合' do
+        let(:params) { { tags: [] } }
+
+        it 'newをrenderする' do
+          post :create, params: params
+          expect(response).to render_template(:new)
+        end
+      end
     end
   end
 end
