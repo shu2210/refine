@@ -29,7 +29,7 @@ ja:
   post_code: コードを投稿する
   resend_confirmation: 認証メール再送信
   resend_unlock: ロック解除メール再送信
-  password:
+  passwords:
     change: パスワード変更
     reset: パスワード再設定
     send_reset_mail: パスワードリセットメール送信
