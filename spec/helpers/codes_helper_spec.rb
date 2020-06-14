@@ -28,20 +28,4 @@ describe CodesHelper, type: :helper do
       end
     end
   end
-
-  describe 'tag_hash' do
-    context '引数がnilの場合' do
-      it '空の配列を返す' do
-        hash = helper.tag_hash(nil)
-        expect(hash).to be_empty
-      end
-    end
-
-    context '引数がタグの名前の場合' do
-      it 'textがキーのハッシュを返す' do
-        hash = helper.tag_hash(%w[Rails Ruby])
-        expect(hash).to eq([{ text: 'Rails' }, { text: 'Ruby' }])
-      end
-    end
-  end
 end

@@ -37,8 +37,16 @@ export default {
     }
   },
   created() {
-    this.autocompleteItems = this.autocompleteTags;
-    this.tags = this.defaultTags;
+    this.autocompleteItems = this.formatTags(this.autocompleteTags);
+    this.tags = this.formatTags(this.defaultTags);
+  },
+  methods: {
+    formatTags(items) {
+      const tags = items.map(tag => {
+        return { text: tag.name };
+      });
+      return tags;
+    }
   },
   components: {
     VueTagsInput

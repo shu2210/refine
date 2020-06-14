@@ -4,7 +4,7 @@ class Users::FollowTagsController < ApplicationController
   before_action :authenticate_user!
 
   def new
-    @tags = Tag.all.pluck(:name)
+    @tags = Tag.all
   end
 
   def create
