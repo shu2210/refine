@@ -84,4 +84,13 @@ class User < ApplicationRecord
     hash['icon_url'] = icon_url
     hash
   end
+
+  def follow_tags(tag_names)
+    return false if tag_names.empty?
+
+    tag_names.each do |name|
+      tag = Tag.find_or_create_by(name: name)
+      tags.push(tag)
+    end
+  end
 end

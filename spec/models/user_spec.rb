@@ -159,4 +159,31 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe 'follow_tags' do
+    before { user.save }
+
+    context 'tagが一つもない場合' do
+      it 'falseが返る' do
+        expect(user.follow_tags([])).to eq(false)
+      end
+    end
+
+    context 'tagがある場合' do
+      before { create(:tag, name: 'Rails') }
+      let(:tags) { %w[Rails Ruby] }
+
+      it 'user_tagsが登録される' do
+        expect { user.follow_tags(tags) }.to change(UserTag, :count).by(2)
+      end
+
+      it 'tagに登録されていない物が登録される' do
+        expect { user.follow_tags(tags) }.to change(Tag, :count).by(1)
+      end
+
+      it 'truthyが返る' do
+        expect(user.follow_tags(tags)).to be_truthy
+      end
+    end
+  end
 end
