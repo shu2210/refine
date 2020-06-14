@@ -26,10 +26,13 @@ class User < ApplicationRecord
 
   validates :name, presence: true, on: :profile
   validates :description, length: { maximum: 255 }, on: :profile
-  validates :current_password, presence: true, on: :change_password
-  validates :new_password, presence: true, on: :change_password
-  validates :new_password_confirmation, presence: true, on: :change_password
   validates :tags, presence: true, on: :follow_tags
+
+  with_options on: :change_password do
+    validates :current_password, presence: true
+    validates :new_password, presence: true
+    validates :new_password_confirmation, presence: true
+  end
 
   before_save do
     self.name = email.match(/.*(?=@)/).to_s if new_record?
